@@ -1,0 +1,57 @@
+/* m3 tokens */
+
+:root {
+    --md-sys-color-primary: black;
+
+    /* Outlined Button */
+    --md-outlined-button-container-shape: 5px;
+    --md-outlined-button-label-text-font: system-ui;
+    --md-outlined-button-hover-label-text-color: white;
+    --md-outlined-button-hover-state-layer-color: #0e68b9;
+    --md-outlined-button-hover-state-layer-opacity: 100;
+    --md-outlined-button-outline-color: #0e68b9;
+    --md-outlined-button-label-text-color: white;
+
+    /* Filled Button */
+    --md-filled-button-container-shape: 5px;
+    --md-filled-button-label-text-font: system-ui;
+    --md-filled-button-container-color: #0e68b9;
+    --md-filled-button-label-text-color: white;
+    --md-filled-button-hover-label-text-color: white;
+    --md-filled-button-hover-state-layer-color: darkblue;
+    --md-filled-button-hover-state-layer-opacity: 100;
+
+    /* Text Button */
+    --md-text-button-container-shape: 5px;
+    --md-text-button-label-text-font: system-ui;
+    --md-text-button-hover-label-text-color: white;
+    --md-text-button-pressed-label-text-color: white;
+    --md-text-button-hover-state-layer-color: darkblue;
+    --md-text-button-hover-state-layer-opacity: 100;
+    --md-text-button-outline-color: #0e68b9;
+    --md-text-button-label-text-color: white;
+
+    /* Filled Text Field  */
+    --md-filled-text-field-container-shape: 5px;
+    --md-sys-color-surface-container-highest: white;
+    --md-filled-text-field-label-text-color: #3f4948;
+    --md-filled-text-field-input-text-color: #161d1d;
+    --md-filled-text-field-input-text-font: system-ui;
+    --md-filled-text-field-label-text-font: system-ui;
+    --md-filled-text-field-focus-active-indicator-height: 0;
+    --md-filled-text-field-top-space: 7px;
+    --md-filled-text-field-bottom-space: 7px;
+
+    /* Radio buttons */
+    --md-radio-icon-color: grey;
+    --md-radio-hover-icon-color: white;
+    --md-radio-selected-icon-color: white;
+    --md-radio-pressed-icon-color: white;
+    --md-radio-focus-icon-color: white;
+    --md-radio-selected-focus-icon-color: white;
+}
+
+.m3_icon{
+    vertical-align: bottom;
+}
+

@@ -1,0 +1,132 @@
+/* Public styles */
+
+body{
+    background-color: black !important;
+    color: white !important;
+}
+
+#root{
+    height: 100%;
+}
+
+.version{
+    color: #cccccc;
+}
+
+footer{
+    color: #cccccc !important;
+    background-color: #333333 !important;
+}
+
+footer a{
+    color: lightskyblue;
+}
+
+footer a:hover{
+    color: lightskyblue;
+}
+
+.footer-text{
+    font-size: small !important;;
+}
+
+.footer-col-left, .footer-col-right {
+    float: left;
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.footer-row:after{
+    content: "";
+    display: table;
+    clear: both;
+    margin-bottom: 10px;
+}
+.footer-col-right{
+    text-align: right;
+}
+
+.container-footer{
+    padding: 0 20px;
+}
+
+.bg-dark{
+    background-color: black !important;
+}
+
+.container-fluid{
+    width:95% !important;
+}
+
+a{
+     color: #0c64ad;
+     text-decoration: none !important;
+ }
+
+a:hover{
+    text-decoration: underline !important;
+
+}
+
+h2{
+    color: #cccccc;
+}
+
+.slick h3 {
+    background: #5f9ea0;
+    color: #fff;
+    font-size: 36px;
+    line-height: 300px !important;
+    margin: 10px;
+    padding: 2%;
+    position: relative;
+    text-align: center;
+}
+
+.slick .item {
+    background: #666666;
+    color: #ffffff;
+    height: 250px !important;
+    margin: 10px;
+    padding: 2%;
+    position: relative;
+    text-align: center;
+    font-size: medium;
+    border-radius: 20px;
+    background-size: cover;
+}
+.item-overlay{
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 20px;
+
+}
+
+.slick .item a, .slick .item a:hover{
+    text-decoration: none !important;
+    color: white;
+}
+
+.item-title-slick{
+    color: lightskyblue;
+    font-size: x-large;
+}
+
+.item-desc-slick{
+    margin-top: 15px;
+}
+
+.item-type-slick{
+    font-weight: bold;
+}
+
+.slick-dots li button::before, .slick-next::before, .slick-prev::before{
+    color: white !important;
+}
+
+.slick-dots li.slick-active button::before{
+    color: white !important;
+}
+
+.container{
+    margin-bottom: 50px;
+}

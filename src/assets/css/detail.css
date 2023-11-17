@@ -1,0 +1,83 @@
+/* DivTable.com */
+
+.divHeader{
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #333333;
+    padding: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.divTableHeader{
+    display: table;
+    width: 70%;
+    float: left;
+}
+
+.divTable{
+    display: table;
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #333333;
+    padding: 10px;
+    border-radius: 10px;
+}
+.divTableRow {
+    display: table-row;
+}
+.divTableRowImg {
+    display: block;
+    float: right;
+}
+.divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+}
+.divTableCell, .divTableCellTitle, .divTableHead {
+    border: 0px solid #999999;
+    display: table-cell;
+    padding: 2px 0px;
+}
+.divTableHead{
+    color: #cccccc;
+    width: 200px;
+}
+.divTableCell, .divTableCellTitle{
+    font-weight: bold;
+}
+.divTableCellTitle{
+    font-size: large;
+}
+.divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+    font-weight: bold;
+}
+.divTableFoot {
+    background-color: #EEE;
+    display: table-footer-group;
+    font-weight: bold;
+}
+.divTableBody {
+    display: table-row-group;
+}
+h3{
+    color: #ffffff;
+}
+.link_list {
+    padding-right: 10px;
+}
+.divTable a{
+    color: lightskyblue;
+}
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+.item-img{
+    float:right;
+}
