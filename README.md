@@ -10,4 +10,13 @@ Fetches data from the Meteor API: https://meteor.balluff.dev/api/swagger#/
 
 Current state: **Alpha**
 
-More to come...
+## Dependencies
+
+Install:
+- Node.js
+- MUI
+- FontAwesome
+
+## Run
+
+npm start
