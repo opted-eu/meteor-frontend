@@ -101,6 +101,14 @@
     }
 }
 
+.circle {
+    background:radial-gradient(#fff 20px,transparent 20px);
+}
+
+.badge{
+    float: left;
+}
+
 
 
 

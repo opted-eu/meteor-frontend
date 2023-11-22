@@ -4,12 +4,6 @@ import '../assets/css/detail.css'
 import DisplayCountry from "../components/DisplayCountry";
 import DisplayCountries from "../components/DisplayCountries";
 import {Link} from "react-router-dom";
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LanguageIcon from '@mui/icons-material/Language';
-import ArticleIcon from '@mui/icons-material/Article';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LaunchIcon from '@mui/icons-material/Launch';
 import NewsSourceLink from "../components/NewsSourceLink";
 import DetailListDict from "../components/DetailListDict";
 import DetailField from "../components/DetailField";
@@ -22,11 +16,13 @@ import DetailDictChannel from "../components/DetailDictChannel";
 import '@material/web/button/text-button.js';
 import WikiImg from "../search/WikiImg";
 import DetailAudience from "../components/DetailAudience";
+import DetailListDictReverse from "../components/DetailListDictReverse";
 
 const Detail = () => {
 
     let { uid } = useParams();
     const [item, setItem] = useState([])
+    const [reverse, setReverse] = useState([])
     const navigate = useNavigate();
 
     const fetchItemData = () => {
@@ -36,6 +32,18 @@ const Detail = () => {
             })
             .then(data => {
                 setItem(data);
+                let rev_url = "https://meteor.balluff.dev/api/view/reverse/" + data.uid
+                console.log(rev_url)
+                if(getDgraph(data) !== 'Collection') {
+                    fetch(rev_url)
+                        .then(response1 => {
+                            return response1.json()
+                        })
+                        .then(data1 => {
+                            setReverse(data1)
+                        })
+                }
+                window.__dimensions_embed.addBadges();
             })
             .catch((err) => {
                 console.log(err);
@@ -60,29 +68,6 @@ const Detail = () => {
         return null;
     }
 
-    const retDate = (d) => {
-        let dt = new Date(d)
-        dt = (dt.getDate()).toString().padStart(2, '0') + "-" + (dt.getMonth()+1).toString().padStart(2, '0') + "-" + dt.getFullYear()
-        return dt
-    }
-
-    const retDateYear = (d) => {
-        let dt = new Date(d)
-        dt = dt.getFullYear()
-        return dt
-    }
-
-    const retList = (an) => {
-        if (an){
-            return an.join(", ")
-        }
-        return null
-    }
-
-    const getLink = (uid) => {
-        return '/detail/' + uid
-    }
-
     const getSourcesLink = (uid) => {
         return '/search?~sources_included=' + uid
     }
@@ -95,53 +80,6 @@ const Detail = () => {
             }
         }
         return count
-    }
-
-    const getAddressLink = (a) => {
-        return "https://www.openstreetmap.org/search?query=" + a
-    }
-
-    const formatBoolean = (b) => {
-        if (b === true){
-            return 'Yes'
-        } else {
-            return 'No'
-        }
-    }
-
-    const formatText = (t) => {
-        if (t){
-            var splitStr = t.toLowerCase().split(' ');
-            for (var i = 0; i < splitStr.length; i++) {
-                // You do not need to check if i is larger than splitStr length, as your for does that for you
-                // Assign it back to the array
-                splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-            }
-            // Directly return the joined string
-            return splitStr.join(' ');
-        }
-        return null;
-    }
-
-    const getExtLink = (u, d) => {
-        return u + d;
-    }
-
-    const getIcon = (i) => {
-        switch (i) {
-            case "print":
-                return <ArticleIcon />
-            case "website":
-                return <LanguageIcon />
-            case "facebook":
-                return <FacebookIcon />
-            case "instagram":
-                return <InstagramIcon />
-            case "twitter":
-                return <TwitterIcon />
-            default:
-                return null
-        }
     }
 
     const getColorStyle = (c) => {
@@ -164,7 +102,7 @@ const Detail = () => {
     const wd = item.wikidata_id
     const w = 200
 
-    // access to differnt sections
+    // access to different sections
     const routines = ["NewsSource"]
     const audience = ["NewsSource"]
     const published_by = ["NewsSource"]
@@ -362,9 +300,9 @@ const Detail = () => {
                         s="Publication Kind"
                     />
                     <DetailField
-                        d=""
+                        d="special_interest"
                         s="Special Interest Publication"
-                        t="text"
+                        t="boolean"
                     />
                     <DetailField
                         d={item.publication_cycle}
@@ -438,13 +376,17 @@ const Detail = () => {
 
             {/* Publishes */}
             {publishes.includes(type) &&
-                <div className="divTable">
-                    <DetailListDictChannel
-                        d={item.publishes}
-                        s="Publishes"
-                        h={true}
-                    />
-                </div>
+                <>
+                    {item.publishes &&
+                        <div className="divTable">
+                            <DetailListDictChannel
+                                d={item.publishes}
+                                s="Publishes"
+                                h={true}
+                            />
+                        </div>
+                    }
+                </>
             }
 
             {/* About */}
@@ -473,9 +415,9 @@ const Detail = () => {
                         t="boolean"
                     />
                     <DetailField
-                        d=""
+                        d="language_independent"
                         s="Tool is independent of languages"
-                        t="text"
+                        t="boolean"
                     />
                     <DetailField
                         d={item.fulltext_available}
@@ -587,9 +529,9 @@ const Detail = () => {
             {/* Owned By */}
             {owned_by.includes(type) &&
                 <div className="divTable">
-                    <DetailListDict
-                        d={item.owned_by}
-                        s="Owned By"
+                    <DetailListDictReverse
+                        d={reverse.owns__organizations}
+                        s="Owned by"
                         h="true"
                     />
                 </div>
@@ -649,6 +591,10 @@ const Detail = () => {
                         t="Data Access"
                         m={data_access_header[type]}
                     />
+                    <DetailListDictReverse
+                        d={reverse.sources_included__archives}
+                        s=""
+                    />
                 </div>
             }
             {/* Documentation  */}
@@ -658,7 +604,7 @@ const Detail = () => {
                         t="Documentation"
                         m="Documentation that help using the tool."
                     />
-                    {(item.documentation).map((d, i) => (
+                    {item.documentation && (item.documentation).map((d, i) => (
                         <DetailExtLink
                             d={d}
                             s={item["documentation|kind"][i]}
@@ -685,6 +631,10 @@ const Detail = () => {
                     <DetailHeader
                         t="Datasets"
                         m={datasets_header[type]}
+                    />
+                    <DetailListDictReverse
+                        d={reverse.sources_included__datasets}
+                        s=""
                     />
                 </div>
             }
@@ -715,6 +665,15 @@ const Detail = () => {
                 <DetailHeader
                     t="Raw Data"
                     m={JSON.stringify(item, null, 4)}
+                    p="true"
+                />
+            </div>
+
+            {/* Reverse Data */}
+            <div className="divTable">
+                <DetailHeader
+                    t="Reverse Data"
+                    m={JSON.stringify(reverse, null, 4)}
                     p="true"
                 />
             </div>

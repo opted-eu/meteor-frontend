@@ -137,7 +137,7 @@ const SearchForm = () => {
     let individual_country_options = []
     for (var c of countriesList){
         if(c.opted_scope){
-            if (c.name === 'Europe' || c.name === 'European Union' || c.name === 'Global Scope'){
+            if (c["dgraph.type"][0] === 'Multinational'){
                 multinational_options[multinational_options.length] = {value: c.uid, label: c.name}
             } else {
                 individual_country_options[individual_country_options.length] = {value: c.uid, label: c.name}

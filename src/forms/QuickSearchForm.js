@@ -15,7 +15,7 @@ const QuickSearchForm = () => {
 
     // handle selection
     const handleChangeQS = value => {
-        navigate("/detail/link/" + value.uid);
+        navigate("/detail/" + value.uid);
     }
 
     // load options using API call
@@ -70,7 +70,7 @@ const QuickSearchForm = () => {
             <AsyncSelect
                 styles={selectStyles}
                 getOptionLabel={e => optionLabel(e)}
-                getOptionValue={e => e.uid}
+                getOptionValue={e => e._unique_name}
                 value={null}
                 loadOptions={loadOptions}
                 onInputChange={handleInputChange}
