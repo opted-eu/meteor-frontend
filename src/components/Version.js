@@ -6,7 +6,7 @@ const Version = () => {
 
     const fetchData = () => {
         // fetch types
-        let f = "https://meteor.balluff.dev/api/openapi.json"
+        let f = process.env.REACT_APP_API + "openapi.json"
         //console.log(f)
         fetch(f)
             .then(response => {

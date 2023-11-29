@@ -15,12 +15,12 @@ const QuickSearch = () => {
     const [page, setPage] = useState(1);
 
     const fetchItemData = async () => {
-        //let quicksearch = "https://meteor.balluff.dev/api/quicksearch?term=" + query + "&limit=50"
-        let fullsearch = "https://meteor.balluff.dev/api/query?_terms=" + query + "&_max_results=12&_page=" + page
+        //let quicksearch = process.env.REACT_APP_API + "quicksearch?term=" + query + "&limit=50"
+        let fullsearch = process.env.REACT_APP_API + "query?_terms=" + query + "&_max_results=12&_page=" + page
         console.log(fullsearch)
 
         //fetch count
-        fetch("https://meteor.balluff.dev/api/query/count?_terms=" + query)
+        fetch(process.env.REACT_APP_API + "query/count?_terms=" + query)
             .then(response => {
                 return response.json()
             })
@@ -44,7 +44,7 @@ const QuickSearch = () => {
                 const p = [];
                 data.forEach(b => {
                     p.push(
-                        fetch("https://meteor.balluff.dev/api/view/entry/" + b._unique_name)
+                        fetch(process.env.REACT_APP_API + "view/entry/" + b._unique_name)
                             .then(response1 => {
                                 return response1.json()
                             })

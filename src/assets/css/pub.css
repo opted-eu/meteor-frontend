@@ -130,3 +130,35 @@ h2{
 .container{
     margin-bottom: 50px;
 }
+
+.home-text{
+    width: 75%;
+}
+.home-login{
+    float:right;
+    margin-left: 2%;
+    width: 23%;
+}
+.login-register, .profile{
+    margin-bottom: 10px;
+}
+
+.profile{
+    width: 100%;
+}
+
+.error{
+    font-weight: bold;
+    color: orangered;
+}
+.success{
+    color: limegreen;
+}
+.message{
+    font-weight: bold;
+    color: orange;
+    margin-bottom: 20px;
+}
+.message a{
+    color: lightskyblue;
+}

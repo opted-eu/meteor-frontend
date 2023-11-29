@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-const DetailField = ({ d, s, t, w=null }) => {
+const DetailField = ({ d, s, t, u=null, w=null }) => {
 
     const formatBoolean = (b) => {
         if (b === true){
@@ -11,12 +11,14 @@ const DetailField = ({ d, s, t, w=null }) => {
         }
     }
 
+    const getUserLink = (uid) => {
+        return '/users/' + uid + "/entries"
+    }
+
     const formatText = (t) => {
         if (t){
             var splitStr = t.toLowerCase().split(' ');
             for (var i = 0; i < splitStr.length; i++) {
-                // You do not need to check if i is larger than splitStr length, as your for does that for you
-                // Assign it back to the array
                 splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
             }
             // Directly return the joined string
@@ -70,7 +72,11 @@ const DetailField = ({ d, s, t, w=null }) => {
                                         t === 'safe' ? d :
                                             t === 'upper' ? getUpper(d) :
                                                 t === 'color' ? <span style={{backgroundColor: "#" + d, width: "15px", height: "15px", display: "block", borderStyle: "solid", borderWidth: "0px"}}></span> :
-                                                    formatText(d)
+                                                    t === 'un' ? <span style={{wordBreak: "break-all"}}>{d}</span> :
+                                                        t === 'user' ? <Link to={getUserLink(u)}>{d}</Link> :
+                                                            t === 'role' ?
+                                                                (d === 1 ? "Contributor" : "Admin") :
+                                                                formatText(d)
                         }
                     </div>
                 </div>

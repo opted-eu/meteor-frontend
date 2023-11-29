@@ -1,10 +1,24 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-const DetailListDictReverse = ({ d, s, h=null }) => {
+const DetailListDictReverse = ({ d, s, t = null, h=null }) => {
 
     const getLink = (uid) => {
         return '/detail/' + uid
+    }
+
+    const retDateYear = (d) => {
+        let dt = new Date(d)
+        dt = dt.getFullYear()
+        return dt
+    }
+
+    const formatFulltext = (b) => {
+        if (b === true){
+            return ' (Full texts)'
+        } else {
+            return ''
+        }
     }
 
     return (
@@ -26,6 +40,26 @@ const DetailListDictReverse = ({ d, s, h=null }) => {
                                         {x.authors[0].name ?
                                             x.authors[0].name + " et al." :
                                                 x.authors[0] + " et al."
+                                        }
+                                    </>
+                                }
+                                {t === 'datasets' &&
+                                    <>
+                                        {x.temporal_coverage_start &&
+                                                " from " + retDateYear(x.temporal_coverage_start)
+                                        }
+                                        {x.temporal_coverage_end &&
+                                            " to " + retDateYear(x.temporal_coverage_end)
+                                        }
+                                        {x.fulltext_available &&
+                                            formatFulltext(x.fulltext_available )
+                                        }
+                                    </>
+                                }
+                                {t !== 'datasets' &&
+                                    <>
+                                        {x.date_published &&
+                                            " (" + retDateYear(x.date_published) + ")"
                                         }
                                     </>
                                 }

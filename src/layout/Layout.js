@@ -7,8 +7,6 @@ import '../assets/css/m3.css'
 import '../assets/css/sticky-footer-navbar.css'
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faResearchgate} from "@fortawesome/free-brands-svg-icons";
 import Version from "../components/Version";
 
 const Layout = () => {
@@ -40,10 +38,10 @@ const Layout = () => {
                 <div className="container-fluid">
                     <div className="footer-row">
                         <div className="footer-col-left">
-                            <Link to="about">About</Link> · <Link to="privacy-policy-and-consent">Privacy Policy & Consent</Link> · <Link to="imprint">Imprint</Link>
+                            <Link to="about">About</Link> · <Link to="privacy">Privacy Policy & Consent</Link> · <Link to="imprint">Imprint</Link>
                         </div>
                         <div className="footer-col-right">
-                            <a href="https://opted.eu/" target="_blank">Main OPTED Website</a> · <a href="http://twitter.com/OPTED_H2020" target="_blank"><TwitterIcon/></a> · <a href="http://www.researchgate.net/project/OPTED-H2020" target="_blank"><FontAwesomeIcon icon={faResearchgate} size="lg" /></a> · <a href="https://github.com/opted-eu" target="_blank"><GitHubIcon/></a>
+                            <a href="https://opted.eu/" target="_blank">Main OPTED Website</a> · <a href="http://twitter.com/OPTED_H2020" target="_blank"><TwitterIcon/></a> · <a href="https://github.com/opted-eu" target="_blank"><GitHubIcon/></a>
                         </div>
                     </div>
 

@@ -14,7 +14,7 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues }) => {
     // load options using API call
     const loadOptions = (inputValue) => {
         if (inputValue.length >= 3) {
-            let iv = "https://meteor.balluff.dev/api/lookup?predicate=name&dgraph_types=Organization&dgraph_types=PoliticalParty&dgraph_types=NewsSource&dgraph_types=Person&query=" + inputValue
+            let iv = process.env.REACT_APP_API + "lookup?predicate=name&dgraph_types=Organization&dgraph_types=PoliticalParty&dgraph_types=NewsSource&dgraph_types=Person&query=" + inputValue
             //console.log(iv)
             return fetch(iv).then(res => res.json());
         }

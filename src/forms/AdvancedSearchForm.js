@@ -1,8 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import '@material/web/button/filled-button.js';
-import Select from 'react-select'
-import LogicRadioButton from "./LogicRadioButton";
 import '@material/web/textfield/filled-text-field.js'
 import SearchSelectBox from "./SearchSelectBox";
 import SearchRadioButtons from "./SearchRadioButtons";
@@ -167,7 +165,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
         const p = [];
         uids.forEach(b => {
             p.push(
-                fetch("https://meteor.balluff.dev/api/view/uid/" + b.uid)
+                fetch(process.env.REACT_APP_API + "view/uid/" + b.uid)
                     .then(response => {
                         return response.json()
                     })
@@ -533,14 +531,19 @@ const AdvancedSearchForm = ({ searchParams }) => {
 
                 <div className='adv_search_field'>
                     <h4>Free-text search</h4>
-                    <md-filled-text-field placeholder="Enter keywords..." name="free_text" value={freeText.slice(8)} onBlur={event => {
-                        const { value } = event.target;
-                        if (value) {
-                            setFreeText('&_terms=' + value)
-                        } else {
-                            setFreeText('')
-                        }
-                    }} />
+                    <md-filled-text-field
+                        placeholder="Enter keywords..."
+                        name="free_text"
+                        value={freeText.slice(8)}
+                        onBlur={event => {
+                            const { value } = event.target;
+                            if (value) {
+                                setFreeText('&_terms=' + value)
+                            } else {
+                                setFreeText('')
+                            }
+                        }}
+                    />
                 </div>
 
                 <div className='adv_search_field'>

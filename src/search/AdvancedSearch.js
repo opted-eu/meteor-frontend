@@ -14,7 +14,7 @@ const AdvancedSearch = () => {
 
     const fetchItemData = () => {
         // fetch types
-        fetch("https://meteor.balluff.dev/api/schema/types")
+        fetch(process.env.REACT_APP_API + "schema/types")
             .then(response => {
                 return response.json()
             })
@@ -25,7 +25,7 @@ const AdvancedSearch = () => {
                 console.log(err);
             });
         // fetch countries
-        fetch("https://meteor.balluff.dev/api/schema/predicate/counts/country")
+        fetch(process.env.REACT_APP_API + "schema/predicate/counts/country")
             .then(response => {
                 return response.json()
             })

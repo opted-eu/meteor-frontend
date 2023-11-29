@@ -31,6 +31,11 @@
     --md-text-button-outline-color: #0e68b9;
     --md-text-button-label-text-color: white;
 
+    --md-text-button-disabled-label-text-color: white;
+    --md-text-button-disabled-label-text-opacity: white;
+    --md-text-button-focus-label-text-color: white;
+    --md-text-button-hover-label-text-color: white;
+
     /* Filled Text Field  */
     --md-filled-text-field-container-shape: 5px;
     --md-sys-color-surface-container-highest: white;
@@ -49,6 +54,35 @@
     --md-radio-pressed-icon-color: white;
     --md-radio-focus-icon-color: white;
     --md-radio-selected-focus-icon-color: white;
+
+    /* checkbox buttons */
+    --md-checkbox-focus-outline-color: white;
+    --md-checkbox-hover-outline-color: white;
+    --md-checkbox-hover-state-layer-color: white ;
+    --md-checkbox-hover-state-layer-opacity: 50%;
+    --md-checkbox-outline-color: white;
+    --md-checkbox-pressed-outline-color: white;
+    --md-checkbox-pressed-state-layer-color: white;
+    --md-checkbox-pressed-state-layer-opacity: 50%;
+    --md-checkbox-selected-container-color: lightskyblue;
+    --md-checkbox-selected-focus-container-color: lightskyblue;
+    --md-checkbox-selected-focus-icon-color: white;
+    --md-checkbox-selected-hover-container-color: lightskyblue;
+    --md-checkbox-selected-hover-icon-color: white;
+    --md-checkbox-selected-hover-state-layer-color: white;
+    --md-checkbox-selected-hover-state-layer-opacity: 50%;
+    --md-checkbox-selected-icon-color: white;
+    --md-checkbox-selected-pressed-container-color: lightskyblue;
+    --md-checkbox-selected-pressed-icon-color: white;
+    --md-checkbox-selected-pressed-state-layer-color: white;
+    --md-checkbox-selected-pressed-state-layer-opacity: 50%;
+
+    /* Dialog */
+    --md-dialog-container-color: lightskyblue;
+    --md-dialog-headline-color: black;
+    --md-dialog-headline-font: system-ui;
+    --md-dialog-supporting-text-color: black;
+    --md-dialog-supporting-text-font: system-ui;
 }
 
 .m3_icon{

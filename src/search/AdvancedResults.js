@@ -22,8 +22,8 @@ const AdvancedResults = ({entity}) => {
         if (entity) {
             console.log('here3')
             let query = 'dgraph.type=' + entity
-            let fullsearch = "https://meteor.balluff.dev/api/query?" + query + "&_max_results=12&_page=" + page
-            let fullcount = "https://meteor.balluff.dev/api/query/count?" + query
+            let fullsearch = process.env.REACT_APP_API + "query?" + query + "&_max_results=12&_page=" + page
+            let fullcount = process.env.REACT_APP_API + "query/count?" + query
             console.log(fullsearch)
 
             //fetch count
@@ -51,7 +51,7 @@ const AdvancedResults = ({entity}) => {
                     const p = [];
                     data.forEach(b => {
                         p.push(
-                            fetch("https://meteor.balluff.dev/api/view/entry/" + b._unique_name)
+                            fetch(process.env.REACT_APP_API + "view/entry/" + b._unique_name)
                                 .then(response1 => {
                                     return response1.json()
                                 })

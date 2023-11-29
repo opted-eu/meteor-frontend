@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 import LaunchIcon from "@mui/icons-material/Launch";
 
 const DetailListExtLink = ({ d, s, u }) => {

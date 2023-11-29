@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from "react-select";
 
-const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues }) => {
+const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, multi=true }) => {
 
     // apply styles to select boxes
     const SelectStyles = {
@@ -18,16 +18,32 @@ const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues }) =>
 
 
     return (
-        <Select
-            onChange={handleChangeEntity}
-            styles={SelectStyles}
-            options={searchOptions}
-            clearable={true}
-            isMulti
-            closeMenuOnSelect={false}
-            placeholder={"Please choose..."}
-            value={searchValues}
-        />
+        <>
+            {multi &&
+                <Select
+                    onChange={handleChangeEntity}
+                    styles={SelectStyles}
+                    options={searchOptions}
+                    clearable={true}
+                    closeMenuOnSelect={false}
+                    placeholder={"Please choose..."}
+                    value={searchValues}
+                    isMulti
+                />
+            }
+            {!multi &&
+                <Select
+                    onChange={handleChangeEntity}
+                    styles={SelectStyles}
+                    options={searchOptions}
+                    clearable={true}
+                    closeMenuOnSelect={true}
+                    placeholder={"Please choose..."}
+                    value={searchValues}
+                    required
+                />
+            }
+        </>
     )
 };
 export default SearchSelectBox;

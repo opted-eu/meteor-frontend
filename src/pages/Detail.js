@@ -26,13 +26,15 @@ const Detail = () => {
     const navigate = useNavigate();
 
     const fetchItemData = () => {
-        fetch("https://meteor.balluff.dev/api/view/entry/" + uid)
+        let forward_url = process.env.REACT_APP_API + "view/entry/" + uid
+        console.log(forward_url)
+        fetch(forward_url)
             .then(response => {
                 return response.json()
             })
             .then(data => {
                 setItem(data);
-                let rev_url = "https://meteor.balluff.dev/api/view/reverse/" + data.uid
+                let rev_url = process.env.REACT_APP_API + "view/reverse/" + data.uid
                 console.log(rev_url)
                 if(getDgraph(data) !== 'Collection') {
                     fetch(rev_url)
@@ -100,6 +102,7 @@ const Detail = () => {
     // vars
     const type = getDgraph(item)
     const wd = item.wikidata_id
+    const doi = item.doi
     const w = 200
 
     // access to different sections
@@ -121,6 +124,7 @@ const Detail = () => {
     const tools = ["ScientificPublication"]
     const publications = ["Author"]
     const documentation = ["Tool"]
+    const collections = ["Collection"]
 
     // field titles
     const conditions_of_access = {Tool:"User Access", Dataset:"Conditions of Access", Archive:"Conditions of Access"}
@@ -134,6 +138,7 @@ const Detail = () => {
 
     return (
         <>
+
             {/* Title Info */}
             <p style={{float: "right"}}><md-text-button type="button" onClick={() => navigate('/search')}>New Search</md-text-button></p>
 
@@ -162,7 +167,7 @@ const Detail = () => {
                         <DetailField
                             d={item._unique_name}
                             s="OPTED ID"
-                            t="text"
+                            t="un"
                             w={item.color_hex ? 'true' : null}
                         />
                     </div>
@@ -172,6 +177,12 @@ const Detail = () => {
                         <WikiImg
                             props={{type, wd, w}}
                         />
+                    </div>
+                }
+                {doi && type &&
+                    <div className="item-img">
+                        <span className="__dimensions_badge_embed__ badge" data-doi={doi}
+                              data-hide-zero-citations="true" data-style="medium_circle"></span>
                     </div>
                 }
             </div>
@@ -285,8 +296,40 @@ const Detail = () => {
                         s="WikiData"
                         u="https://www.wikidata.org/wiki/"
                     />
+                    {type === 'Collection' &&
+                        <DetailField
+                            d={item._added_by.display_name}
+                            s="Created By"
+                            t="user"
+                            u={item._added_by.uid}
+                        />
+                    }
                 </div>
             </div>
+
+            {/* Collections */}
+            {collections.includes(type) &&
+                <div className="divTable">
+                    <DetailHeader
+                        t="Collection includes"
+                        m="Which entries are included in the collection."
+                    />
+                    <DetailListDict
+                        d={item.entries_included}
+                        s="Entries"
+                    />
+                    <DetailListDict
+                        d={item.languages}
+                        s="Language(s) in collection"
+                    />
+                    {item.countries &&
+                        <DisplayCountries
+                            j={item.countries}
+                            t={type}
+                        />
+                    }
+                </div>
+            }
 
             {/* Routines */}
             {routines.includes(type) &&
@@ -304,9 +347,14 @@ const Detail = () => {
                         s="Special Interest Publication"
                         t="boolean"
                     />
-                    <DetailField
-                        d={item.publication_cycle}
+                    <DetailList
+                        d={item.publication_cycle_weekday}
                         s="Publication Cycle"
+                        n={true}
+                    />
+                    <DetailField
+                        d={item.publication_weekdays}
+                        s="Publication Weekdays"
                         t="text"
                     />
                     <DetailField
@@ -365,13 +413,18 @@ const Detail = () => {
 
             {/* Published By */}
             {published_by.includes(type) &&
-                <div className="divTable">
-                    <DetailListDictChannel
-                        d={item.published_by}
-                        s="Published by"
-                        h={true}
-                    />
-                </div>
+                <>
+                    {reverse.publishes__organizations &&
+                        <div className="divTable">
+                            <DetailListDictReverse
+                                d={reverse.publishes__organizations}
+                                s="Published by"
+                                h={true}
+
+                            />
+                        </div>
+                    }
+                </>
             }
 
             {/* Publishes */}
@@ -594,6 +647,7 @@ const Detail = () => {
                     <DetailListDictReverse
                         d={reverse.sources_included__archives}
                         s=""
+                        t="datasets"
                     />
                 </div>
             }
@@ -622,6 +676,10 @@ const Detail = () => {
                         t="Research"
                         m={research_header[type]}
                     />
+                    <DetailListDictReverse
+                        d={reverse.sources_included__scientificpublications}
+                        s=""
+                    />
                 </div>
             }
 
@@ -635,6 +693,8 @@ const Detail = () => {
                     <DetailListDictReverse
                         d={reverse.sources_included__datasets}
                         s=""
+                        t="datasets"
+
                     />
                 </div>
             }
@@ -642,9 +702,10 @@ const Detail = () => {
             {/* Publications */}
             {publications.includes(type) &&
                 <div className="divTable">
-                    <DetailHeader
-                        t="Publications"
-                        m=""
+                    <DetailListDictReverse
+                        d={reverse.authors__scientificpublications}
+                        s="Publications"
+                        h={true}
                     />
                 </div>
             }

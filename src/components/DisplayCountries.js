@@ -13,14 +13,14 @@ const DisplayCountries = ({ j, t }) => {
         return dt
     }
 
-    const types = ["Archive", "NewsSource"]
+    const types = ["Archive", "NewsSource", "Collection"]
 
     //console.log(t)
 
     return (
         <>
             <div className="divTableRow">
-                <div className="divTableHead">Countries covered in dataset:</div>
+                <div className="divTableHead">Countries covered in {t.toLowerCase()}:</div>
                 <div className="divTableCell">
                     {j.map(c =>
                         <span className="link_list" key={c.uid}><Link to={getlink(c._unique_name)}>{c.name}</Link>

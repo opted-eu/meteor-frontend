@@ -21,7 +21,7 @@ const SearchForm = () => {
 
     const fetchItemData = () => {
         // fetch types
-        fetch("https://meteor.balluff.dev/api/schema/types")
+        fetch(process.env.REACT_APP_API + "schema/types")
             .then(response => {
                 return response.json()
             })
@@ -33,8 +33,8 @@ const SearchForm = () => {
             });
         // fetch countries
         let countryAPI
-        countryAPI = "https://meteor.balluff.dev/api/query?dgraph.type=Country"
-        countryAPI = "https://meteor.balluff.dev/api/schema/predicate/counts/country"
+        countryAPI = process.env.REACT_APP_API + "query?dgraph.type=Country"
+        countryAPI = process.env.REACT_APP_API + "schema/predicate/counts/country"
         fetch(countryAPI)
             .then(response => {
                 return response.json()
@@ -46,7 +46,7 @@ const SearchForm = () => {
                 console.log(err);
             });
         // fetch user_for
-        fetch("https://meteor.balluff.dev/api/schema/predicate/counts/used_for")
+        fetch(process.env.REACT_APP_API + "schema/predicate/counts/used_for")
             .then(response => {
                 return response.json()
             })
@@ -57,7 +57,7 @@ const SearchForm = () => {
                 console.log(err);
             });
         // fetch text_types
-        fetch("https://meteor.balluff.dev/api/schema/predicate/counts/text_types")
+        fetch(process.env.REACT_APP_API + "schema/predicate/counts/text_types")
             .then(response => {
                 return response.json()
             })
@@ -169,7 +169,7 @@ const SearchForm = () => {
 
 
     return (
-        <>
+        <div className="search-form">
             <form onSubmit={handleSubmitS}>
                 <div className='search_field'>
                     <h4>Select Entity</h4>
@@ -246,11 +246,11 @@ const SearchForm = () => {
                             />
                     </div>
                 }
-                <div style={{clear:"both", "marginBottom":20}}>
+                <div style={{clear:"left", "marginBottom":20}}>
                     <md-filled-button type="submit">Search</md-filled-button> <md-text-button type="button" onClick={() => navigate('search')}>Advanced Search</md-text-button>
                 </div>
             </form>
-        </>
+        </div>
     )
 }
 

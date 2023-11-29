@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
+
 const DetailListDict = ({ d, s, h=null }) => {
 
     const getLink = (uid) => {

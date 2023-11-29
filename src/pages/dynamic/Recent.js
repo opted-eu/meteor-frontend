@@ -7,7 +7,7 @@ const Recent = () => {
 
     const fetchItemData = () => {
         setDetails([]);
-        fetch("https://meteor.balluff.dev/api/view/recent?limit=10")
+        fetch(process.env.REACT_APP_API + "view/recent?limit=10")
             .then(response => {
                 return response.json()
             })
@@ -16,7 +16,7 @@ const Recent = () => {
                 const p = [];
                 data.forEach(b => {
                     p.push(
-                        fetch("https://meteor.balluff.dev/api/view/entry/" + b._unique_name)
+                        fetch(process.env.REACT_APP_API + "view/entry/" + b._unique_name)
                         .then(response1 => {
                             return response1.json()
                         })
