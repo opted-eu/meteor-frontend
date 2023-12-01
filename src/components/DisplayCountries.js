@@ -13,7 +13,7 @@ const DisplayCountries = ({ j, t }) => {
         return dt
     }
 
-    const types = ["Archive", "NewsSource", "Collection"]
+    const types = ["Archive", "NewsSource", "Collection", "Dataset"]
 
     //console.log(t)
 

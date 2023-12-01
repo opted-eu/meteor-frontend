@@ -15,6 +15,21 @@ const DetailField = ({ d, s, t, u=null, w=null }) => {
         return '/users/' + uid + "/entries"
     }
 
+    const getQuery = (s, uid) => {
+        let dt = null
+        switch(s){
+            case 'Sources':
+                dt = 'Newssource'
+                break
+            case 'Organizations':
+                dt = 'Organization'
+                break
+            default:
+                return
+        }
+        return '/search?dgraph.type=' + dt + '&country=' + uid
+    }
+
     const formatText = (t) => {
         if (t){
             var splitStr = t.toLowerCase().split(' ');
@@ -29,7 +44,7 @@ const DetailField = ({ d, s, t, u=null, w=null }) => {
 
     const retDate = (d) => {
         let dt = new Date(d)
-        dt = (dt.getDate()).toString().padStart(2, '0') + "-" + (dt.getMonth()+1).toString().padStart(2, '0') + "-" + dt.getFullYear()
+        dt = dt.getFullYear() + "-" + (dt.getMonth()+1).toString().padStart(2, '0') + "-" +(dt.getDate()).toString().padStart(2, '0')
         return dt
     }
 
@@ -71,12 +86,13 @@ const DetailField = ({ d, s, t, u=null, w=null }) => {
                                     t === 'year' ? retDateYear(d) :
                                         t === 'safe' ? d :
                                             t === 'upper' ? getUpper(d) :
-                                                t === 'color' ? <span style={{backgroundColor: "#" + d, width: "15px", height: "15px", display: "block", borderStyle: "solid", borderWidth: "0px"}}></span> :
-                                                    t === 'un' ? <span style={{wordBreak: "break-all"}}>{d}</span> :
-                                                        t === 'user' ? <Link to={getUserLink(u)}>{d}</Link> :
-                                                            t === 'role' ?
-                                                                (d === 1 ? "Contributor" : "Admin") :
-                                                                formatText(d)
+                                                t === 'query' ? <Link to={getQuery(s, u)}>{d}</Link> :
+                                                    t === 'color' ? <span style={{backgroundColor: "#" + d, width: "15px", height: "15px", display: "block", borderStyle: "solid", borderWidth: "0px"}}></span> :
+                                                        t === 'un' ? <span style={{wordBreak: "break-all"}}>{d}</span> :
+                                                            t === 'user' ? <Link to={getUserLink(u)}>{d}</Link> :
+                                                                t === 'role' ?
+                                                                    (d === 1 ? "Contributor" : "Admin") :
+                                                                    formatText(d)
                         }
                     </div>
                 </div>

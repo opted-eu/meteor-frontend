@@ -37,11 +37,10 @@ const Nav = () => {
                     aria-expanded="false">Tasks</a>
                         <ul className="dropdown-menu">
                             <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
-                            <li><Link className="dropdown-item" to="/Profile/entries">My EnTries</Link></li>
+                            <li><Link className="dropdown-item" to="/Profile/entries">My Entries</Link></li>
                             {role == 10 &&
                                 <>
                                     <li><Link className="dropdown-item" to="/profile/entries/review">Review Entries</Link></li>
-                                    <li><Link className="dropdown-item" to="/profile/invite">Invite New User</Link></li>
                                     <li><Link className="dropdown-item" to="/admin/users">Change user Permissions</Link></li>
                                 </>
                             }

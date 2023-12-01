@@ -83,16 +83,18 @@ const Result = ({ item, details }) => {
         return null
     }
 
-    const getPadding = (en) => {
+    const getPadding = (en, un) => {
         //console.log(en)
         if (en === "PoliticalParty"){
-            return 60
+            if (getColorStyle(un)) {
+                return 60
+            }
         }
         return 10
     }
 
     return (
-        <div className="flex-item" key={item.uid} style={{backgroundImage: getColorStyle(item._unique_name), paddingLeft: getPadding(type)}}>
+        <div className="flex-item" key={item.uid} style={{backgroundImage: getColorStyle(item._unique_name), paddingLeft: getPadding(type, item._unique_name)}}>
             <Link to={getlink(item._unique_name)}>
                 {wd && type &&
                     <div className="item-img">
