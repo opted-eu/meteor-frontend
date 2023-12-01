@@ -19,7 +19,7 @@ const DetailField = ({ d, s, t, u=null, w=null }) => {
         let dt = null
         switch(s){
             case 'Sources':
-                dt = 'Newssource'
+                dt = 'NewsSource'
                 break
             case 'Organizations':
                 dt = 'Organization'

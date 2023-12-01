@@ -112,9 +112,9 @@ const Detail = () => {
     const economic = ["NewsSource", "Organization"]
     //const channel = ["NewsSource"]
     const channel = []
-    const data_access = ["NewsSource", "PoliticalParty", "Government", "Parliament", "ConceptVariable"]
-    const research = ["NewsSource", "PoliticalParty", "Dataset", "Tool", "ScientificPublication", "Government", "Parliament", "ConceptVariable", "Person"]
-    const datasets = ["NewsSource", "PoliticalParty", "Government", "Parliament", "ConceptVariable", "Person"]
+    const archives = ["NewsSource", "PoliticalParty", "Government", "Parliament", "ConceptVariable", "FileFormat", "MetaVariable", "TextType", "UnitOfAnalysis", "Modality"]
+    const research = ["NewsSource", "PoliticalParty", "Dataset", "Tool", "ScientificPublication", "Government", "Parliament", "ConceptVariable", "Person", "Operation", "TextType", "UnitOfAnalysis", "Modality"]
+    const datasets = ["NewsSource", "PoliticalParty", "Government", "Parliament", "ConceptVariable", "Person", "FileFormat", "MetaVariable", "TextType", "UnitOfAnalysis", "Modality"]
     const publishes = ["PoliticalParty", "Organization"]
     const about = ["Dataset", "Archive", "Tool", "LearningMaterial"]
     const sources_included = ["Dataset", "Archive", "ScientificPublication", "Channel"]
@@ -122,28 +122,42 @@ const Detail = () => {
     const owns = ["Organization"]
     const owned_by = ["Organization"]
     const related_sources = ["NewsSource"]
-    const tools = ["Dataset", "ScientificPublication", "ConceptVariable"]
+    const tools = ["Dataset", "ScientificPublication", "ConceptVariable", "ProgrammingLanguage", "Operation", "FileFormat", "Modality"]
     const publications = ["Author"]
     const documentation = ["Tool"]
     const collections = ["Collection"]
-    const learning_materials = ["Dataset", "ConceptVariable"]
+    const learning_materials = ["Dataset", "ConceptVariable", "ProgrammingLanguage", "Operation", "TextType", "Modality"]
     const initial_source = ["Dataset"]
     const journalistic_brands = ["NewsSource"]
-    const summary = ["Country"]
+    const summary = ["Country", "Multinational", "Subnational"]
+    const files = ["FileFormat"]
 
     // field titles
     const conditions_of_access = {Tool:"User Access", Dataset:"Conditions of Access", Archive:"Conditions of Access"}
+
     const concept_variables = {Tool:"Concepts measured", Dataset:"Included Conceptual Variables", LearningMaterial:"Included Conceptual Variables"}
+
     const languages = {Tool:"Supported Languages", Dataset:"Language(s) in dataset", LearningMaterial:"Language(s)"}
-    const research_header = {Tool:"Following publications used this tool.", Dataset:"Following publications use this dataset.", PoliticalParty:"Following publications investigated this political party.", NewsSource:"Following publications investigated this source.", ScientificPublication:"Following datasets are related to this publication.", Government:"Following datasets are related to this government.", Parliament:"Following datasets are related to this parliament.", ConceptVariable:"Following datasets are related to this concept.", Person:"Following publications relate to this person."}
+
+    const research_header = {Tool:"Following publications used this tool.", Dataset:"Following publications use this dataset.", PoliticalParty:"Following publications investigated this political party.", NewsSource:"Following publications investigated this source.", ScientificPublication:"Following publications are related to this publication.", Government:"Following publications are related to this government.", Parliament:"Following datasets are related to this parliament.", ConceptVariable:"Following publications are related to this concept.", Person:"Following publications relate to this person.", Operation:"Following publications are related to this operation.", TextType:"Following publications are related to this text type.", UnitOfAnalysis:"Following publications are related to this unit.", Modality:"Used in the following publications"}
+
     const sources_included_header = {ScientificPublication:"Shows which sources where studied in this publication.", Dataset:"Shows how many of the sources listed in this inventory are included in the dataset.", Archive:"Shows how many of the sources listed in this inventory are available in the archive.", Channel:"Shows how many of the sources listed in this inventory are available in this channel."}
+
     const party_affiliated = {NewsSource:"Party Affiliated", Organization:"Affiliated with a political party"}
-    const data_access_header = {NewsSource:"Following data bases include full text data.", PoliticalParty:"Following data archives include text data.", Parliament:"Following data archives include text data", Government:"Following data archives include text data.", ConceptVariable:"Following data archives include text data."}
-    const datasets_header = {NewsSource:"Following datasets include the news source.", PoliticalParty:"Following datasets include the political party.", Government:"Following datasets relate to this Government.", Parliament:"Following datasets relate to this Parliament.", ConceptVariable:"Following datasets include this concept", Person:"Following datasets are relevant."}
-    const learning_materials_header = {Dataset:"These Learning Materials use this dataset.", ConceptVariable:"These Learning Materials use this concept."}
+
+    const archives_header = {NewsSource:"Following data bases include full text data.", PoliticalParty:"Following data archives include text data.", Parliament:"Following data archives include text data", Government:"Following data archives include text data.", ConceptVariable:"Following data archives include text data.", FileFormat:"Following data archives use this fileformat.", MetaVariable:"Following data archives use this meta variable.", TextType:"Following data archives use this text type.", UnitOfAnalysis:"Following data archives use this unit.", Modality:"Used in the following archives"}
+
+    const datasets_header = {NewsSource:"Following datasets include the news source.", PoliticalParty:"Following datasets include the political party.", Government:"Following datasets relate to this Government.", Parliament:"Following datasets relate to this Parliament.", ConceptVariable:"Following datasets include this concept", Person:"Following datasets are relevant.", FileFormat:"Following datasets use this fileformat.", MetaVariable:"Following datasets use this meta variable.", TextType:"Following datasets use this text type.", UnitOfAnalysis:"Following datasets use this unit.", Modality:"Used in the following datasets"}
+
+    const learning_materials_header = {Dataset:"These Learning Materials use this dataset.", ConceptVariable:"These Learning Materials use this concept.", ProgrammingLanguage:"These Learning Materials use this programming language", Operation:"These Learning Materials use this operation.", TextType:"These Learning Materials use this text type.", Modality:"Used in the following learning materials"}
+
     const initial_source_header = {Dataset:"The corpus or dataset that this dataset is derived from."}
-    const tools_header = {Dataset:"This dataset was used to validate these tools.", ScientificPublication:"This publication was used with these tools.", ConceptVariable:"This concept was used with these tools."}
-    const summary_header = {Country:"Shows how many of the sources and organizations listed in this inventory are associated with this country."}
+
+    const tools_header = {Dataset:"This dataset was used to validate these tools.", ScientificPublication:"This publication was used with these tools.", ConceptVariable:"This concept was used with these tools.", ProgrammingLanguage:"This programming language is used in the following tools", Operation:"This operation is used in the following tools", FileFormat:"This fileformat is used in the following tools", Modality:"Used in the following tools"}
+
+    const summary_header = {Country:"Shows how many of the sources and organizations listed in this inventory are associated with this country.", Multinational:"Shows how many of the sources listed in this inventory are associated with this multinational construct.", Subnational:"Shows how many of the sources and organizations listed in this inventory are associated with this subunit."}
+
+    const files_header = {FileFormat:"Following files use this fileformat."}
 
     return (
         <>
@@ -341,14 +355,68 @@ const Detail = () => {
                                 m={summary_header[type]}
                             />
                             <DetailField
-                                d={item.num_sources}
-                                s="Sources"
+                                d={item.num_archive}
+                                s="Archives"
                                 t="query"
                                 u={item.uid}
                             />
                             <DetailField
-                                d={item.num_org}
+                                d={item.num_dataset}
+                                s="Datasets"
+                                t="query"
+                                u={item.uid}
+                            />
+                            <DetailField
+                                d={item.num_government}
+                                s="Governments"
+                                t="query"
+                                u={item.uid}
+                            />
+                            <DetailField
+                                d={item.num_journalisticbrand}
+                                s="Journalistic Brands"
+                                t="query"
+                                u={item.uid}
+                            />
+                            <DetailField
+                                d={item.num_newssource}
+                                s="News Sources"
+                                t="query"
+                                u={item.uid}
+                            />
+                            <DetailField
+                                d={item.num_organization}
                                 s="Organizations"
+                                t="query"
+                                u={item.uid}
+                            />
+                            <DetailField
+                                d={item.num_parliament}
+                                s="Parliaments"
+                                t="query"
+                                u={item.uid}
+                            />
+                            <DetailField
+                                d={item.num_person}
+                                s="People"
+                                t="query"
+                                u={item.uid}
+                            />
+                            <DetailField
+                                d={item.num_politicalparty}
+                                s="Political Parties"
+                                t="query"
+                                u={item.uid}
+                            />
+                            <DetailField
+                                d={item.num_scientificpublication}
+                                s="Scientific Publications"
+                                t="query"
+                                u={item.uid}
+                            />
+                            <DetailField
+                                d={item.num_subnational}
+                                s="Sub Nationals"
                                 t="query"
                                 u={item.uid}
                             />
@@ -598,42 +666,114 @@ const Detail = () => {
                         </div>
                     }
 
+                    {/* Files  */}
+                    {files.includes(type) &&
+                        <div className="divTable">
+                            <DetailHeader
+                                t="Files"
+                                m={files_header[type]}
+                            />
+                            {reverse.file_formats__files &&
+                                <>
+                                    {(reverse.file_formats__files).length > 0 &&
+                                        <DetailListDictReverse
+                                            d={reverse.file_formats__files}
+                                            s=""
+                                        />
+                                    }
+                                </>
+                            }
+                        </div>
+                    }
+
                     {/* Tools  */}
                     {tools.includes(type) &&
-                        <>
+                        <div className="divTable">
+                            <DetailHeader
+                                t="Tools"
+                                m={tools_header[type]}
+                            />
                             {reverse.validation_dataset__tools &&
                                 <>
                                     {(reverse.validation_dataset__tools).length > 0 &&
-                                        <div className="divTable">
-                                            <DetailHeader
-                                                t="Tools"
-                                                m={tools_header[type]}
-                                            />
-                                            <DetailListDictReverse
-                                                d={reverse.validation_dataset__tools}
-                                                s=""
-                                            />
-                                        </div>
+                                        <DetailListDictReverse
+                                            d={reverse.validation_dataset__tools}
+                                            s=""
+                                        />
                                     }
                                 </>
                             }
                             {reverse.concept_variables__tools &&
                                 <>
                                     {(reverse.concept_variables__tools).length > 0 &&
-                                        <div className="divTable">
-                                            <DetailHeader
-                                                t="Tools"
-                                                m={tools_header[type]}
-                                            />
-                                            <DetailListDictReverse
-                                                d={reverse.concept_variables__tools}
-                                                s=""
-                                            />
-                                        </div>
+                                        <DetailListDictReverse
+                                            d={reverse.concept_variables__tools}
+                                            s=""
+                                        />
                                     }
                                 </>
                             }
-                        </>
+                            {reverse.programming_languages__tools &&
+                                <>
+                                    {(reverse.programming_languages__tools).length > 0 &&
+                                        <DetailListDictReverse
+                                            d={reverse.programming_languages__tools}
+                                            s=""
+                                        />
+                                    }
+                                </>
+                            }
+                            {reverse.used_for__tools &&
+                                <>
+                                    {(reverse.used_for__tools).length > 0 &&
+                                        <DetailListDictReverse
+                                            d={reverse.used_for__tools}
+                                            s=""
+                                        />
+                                    }
+                                </>
+                            }
+                            {reverse.used_for__tools &&
+                                <>
+                                    {(reverse.used_for__tools).length > 0 &&
+                                        <DetailListDictReverse
+                                            d={reverse.used_for__tools}
+                                            s=""
+                                        />
+                                    }
+                                </>
+                            }
+                            {reverse.input_file_format__tools &&
+                                <>
+                                    {(reverse.input_file_format__tools).length > 0 &&
+                                        <DetailListDictReverse
+                                            d={reverse.input_file_format__tools}
+                                            s=""
+                                        />
+                                    }
+                                </>
+                            }
+                            {reverse.output_file_format__tools &&
+                                <>
+                                    {(reverse.output_file_format__tools).length > 0 &&
+                                        <DetailListDictReverse
+                                            d={reverse.output_file_format__tools}
+                                            s=""
+                                        />
+                                    }
+                                </>
+                            }
+                            {reverse.modalities__tools &&
+                                <>
+                                    {(reverse.modalities__tools).length > 0 &&
+                                        <DetailListDictReverse
+                                            d={reverse.modalities__tools}
+                                            s=""
+                                        />
+                                    }
+                                </>
+                            }
+                        </div>
                     }
 
                     {/* Sources Included */}
@@ -749,12 +889,12 @@ const Detail = () => {
                         </div>
                     }
 
-                    {/* Data Access */}
-                    {data_access.includes(type) &&
+                    {/* Archives */}
+                    {archives.includes(type) &&
                         <div className="divTable">
                             <DetailHeader
-                                t="Data Access"
-                                m={data_access_header[type]}
+                                t="Archives"
+                                m={archives_header[type]}
                             />
                             <DetailListDictReverse
                                 d={reverse.sources_included__archives}
@@ -766,8 +906,34 @@ const Detail = () => {
                                 s=""
                                 t="datasets"
                             />
+                            <DetailListDictReverse
+                                d={reverse.file_formats__archives}
+                                s=""
+                                t="datasets"
+                            />
+                            <DetailListDictReverse
+                                d={reverse.meta_variables__archives}
+                                s=""
+                                t="datasets"
+                            />
+                            <DetailListDictReverse
+                                d={reverse.text_types__archives}
+                                s=""
+                                t="datasets"
+                            />
+                            <DetailListDictReverse
+                                d={reverse.text_units__archives}
+                                s=""
+                                t="datasets"
+                            />
+                            <DetailListDictReverse
+                                d={reverse.modalities__archives}
+                                s=""
+                                t="datasets"
+                            />
                         </div>
                     }
+
                     {/* Documentation  */}
                     {documentation.includes(type) &&
                         <div className="divTable">
@@ -811,9 +977,33 @@ const Detail = () => {
                                     s=""
                                 />
                             }
+                            {reverse.methodologies__scientificpublications &&
+                                <DetailListDictReverse
+                                    d={reverse.methodologies__scientificpublications}
+                                    s=""
+                                />
+                            }
+                            {reverse.text_types__scientificpublications &&
+                                <DetailListDictReverse
+                                    d={reverse.related_publications__datasets}
+                                    s=""
+                                />
+                            }
                             {reverse.related_publications__datasets &&
                                 <DetailListDictReverse
                                     d={reverse.related_publications__datasets}
+                                    s=""
+                                />
+                            }
+                            {reverse.modalities__scientificpublications &&
+                                <DetailListDictReverse
+                                    d={reverse.modalities__scientificpublications}
+                                    s=""
+                                />
+                            }
+                            {reverse.text_units__scientificpublications &&
+                                <DetailListDictReverse
+                                    d={reverse.text_units__scientificpublications}
                                     s=""
                                 />
                             }
@@ -834,6 +1024,31 @@ const Detail = () => {
                             />
                             <DetailListDictReverse
                                 d={reverse.concept_variables__datasets}
+                                s=""
+                                t="datasets"
+                            />
+                            <DetailListDictReverse
+                                d={reverse.file_formats__datasets}
+                                s=""
+                                t="datasets"
+                            />
+                            <DetailListDictReverse
+                                d={reverse.meta_variables__datasets}
+                                s=""
+                                t="datasets"
+                            />
+                            <DetailListDictReverse
+                                d={reverse.text_types__datasets}
+                                s=""
+                                t="datasets"
+                            />
+                            <DetailListDictReverse
+                                d={reverse.text_units__datasets}
+                                s=""
+                                t="datasets"
+                            />
+                            <DetailListDictReverse
+                                d={reverse.modalities__datasets}
                                 s=""
                                 t="datasets"
                             />
@@ -876,38 +1091,72 @@ const Detail = () => {
                     {/* Learning materials */}
                     {learning_materials.includes(type) &&
                         <>
-                            {reverse.datasets_used__learningmaterials &&
-                                <>
-                                    {(reverse.datasets_used__learningmaterials).length > 0 &&
-                                        <div className="divTable">
-                                            <DetailHeader
-                                                t="Learning Materials"
-                                                m={learning_materials_header[type]}
-                                            />
+                            <div className="divTable">
+                                <DetailHeader
+                                    t="Learning Materials"
+                                    m={learning_materials_header[type]}
+                                />
+                                {reverse.datasets_used__learningmaterials &&
+                                    <>
+                                        {(reverse.datasets_used__learningmaterials).length > 0 &&
                                             <DetailListDictReverse
                                                 d={reverse.datasets_used__learningmaterials}
                                                 s=""
                                             />
-                                        </div>
-                                    }
-                                </>
-                            }
-                            {reverse.concept_variables__learningmaterials &&
-                                <>
-                                    {(reverse.concept_variables__learningmaterials).length > 0 &&
-                                        <div className="divTable">
-                                            <DetailHeader
-                                                t="Learning Materials"
-                                                m={learning_materials_header[type]}
-                                            />
+                                        }
+                                    </>
+                                }
+                                {reverse.concept_variables__learningmaterials &&
+                                    <>
+                                        {(reverse.concept_variables__learningmaterials).length > 0 &&
                                             <DetailListDictReverse
                                                 d={reverse.concept_variables__learningmaterials}
                                                 s=""
                                             />
-                                        </div>
-                                    }
-                                </>
-                            }
+                                        }
+                                    </>
+                                }
+                                {reverse.programming_languages__learningmaterials &&
+                                    <>
+                                        {(reverse.programming_languages__learningmaterials).length > 0 &&
+                                            <DetailListDictReverse
+                                                d={reverse.programming_languages__learningmaterials}
+                                                s=""
+                                            />
+                                        }
+                                    </>
+                                }
+                                {reverse.methodologies__learningmaterials &&
+                                    <>
+                                        {(reverse.methodologies__learningmaterials).length > 0 &&
+                                            <DetailListDictReverse
+                                                d={reverse.methodologies__learningmaterials}
+                                                s=""
+                                            />
+                                        }
+                                    </>
+                                }
+                                {reverse.text_types__learningmaterials &&
+                                    <>
+                                        {(reverse.text_types__learningmaterials).length > 0 &&
+                                            <DetailListDictReverse
+                                                d={reverse.text_types__learningmaterials}
+                                                s=""
+                                            />
+                                        }
+                                    </>
+                                }
+                                {reverse.modalities__learningmaterials &&
+                                    <>
+                                        {(reverse.modalities__learningmaterials).length > 0 &&
+                                            <DetailListDictReverse
+                                                d={reverse.modalities__learningmaterials}
+                                                s=""
+                                            />
+                                        }
+                                    </>
+                                }
+                            </div>
                         </>
                     }
 
