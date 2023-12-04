@@ -18,6 +18,9 @@ import WikiImg from "../search/WikiImg";
 import DetailAudience from "../components/DetailAudience";
 import DetailListDictReverse from "../components/DetailListDictReverse";
 import DetailFieldHead from "../components/DetailFieldHead";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import SearchIcon from "@mui/icons-material/Search";
+import BugReportIcon from '@mui/icons-material/BugReport';
 
 const Detail = () => {
 
@@ -160,6 +163,19 @@ const Detail = () => {
 
     const files_header = {FileFormat:"Following files use this fileformat."}
 
+    const correction_email = () => {
+        let email_to = 'wp3@opted.eu'
+        let email_subject = 'Correction for ' + item.name + ' (' + item.uid + ')'
+        let email_body = 'Dear Meteor Team,%0D%0A' +
+            '%0D%0A' +
+            'I browsed your website and noticed that something is wrong in this entry: https://meteor.balluff.dev/view/uid/' + item.uid + '.%0D%0A' +
+            '%0D%0A' +
+            '-- PLEASE WRITE YOUR CORRECTION HERE --%0D%0A' +
+            '%0D%0A' +
+            'Please also note that you are very welcome to create an account on Meteor and contribute your suggestions directly.'
+        window.open("mailto:" + email_to + "?subject=" + email_subject + "&body=" + email_body)
+    }
+    
     return (
         <>
             {item.status == 403 &&
@@ -235,7 +251,7 @@ const Detail = () => {
                         <div className="divTableBody">
                             <DetailHeader
                                 t="General Information"
-                                m=""
+                                m={<md-text-button type="button" onClick={() => correction_email()}><BugReportIcon /> Something not right?</md-text-button>}
                             />
                             <DetailExtLink
                                 d={item.orcid}

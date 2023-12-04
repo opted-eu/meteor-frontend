@@ -50,22 +50,22 @@ const DetailFieldHead = ( {item} ) => {
                 <div className="divDetailHeader">
                     <div className="divDetailRow">
                         <div className="divDetailColumn">
-                            <div className="divDetailHeadText">Type</div>
-                            <div>{getDgraph(item)}</div>
+                            <div className="divDetailHeadKey">Type</div>
+                            <div className="divDetailHeadValue">{getDgraph(item)}</div>
                         </div>
                         <div className="divDetailColumn">
-                            <div className="divDetailHeadText">Created</div>
-                            <div>{retDate(item._date_created)}</div>
+                            <div className="divDetailHeadKey">Created</div>
+                            <div className="divDetailHeadValue">{retDate(item._date_created)}</div>
                         </div>
                     </div>
                     <div className="divDetailRow">
                         <div className="divDetailColumn">
-                            <div className="divDetailHeadText">UID</div>
-                            <div>{formatText(item.uid)}</div>
+                            <div className="divDetailHeadKey">UID</div>
+                            <div className="divDetailHeadValue">{formatText(item.uid)}</div>
                         </div>
                         <div className="divDetailColumn">
-                            <div className="divDetailHeadText">OPTED ID</div>
-                            <div style={{wordBreak: "break-all"}}>{item._unique_name}</div>
+                            <div className="divDetailHeadKey">OPTED ID</div>
+                            <div className="divDetailHeadValue" style={{wordBreak: "break-all"}}>{item._unique_name}</div>
                         </div>
                     </div>
                 </div>

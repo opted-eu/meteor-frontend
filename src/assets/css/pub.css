@@ -134,11 +134,16 @@ h2{
 .home-text{
     width: 75%;
 }
+
 .home-login{
     float:right;
     margin-left: 2%;
-    width: 23%;
+    width: 24%;
+    background-color: #333333;
+    border-radius: 10px;
+    padding: 10px
 }
+
 .login-register, .profile{
     margin-bottom: 10px;
 }

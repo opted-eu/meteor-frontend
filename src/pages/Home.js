@@ -40,6 +40,7 @@ const Home = () => {
                 <p>Quickly and easily query our database of political text data, tools and more! Find out which databases hold the text data that you are looking for. Do you have a specific source in mind? Try typing the name in the search bar and check if the entry already exists!</p>
 
                 {<SearchForm />}
+                
             </div>
 
 

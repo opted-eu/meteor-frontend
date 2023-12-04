@@ -114,6 +114,11 @@ pre {
     border-radius: 10px;
 }
 
-.divDetailHeadText{
-    font-weight: bold;
+.divDetailHeadValue{
+    font-size: 120%;
+}
+
+.divDetailHeadKey{
+    font-size: 85%;
+    color: #ddd;
 }
