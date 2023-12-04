@@ -4,8 +4,34 @@ import {Link} from "react-router-dom";
 
 const DetailListDict = ({ d, s, h=null }) => {
 
+    let sorted = []
+
     const getLink = (uid) => {
         return '/detail/' + uid
+    }
+
+    if (s === 'Sources'){
+        let countries = []
+        for (var x of d){
+            countries.push(x.country.name)
+        }
+        let uniq = [...new Set(countries)];
+        uniq.sort()
+        for (var y of uniq){
+            let si = []
+            for (var z of d) {
+                if (z.country.name === y) {
+                    si.push(z)
+                }
+            }
+            let dict = {}
+            let ary = [y, si]
+            sorted.push(ary)
+        }
+    }
+
+    const retJSON = (a) => {
+        return JSON.stringify(a, null, 4)
     }
 
     return (
@@ -16,12 +42,29 @@ const DetailListDict = ({ d, s, h=null }) => {
                         {h ? <h3>{s}</h3> : s }
                     </div>
                     <div className="divTableCell">
-                        {d.map(x => (
-                            <span className="link_list" key={x.uid}><Link to={getLink(x._unique_name)}>{x.name}</Link></span>
-                        ))}
-                        {d === undefined &&
+                        {s === "Sources" &&
                             <>
-                                None
+                                {sorted.map(x => (
+                                    <>
+                                        <h5 key={x[0]}>{x[0]}</h5>
+                                        <p>{x[1].map(y => (
+                                            <span className="link_list" key={y.uid}><Link to={getLink(y._unique_name)}>{y.name}</Link></span>
+                                        ))}</p>
+                                    </>
+                                ))}
+
+                            </>
+                        }
+                        {s !== "Sources" &&
+                            <>
+                                {d.map(x => (
+                                    <span className="link_list" key={x.uid}><Link to={getLink(x._unique_name)}>{x.name}</Link></span>
+                                ))}
+                                {d === undefined &&
+                                    <>
+                                        None
+                                    </>
+                                }
                             </>
                         }
                     </div>

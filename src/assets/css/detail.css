@@ -34,11 +34,12 @@
     background-color: #EEE;
     display: table-header-group;
 }
-.divTableCell, .divTableCellTitle, .divTableHead {
+.divTableCell, .divTableCellTitle, .divTableHead, .divTableCellSubText {
     border: 0px solid #999999;
     display: table-cell;
     padding: 2px 0px;
 }
+
 .divTableHead{
     color: #cccccc;
     width: 200px;
@@ -80,4 +81,39 @@ pre {
 }
 .item-img{
     float:right;
+}
+.reduced, .divTableCellSubText{
+    font-size: 80%;
+    color: #eee;
+}
+.full_text{
+    border-radius: 5px;
+    background-color: lightskyblue;
+    color: black;
+    font-weight: bold;
+    padding:5px;
+    margin-left:10px;
+    font-size:90%;
+}
+
+.divDetailHeader{
+    width: 70%;
+    float: left;
+}
+
+.divDetailRow {
+    display: flex;
+}
+
+.divDetailColumn {
+    flex: 50%;
+    background-color: #666;
+    color: white;
+    padding:10px;
+    margin:10px;
+    border-radius: 10px;
+}
+
+.divDetailHeadText{
+    font-weight: bold;
 }

@@ -7,13 +7,23 @@ const DisplayCountries = ({ j, t }) => {
         return '/detail/' + uid
     }
 
-    const retDate = (d) => {
+    const retDateFrom = (d) => {
         let dt = new Date(d)
         dt = (dt.getDate()).toString().padStart(2, '0') + "-" + (dt.getMonth()+1).toString().padStart(2, '0') + "-" + dt.getFullYear()
-        return dt
+        if (dt != 'NaN'){
+            return ' from ' + dt
+        }
     }
 
-    const types = ["Archive", "NewsSource", "Collection", "Dataset"]
+    const retDateTo = (d) => {
+        let dt = new Date(d)
+        dt = (dt.getDate()).toString().padStart(2, '0') + "-" + (dt.getMonth()+1).toString().padStart(2, '0') + "-" + dt.getFullYear()
+        if (dt != 'NaN'){
+            return ' to ' + dt
+        }
+    }
+
+    const types = ["Archive", "NewsSource", "Collection"]
 
     //console.log(t)
 
@@ -26,7 +36,8 @@ const DisplayCountries = ({ j, t }) => {
                         <span className="link_list" key={c.uid}><Link to={getlink(c._unique_name)}>{c.name}</Link>
                             {!types.includes(t) &&
                                 <>
-                                    {" "}from {retDate(c["countries|temporal_coverage_end"])} to {retDate(c["countries|temporal_coverage_end"])}
+                                    <span className="reduced">{retDateFrom(c["countries|temporal_coverage_end"])}
+                                    {retDateTo(c["countries|temporal_coverage_end"])}</span>
                                 </>
                             }
                         </span>

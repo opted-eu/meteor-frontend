@@ -13,9 +13,12 @@ const DetailListDictReverse = ({ d, s, t = null, h=null }) => {
         return dt
     }
 
-    const formatFulltext = (b) => {
+    const formatFulltext = (b, i = false) => {
         if (b === true){
-            return ' (Full texts)'
+            if (i){
+                return 'full_text'
+            }
+            return 'Full texts'
         } else {
             return ''
         }
@@ -52,7 +55,9 @@ const DetailListDictReverse = ({ d, s, t = null, h=null }) => {
                                             " to " + retDateYear(x.temporal_coverage_end)
                                         }
                                         {x.fulltext_available &&
-                                            formatFulltext(x.fulltext_available )
+                                            <span className={formatFulltext(x.fulltext_available, true)}>
+                                                {formatFulltext(x.fulltext_available)}
+                                            </span>
                                         }
                                     </>
                                 }

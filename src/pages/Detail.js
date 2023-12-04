@@ -17,6 +17,7 @@ import '@material/web/button/text-button.js';
 import WikiImg from "../search/WikiImg";
 import DetailAudience from "../components/DetailAudience";
 import DetailListDictReverse from "../components/DetailListDictReverse";
+import DetailFieldHead from "../components/DetailFieldHead";
 
 const Detail = () => {
 
@@ -139,21 +140,21 @@ const Detail = () => {
 
     const languages = {Tool:"Supported Languages", Dataset:"Language(s) in dataset", LearningMaterial:"Language(s)"}
 
-    const research_header = {Tool:"Following publications used this tool.", Dataset:"Following publications use this dataset.", PoliticalParty:"Following publications investigated this political party.", NewsSource:"Following publications investigated this source.", ScientificPublication:"Following publications are related to this publication.", Government:"Following publications are related to this government.", Parliament:"Following datasets are related to this parliament.", ConceptVariable:"Following publications are related to this concept.", Person:"Following publications relate to this person.", Operation:"Following publications are related to this operation.", TextType:"Following publications are related to this text type.", UnitOfAnalysis:"Following publications are related to this unit.", Modality:"Used in the following publications"}
+    const research_header = {Tool:"Following publications used this tool.", Dataset:"Following publications use this dataset.", PoliticalParty:"Following publications investigated this political party.", NewsSource:"Following publications investigated this source.", ScientificPublication:"Following publications are related to this publication.", Government:"Following publications are related to this government.", Parliament:"Following datasets are related to this parliament.", ConceptVariable:"Following publications are related to this concept.", Person:"Following publications relate to this person.", Operation:"Following publications are related to this operation.", TextType:"Following publications are related to this text type.", UnitOfAnalysis:"Following publications are related to this unit.", Modality:"Used in the following publications."}
 
     const sources_included_header = {ScientificPublication:"Shows which sources where studied in this publication.", Dataset:"Shows how many of the sources listed in this inventory are included in the dataset.", Archive:"Shows how many of the sources listed in this inventory are available in the archive.", Channel:"Shows how many of the sources listed in this inventory are available in this channel."}
 
-    const party_affiliated = {NewsSource:"Party Affiliated", Organization:"Affiliated with a political party"}
+    const party_affiliated = {NewsSource:"Affiliated with a political party", Organization:"Affiliated with a political party."}
 
-    const archives_header = {NewsSource:"Following data bases include full text data.", PoliticalParty:"Following data archives include text data.", Parliament:"Following data archives include text data", Government:"Following data archives include text data.", ConceptVariable:"Following data archives include text data.", FileFormat:"Following data archives use this fileformat.", MetaVariable:"Following data archives use this meta variable.", TextType:"Following data archives use this text type.", UnitOfAnalysis:"Following data archives use this unit.", Modality:"Used in the following archives"}
+    const archives_header = {NewsSource:"Following data bases include full text data.", PoliticalParty:"Following data archives include text data.", Parliament:"Following data archives include text data.", Government:"Following data archives include text data.", ConceptVariable:"Following data archives include text data.", FileFormat:"Following data archives use this fileformat.", MetaVariable:"Following data archives use this meta variable.", TextType:"Following data archives use this text type.", UnitOfAnalysis:"Following data archives use this unit.", Modality:"Used in the following archives."}
 
-    const datasets_header = {NewsSource:"Following datasets include the news source.", PoliticalParty:"Following datasets include the political party.", Government:"Following datasets relate to this Government.", Parliament:"Following datasets relate to this Parliament.", ConceptVariable:"Following datasets include this concept", Person:"Following datasets are relevant.", FileFormat:"Following datasets use this fileformat.", MetaVariable:"Following datasets use this meta variable.", TextType:"Following datasets use this text type.", UnitOfAnalysis:"Following datasets use this unit.", Modality:"Used in the following datasets"}
+    const datasets_header = {NewsSource:"Following datasets include the news source.", PoliticalParty:"Following datasets include the political party.", Government:"Following datasets relate to this Government.", Parliament:"Following datasets relate to this Parliament.", ConceptVariable:"Following datasets include this concept.", Person:"Following datasets are relevant.", FileFormat:"Following datasets use this fileformat.", MetaVariable:"Following datasets use this meta variable.", TextType:"Following datasets use this text type.", UnitOfAnalysis:"Following datasets use this unit.", Modality:"Used in the following datasets."}
 
-    const learning_materials_header = {Dataset:"These Learning Materials use this dataset.", ConceptVariable:"These Learning Materials use this concept.", ProgrammingLanguage:"These Learning Materials use this programming language", Operation:"These Learning Materials use this operation.", TextType:"These Learning Materials use this text type.", Modality:"Used in the following learning materials"}
+    const learning_materials_header = {Dataset:"These Learning Materials use this dataset.", ConceptVariable:"These Learning Materials use this concept.", ProgrammingLanguage:"These Learning Materials use this programming language.", Operation:"These Learning Materials use this operation.", TextType:"These Learning Materials use this text type.", Modality:"Used in the following learning materials."}
 
     const initial_source_header = {Dataset:"The corpus or dataset that this dataset is derived from."}
 
-    const tools_header = {Dataset:"This dataset was used to validate these tools.", ScientificPublication:"This publication was used with these tools.", ConceptVariable:"This concept was used with these tools.", ProgrammingLanguage:"This programming language is used in the following tools", Operation:"This operation is used in the following tools", FileFormat:"This fileformat is used in the following tools", Modality:"Used in the following tools"}
+    const tools_header = {Dataset:"This dataset was used to validate these tools.", ScientificPublication:"This publication was used with these tools.", ConceptVariable:"This concept was used with these tools.", ProgrammingLanguage:"This programming language is used in the following tools.", Operation:"This operation is used in the following tools.", FileFormat:"This fileformat is used in the following tools.", Modality:"Used in the following tools."}
 
     const summary_header = {Country:"Shows how many of the sources and organizations listed in this inventory are associated with this country.", Multinational:"Shows how many of the sources listed in this inventory are associated with this multinational construct.", Subnational:"Shows how many of the sources and organizations listed in this inventory are associated with this subunit."}
 
@@ -180,6 +181,11 @@ const Detail = () => {
                         backgroundImage: getColorStyle(item.color_hex),
                         paddingLeft: getColorPadding(item.color_hex)
                     }}>
+
+                        <DetailFieldHead
+                            item={item}
+                        />
+                        {/*
                         <div className="divTableHeader">
                             <div className="divTableBody">
                                 <DetailField
@@ -208,6 +214,7 @@ const Detail = () => {
                                 />
                             </div>
                         </div>
+                        */}
                         {wd && type &&
                             <div className="item-img">
                                 <WikiImg
@@ -217,7 +224,7 @@ const Detail = () => {
                         }
                         {doi && type &&
                             <div className="item-img">
-                            <span className="__dimensions_badge_embed__ badge" data-doi={doi}
+                                <span className="__dimensions_badge_embed__ badge" data-doi={doi}
                                   data-hide-zero-citations="true" data-style="medium_circle"></span>
                             </div>
                         }
@@ -780,7 +787,7 @@ const Detail = () => {
                     {sources_included.includes(type) &&
                         <div className="divTable">
                             <DetailHeader
-                                t="Sources Include"
+                                t="Sources Included"
                                 m={sources_included_header[type]}
                             />
                             <div className="divTableRow">
