@@ -1,7 +1,7 @@
 import Markdown from "react-markdown";
 
 const privacy_text = `
-# Privacy Policy & Consent
+# Privacy Policy & Disclaimer
 
 ## Privacy Policy
 
@@ -13,9 +13,9 @@ here: [Data Protection Declaration](https://dsba.univie.ac.at/en/privacy-policy)
 This website only uses cookies that are technically required to ensure its functionality. 
 There are no cookies for marketing purposes or third-party cookies in place.
 
-## Informed Consent (for project participation)
+## Disclaimer
 
-Thank you for your interest in participating in Meteor!
+Thank you for your interest in contributing to Meteor!
 
 This data collection effort is part of the EU-funded Project OPTED, 
 where researchers work towards the creation of a new European research 
@@ -37,15 +37,18 @@ including tools and learning materials.
 
 We are immensely grateful for your support!
 
-### Contributors’ Rights and Obligations
+### Conditions of Use and Contributions
+
+#### Contributors’ Rights and Obligations
 
 If you contribute to Meteor, you thereby license it to the public for reuse under [CC BY-SA](https://creativecommons.org/licenses/by-sa/4.0/deed.en).
  
-### Procedures
+#### Procedures
+
 There is a form that guides the user through the process and prompts 
 for all necessary information. 
 
-### Personal Account as requirement to contribute data
+#### Personal Account as requirement to contribute data
 
 You need to create an account on this platform before you can contribute data 
 to the inventory and before you can fill out the questionnaire. 
@@ -75,7 +78,7 @@ Once you have an account you can contribute data to the inventory:
 - The data that you contribute when filling out forms may be made available publicly.
 - Before the data is made publicly available, they will be reviewed by an editorial board.
 
-### General
+#### General
 
 - Data will be collected and processed exclusively on the basis of the legal provisions 
     (EU General Data Protection Regulation (GDPR), § 7 Abs 2 Datenschutzgesetz (DSG))).
@@ -83,23 +86,25 @@ Once you have an account you can contribute data to the inventory:
     We do not use any third-party cookies.
 - Servers where data is stored and processed are in the European Union.
 
-### Potential discomforts and risks
+#### Potential discomforts and risks
 
 There are no anticipated risks to your participation. 
 When you feel discomfort you can stop filling out the questionnaire anytime.
 
-### Potential benefits to you and/or to society
+#### Potential benefits to you and/or to society
+
 The information that you contribute about European political text 
 resources will be part of an inventory. Together with the information 
 added by other contributors the resulting database will serve as a resource for 
 various search interests.
 
-### Compensation for participants
-There is no monetary compensation for your contribution to the coding project.
+#### Compensation for participants
 
-### Participation and withdrawal
-Co
-ntributing entries is voluntary. You can cancel contributions at any time. 
+There is no monetary compensation for your contribution to the project.
+
+#### Participation and withdrawal
+
+Contributing entries is voluntary. You can cancel contributions at any time. 
 The personal information that you provide (email address as a must and 
 additional optional information) will be deleted immediately 
 if you choose to close your account. 
@@ -107,9 +112,11 @@ The entries you made will remain part of the inventory.
 
 ### Accessing project outomes
 
-It is likely that articles, reports, and academic publications will be produced 
-based on the information gathered for the inventory. These publications are made 
-publicly available on the OPTED project website: https://www.opted.eu.
+Your contributions to the Meteor platform will be open access -- 
+i.e. pubicly available without a fee. Your deposited resources may be used 
+therefore in other articles, reports or academic publications. 
+We require that users, as a condition of use, agree to acknowledge the use 
+of resources from the platform (see section "Conditions of Use and Contributions").
 
 ### Further information
 
