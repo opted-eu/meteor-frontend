@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 const DetailFieldHead = ( {item} ) => {
 
-    console.log(item.uid)
+    //console.log(item.uid)
 
     const formatText = (t) => {
         if (t){

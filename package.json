@@ -52,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "babel-install": "2.1.0",
     "react-router-dom": "^6.16.0"
   }
 }
