@@ -55,8 +55,8 @@ const Nav = () => {
                    aria-expanded="false">Resources</a>
                 <ul className="dropdown-menu">
                     <li><Link className="dropdown-item" to="/guides">Guides</Link></li>
-                    <li><Link className="dropdown-item" to="/link-collection">Link Collection</Link></li>
-                    <li><Link className="dropdown-item" to="/teaching-materials">Teaching Material</Link></li>
+                    {/* <li><Link className="dropdown-item" to="/link-collection">Link Collection</Link></li> */}
+                    {/* <li><Link className="dropdown-item" to="/teaching-materials">Teaching Material</Link></li> */}
                     <li><Link className="dropdown-item" to="/faq">FAQ</Link></li>
                 </ul>
             </li>
