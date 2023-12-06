@@ -28,7 +28,7 @@ const DetailListDictChannel = ({ d, s, h=null }) => {
                 return null
         }
     }
-    console.log(d)
+    //console.log(d)
 
     return (
         <>

@@ -18,9 +18,9 @@ import WikiImg from "../search/WikiImg";
 import DetailAudience from "../components/DetailAudience";
 import DetailListDictReverse from "../components/DetailListDictReverse";
 import DetailFieldHead from "../components/DetailFieldHead";
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import SearchIcon from "@mui/icons-material/Search";
 import BugReportIcon from '@mui/icons-material/BugReport';
+import DetailListPubCycle from "../components/DetailListPubCycle";
+import OwnershipStructure from "../search/OwnershipStructure";
 
 const Detail = () => {
 
@@ -40,7 +40,7 @@ const Detail = () => {
                 setItem(data);
                 let rev_url = process.env.REACT_APP_API + "view/reverse/" + data.uid
                 console.log(rev_url)
-                if(getDgraph(data) !== 'Collection') {
+                if (getDgraph(data) !== 'Collection') {
                     fetch(rev_url)
                         .then(response1 => {
                             return response1.json()
@@ -53,6 +53,7 @@ const Detail = () => {
             })
             .catch((err) => {
                 console.log(err);
+                navigate('/404')
             });
     }
 
@@ -105,6 +106,12 @@ const Detail = () => {
 
     // vars
     const type = getDgraph(item)
+    let os = false
+    let generalClass = "divTableBody"
+    if (type === 'Organization' || type === 'NewsSource'){
+        os = true
+        generalClass = "divDetailHeader"
+    }
     const wd = item.wikidata_id
     const doi = item.doi
     const w = 200
@@ -193,6 +200,7 @@ const Detail = () => {
                     </p>
 
                     <h1>{item.name}</h1>
+
                     <div className="divHeader" style={{
                         backgroundImage: getColorStyle(item.color_hex),
                         paddingLeft: getColorPadding(item.color_hex)
@@ -244,11 +252,12 @@ const Detail = () => {
                                   data-hide-zero-citations="true" data-style="medium_circle"></span>
                             </div>
                         }
+
                     </div>
 
                     {/* General */}
                     <div className="divTable">
-                        <div className="divTableBody">
+                        <div className={generalClass}>
                             <DetailHeader
                                 t="General Information"
                                 m={<md-text-button type="button" onClick={() => correction_email()}><BugReportIcon /> Something not right?</md-text-button>}
@@ -367,7 +376,17 @@ const Detail = () => {
                                     u={item._added_by.uid}
                                 />
                             }
+
+
                         </div>
+                        {item.uid && os &&
+                            <div className="item-img">
+                                <OwnershipStructure
+                                    item={item}
+                                />
+                            </div>
+                        }
+
                     </div>
 
                     {/* Summary */}
@@ -486,10 +505,9 @@ const Detail = () => {
                                 s="Special Interest Publication"
                                 t="boolean"
                             />
-                            <DetailList
+                            <DetailListPubCycle
                                 d={item.publication_cycle_weekday}
                                 s="Publication Cycle"
-                                n={true}
                             />
                             <DetailField
                                 d={item.publication_weekdays}
@@ -812,14 +830,18 @@ const Detail = () => {
                                     to={getSourcesLink(item._unique_name)}>{getNumSources(item.sources_included)}</Link>
                                 </div>
                             </div>
-                            <DetailListDict
-                                d={item.sources_included}
-                                s="Sources"
-                            />
-                            <DetailListDict
-                                d={item.text_units}
-                                s="Text Units"
-                            />
+                            {item.sources_included &&
+                                <DetailListDict
+                                    d={item.sources_included}
+                                    s="Sources"
+                                />
+                            }
+                            {item.text_units &&
+                                <DetailListDict
+                                    d={item.text_units}
+                                    s="Text Units"
+                                />
+                            }
                         </div>
                     }
 
@@ -1209,23 +1231,26 @@ const Detail = () => {
             }
 
             {/* Raw Data */}
-            <div className="divTable">
-                <DetailHeader
-                    t="Raw Data"
-                    m={JSON.stringify(item, null, 4)}
-                    p="true"
-                />
-            </div>
+            {item &&
+                <div className="divTable">
+                    <DetailHeader
+                        t="Raw Data"
+                        m={JSON.stringify(item, null, 4)}
+                        p="true"
+                    />
+                </div>
+            }
 
             {/* Reverse Data */}
-            <div className="divTable">
-                <DetailHeader
-                    t="Reverse Data"
-                    m={JSON.stringify(reverse, null, 4)}
-                    p="true"
-                />
-            </div>
-
+            {reverse &&
+                <div className="divTable">
+                    <DetailHeader
+                        t="Reverse Data"
+                        m={JSON.stringify(reverse, null, 4)}
+                        p="true"
+                    />
+                </div>
+            }
         </>
     )
 };

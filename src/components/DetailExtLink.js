@@ -22,8 +22,10 @@ const DetailExtLink = ({ d, s, u }) => {
                         <div className="divTableRow">
                             <div className="divTableHead">&nbsp;</div>
                             <div className="divTableCell">
+                                {/*
                                 <span className="__dimensions_badge_embed__ badge" data-doi={d}
                                       data-hide-zero-citations="true" data-style="small_circle"></span>
+                                */}
                                 <span data-badge-popover="right" data-badge-type="donut"
                                      data-doi={d} data-hide-no-mentions="true"
                                      className="altmetric-embed circle badge"></span>

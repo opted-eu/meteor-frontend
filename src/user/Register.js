@@ -43,63 +43,74 @@ const Register = () => {
 
     return (
         <div>
-            <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
 
-                <div className="login-register">
-                    <md-filled-text-field
-                        label="Email"
-                        type="email"
-                        onBlur={e => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
+            <h1>Register</h1>
 
-                <div className="login-register">
-                    <md-filled-text-field
-                        label="Password"
-                        type="password"
-                        onBlur={e => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
+            <div className="infobox">
+                <h2>Create an Account</h2>
 
-                <div className="login-register">
-                    <md-filled-text-field
-                        label="Confirm Password"
-                        type="password"
-                        onBlur={e => setConfirmPassword(e.target.value)}
-                        required
-                    />
-                </div>
+                <form onSubmit={handleSubmit}>
 
-                {error &&
-                    <div className="login-register error">{error}</div>
-                }
+                    <div className="login-register">
+                        <md-filled-text-field
+                            label="Email"
+                            type="email"
+                            onBlur={e => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                <div className="infobox">
+                    <div className="login-register">
+                        <md-filled-text-field
+                            label="Password"
+                            type="password"
+                            onBlur={e => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                    <h1>Data Privacy (summary)</h1>
+                    <div className="login-register">
+                        <md-filled-text-field
+                            label="Confirm Password"
+                            type="password"
+                            onBlur={e => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                    <p>This platform respects the General Data Protection Regulation (GDPR, in German: Datenschutzgrundverordnung, DSGVO).</p>
+                    {error &&
+                        <div className="login-register error">{error}</div>
+                    }
 
-                    <p>We save your email address and IP address locally on this server (hosted in the EU). Your data is not shared with third parties and retained until you decide to delete your account. Your email address is used for technical purposes (e.g. login). We reserve the right to process your IP address for creating anonymous usage statistics.</p>
+                    <div className="login-register">
+                        <md-filled-button type="submit">Create Account</md-filled-button> <md-text-button type="button" onClick={() => navigate('login')}>Already Have an Account? Sign in</md-text-button>
+                    </div>
 
-                    <p><strong>By creating an account you agree that we store your email address and IP address.</strong></p>
+                </form>
+            </div>
 
-                    <h2>Informed Consent</h2>
+            <div className="infobox">
 
-                    <p><strong>By creating an account you confirm that you have read and acknowledged the <Link to="/privacy">consent statement</Link></strong></p>
+                <h2>Data Privacy (summary)</h2>
 
-                    <p><em>You can read the full statements regarding data privacy and informed consent <Link to="/privacy">here</Link>.</em></p>
+                <p>This platform respects the General Data Protection Regulation (GDPR, in German: Datenschutzgrundverordnung, DSGVO).</p>
 
-                </div>
+                <p>We save your email address and IP address locally on this server (hosted in the EU). Your data is not shared with third parties and retained until you decide to delete your account. Your email address is used for technical purposes (e.g. login). We reserve the right to process your IP address for creating anonymous usage statistics.</p>
 
-                <div className="login-register">
-                    <md-filled-button type="submit">Create Account</md-filled-button> <md-text-button type="button" onClick={() => navigate('login')}>Already Have an Account? Sign in</md-text-button>
-                </div>
+                <p><strong>By creating an account you agree that we store your email address and IP address.</strong></p>
 
-            </form>
+            </div>
+            <div className="infobox">
+
+                <h2>Informed Consent</h2>
+
+                <p><strong>By creating an account you confirm that you have read and acknowledged the <Link to="/privacy">consent statement</Link></strong></p>
+
+                <p><em>You can read the full statements regarding data privacy and informed consent <Link to="/privacy">here</Link>.</em></p>
+
+            </div>
+
+
         </div>
     )
 

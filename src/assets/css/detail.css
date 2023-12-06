@@ -122,3 +122,33 @@ pre {
     font-size: 85%;
     color: #ddd;
 }
+
+.weekdayOff, .weekdayOn {
+    padding:5px;
+    width: 40px;
+    border-radius: 20px;
+    margin-right: 5px;
+    float: left;
+    text-align: center;
+    vertical-align: center;
+}
+
+.weekdayOff{
+    color: #ccc;
+    font-weight: normal;
+    background-color: #999999;
+}
+
+.weekdayOn{
+    font-weight: bold;
+    background-color: lightskyblue;
+    color: black;
+}
+.widget{
+
+}
+
+img svg  {
+    height: auto;
+    width: 100%;
+}
