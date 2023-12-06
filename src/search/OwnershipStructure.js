@@ -5,9 +5,15 @@ const OwnershipStructure = ({item}) => {
     // we need the UID of the current entry, we use that to submit it to the endpoint
     const data = { uid: item.uid };
 
-    useEffect(() => {
-        runOS(data, "network-plot")
-    }, [])
+    const endpoint = process.env.REACT_APP_API + "view/ownership/"
+
+    // function runOS (data, div){
+    //     MakeNetworkPlot(data, endpoint, div)
+    // }
+
+    // useEffect(() => {
+    //     runOS(data, "network-plot")
+    // }, [])
 
     return (
         <>
