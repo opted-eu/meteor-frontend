@@ -58,7 +58,7 @@ const DetailListDict = ({ d, s, h=null }) => {
                         {s !== "Sources" &&
                             <>
                                 {d.map(x => (
-                                    <span className="link_list" key={x.uid}><Link to={getLink(x._unique_name)}>{x.name}</Link></span>
+                                    <span className="link_list" key={x.uid}><Link to={getLink(x._unique_name)}>{x.name}</Link> </span>
                                 ))}
                                 {d === undefined &&
                                     <>

@@ -18,9 +18,11 @@ const DetailFieldHead = ( {item} ) => {
     }
 
     const retDate = (d) => {
-        let dt = new Date(d)
-        dt = dt.getFullYear() + "-" + (dt.getMonth()+1).toString().padStart(2, '0') + "-" +(dt.getDate()).toString().padStart(2, '0')
-        return dt
+        if (d){
+            let dt = new Date(d)
+            return dt.getFullYear() + "-" + (dt.getMonth() + 1).toString().padStart(2, '0') + "-" + (dt.getDate()).toString().padStart(2, '0')
+        }
+        return ''
     }
 
     const getWidth = (w) => {

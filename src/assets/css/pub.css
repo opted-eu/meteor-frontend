@@ -59,11 +59,13 @@ footer a:hover{
 }
 
 a{
-     color: #0c64ad;
+     /*color: #0c64ad;*/
+     color: lightskyblue;
      text-decoration: none !important;
  }
 
 a:hover{
+    color: lightskyblue;
     text-decoration: underline !important;
 
 }

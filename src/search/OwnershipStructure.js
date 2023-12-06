@@ -6,7 +6,8 @@ const OwnershipStructure = ({item}) => {
     const data = { uid: item.uid };
 
     useEffect(() => {
-        runOS(data, "network-plot")
+        //runOS(data, "network-plot")
+        window['runOS'](data, "network-plot")
     }, [])
 
     return (

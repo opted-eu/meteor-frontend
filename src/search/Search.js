@@ -1,4 +1,4 @@
-import {useSearchParams, useNavigate} from "react-router-dom";
+import {useSearchParams, useNavigate, Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import '../assets/css/search.css'
 import '../assets/css/m3.css'
@@ -104,8 +104,8 @@ const Search = () => {
                             <p>You could consider making a new entry and contributing to the community</p>
 
                             <ul>
-                                <li><a href="#">Add a new entry in a few steps</a></li>
-                                <li>Consider giving the <a href="#">provided guides</a> a quick read.</li>
+                                <li><Link to="/login">Add a new entry in a few steps</Link></li>
+                                <li>Consider giving the <Link to="/guides">provided guides</Link> a quick read.</li>
                             </ul>
                         </div>
                     }

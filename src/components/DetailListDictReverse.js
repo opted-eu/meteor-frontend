@@ -35,39 +35,41 @@ const DetailListDictReverse = ({ d, s, t = null, h=null }) => {
                         {d.map(x => (
                             <p key={x.uid}>
                                 <Link to={getLink(x._unique_name)}>{x.name}</Link>&nbsp;
-                                {x._authors_fallback &&
-                                    x._authors_fallback
-                                }
-                                {x.authors &&
-                                    <>
-                                        {x.authors[0].name ?
-                                            x.authors[0].name + " et al." :
-                                                x.authors[0] + " et al."
-                                        }
-                                    </>
-                                }
-                                {t === 'datasets' &&
-                                    <>
-                                        {x.temporal_coverage_start &&
-                                                " from " + retDateYear(x.temporal_coverage_start)
-                                        }
-                                        {x.temporal_coverage_end &&
-                                            " to " + retDateYear(x.temporal_coverage_end)
-                                        }
-                                        {x.fulltext_available &&
-                                            <span className={formatFulltext(x.fulltext_available, true)}>
-                                                {formatFulltext(x.fulltext_available)}
-                                            </span>
-                                        }
-                                    </>
-                                }
-                                {t !== 'datasets' &&
-                                    <>
-                                        {x.date_published &&
-                                            " (" + retDateYear(x.date_published) + ")"
-                                        }
-                                    </>
-                                }
+                                <span className="reduced">
+                                    {x._authors_fallback &&
+                                        x._authors_fallback
+                                    }
+                                    {x.authors &&
+                                        <>
+                                            {x.authors[0].name ?
+                                                x.authors[0].name + " et al." :
+                                                    x.authors[0] + " et al."
+                                            }
+                                        </>
+                                    }
+                                    {t === 'datasets' &&
+                                        <>
+                                            {x.temporal_coverage_start &&
+                                                    " from " + retDateYear(x.temporal_coverage_start)
+                                            }
+                                            {x.temporal_coverage_end &&
+                                                " to " + retDateYear(x.temporal_coverage_end)
+                                            }
+                                            {x.fulltext_available &&
+                                                <nobr><span className={formatFulltext(x.fulltext_available, true)}>
+                                                    {formatFulltext(x.fulltext_available)}
+                                                </span></nobr>
+                                            }
+                                        </>
+                                    }
+                                    {t !== 'datasets' &&
+                                        <>
+                                            {x.date_published &&
+                                                " (" + retDateYear(x.date_published) + ")"
+                                            }
+                                        </>
+                                    }
+                                </span>
                             </p>
                         ))}
                         {d === false &&

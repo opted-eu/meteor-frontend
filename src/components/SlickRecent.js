@@ -143,6 +143,46 @@ const SimpleSlider = () => {
                         ))}
                     </Slider>
                 )}
+                {items.length === 0 &&
+                    <Slider {...settings}>
+                        <div>
+                            <div className="item">
+                                <div className="item-overlay">
+                                    <div className="item-title-slick"></div>
+                                    <div className="item-type-slick"></div>
+                                    <div className="item-desc-slick"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="item">
+                                <div className="item-overlay">
+                                    <div className="item-title-slick"></div>
+                                    <div className="item-type-slick"></div>
+                                    <div className="item-desc-slick"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="item">
+                                <div className="item-overlay">
+                                    <div className="item-title-slick"></div>
+                                    <div className="item-type-slick"></div>
+                                    <div className="item-desc-slick"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="item">
+                                <div className="item-overlay">
+                                    <div className="item-title-slick"></div>
+                                    <div className="item-type-slick"></div>
+                                    <div className="item-desc-slick"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </Slider>
+                }
         </div>
     );
 }

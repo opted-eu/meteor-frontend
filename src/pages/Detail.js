@@ -59,6 +59,7 @@ const Detail = () => {
 
     useEffect(() => {
         fetchItemData()
+        window.scrollTo(0, 0)
     }, [uid])
 
     const getDgraph = (d) => {
@@ -683,12 +684,12 @@ const Detail = () => {
                             <DetailField
                                 d={item.temporal_coverage_start}
                                 s="Start date of coverage"
-                                t="date"
+                                t="year"
                             />
                             <DetailField
                                 d={item.temporal_coverage_end}
                                 s="End date of coverage"
-                                t="date"
+                                t="year"
                             />
                             <DetailListDict
                                 d={item.methodologies}
