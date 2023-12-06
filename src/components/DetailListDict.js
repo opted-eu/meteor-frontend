@@ -13,14 +13,14 @@ const DetailListDict = ({ d, s, h=null }) => {
     if (s === 'Sources'){
         let countries = []
         for (var x of d){
-            countries.push(x.country.name)
+            countries.push([x.country.name,x.country.uid])
         }
         let uniq = [...new Set(countries)];
         uniq.sort()
         for (var y of uniq){
             let si = []
             for (var z of d) {
-                if (z.country.name === y) {
+                if (z.country.name === y[0]) {
                     si.push(z)
                 }
             }
@@ -45,12 +45,12 @@ const DetailListDict = ({ d, s, h=null }) => {
                         {s === "Sources" &&
                             <>
                                 {sorted.map(x => (
-                                    <>
-                                        <h5 key={x[0]}>{x[0]}</h5>
+                                    <div key={x[0][1]}>
+                                        <h5>{x[0][0]}</h5>
                                         <p>{x[1].map(y => (
                                             <span className="link_list" key={y.uid}><Link to={getLink(y._unique_name)}>{y.name}</Link></span>
                                         ))}</p>
-                                    </>
+                                    </div>
                                 ))}
 
                             </>

@@ -26,19 +26,25 @@ const DisplayCountries = ({ j, t }) => {
     */
 
     const retYearFrom = (d) => {
-        let dt = new Date(d)
-        dt = dt.getFullYear()
-        if (dt != 'NaN'){
-            return ' from ' + dt
+        if (d) {
+            let dt = new Date(d)
+            dt = dt.getFullYear()
+            if (dt > 0) {
+                return ' from ' + dt
+            }
         }
+        return ''
     }
 
     const retYearTo = (d) => {
-        let dt = new Date(d)
-        dt = dt.getFullYear()
-        if (dt != 'NaN'){
-            return ' to ' + dt
+        if (d) {
+            let dt = new Date(d)
+            dt = dt.getFullYear()
+            if (dt > 0) {
+                return ' to ' + dt
+            }
         }
+        return ''
     }
 
     const types = ["Archive", "NewsSource", "Collection"]

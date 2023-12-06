@@ -83,6 +83,7 @@ const Search = () => {
         } else {
             setCount(0)
         }
+        window.scrollTo(0, 0)
     }, [])
 
     return (

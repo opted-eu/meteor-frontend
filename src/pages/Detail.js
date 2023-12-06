@@ -31,7 +31,7 @@ const Detail = () => {
 
     const fetchItemData = () => {
         let forward_url = process.env.REACT_APP_API + "view/entry/" + uid
-        console.log(forward_url)
+        //console.log(forward_url)
         fetch(forward_url)
             .then(response => {
                 return response.json()
@@ -39,7 +39,7 @@ const Detail = () => {
             .then(data => {
                 setItem(data);
                 let rev_url = process.env.REACT_APP_API + "view/reverse/" + data.uid
-                console.log(rev_url)
+                //console.log(rev_url)
                 if (getDgraph(data) !== 'Collection') {
                     fetch(rev_url)
                         .then(response1 => {
@@ -635,11 +635,13 @@ const Detail = () => {
                                 s="Graphical User Interface"
                                 t="boolean"
                             />
-                            <DetailField
-                                d="language_independent"
-                                s="Tool is independent of languages"
-                                t="boolean"
-                            />
+                            {type !== 'Dataset' &&
+                                <DetailField
+                                    d="language_independent"
+                                    s="Tool is independent of languages"
+                                    t="boolean"
+                                />
+                            }
                             <DetailField
                                 d={item.fulltext_available}
                                 s="Fulltexts Available"

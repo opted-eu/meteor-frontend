@@ -18,11 +18,32 @@ const DetailField = ({ d, s, t, u=null, w=null }) => {
     const getQuery = (s, uid) => {
         let dt = null
         switch(s){
-            case 'Sources':
+            case 'Archives':
+                dt = 'Archive'
+                break
+            case 'Datasets':
+                dt = 'Dataset'
+                break
+            case 'Journalistic Brands':
+                dt = 'JournalisticBrand'
+                break
+            case 'News Sources':
                 dt = 'NewsSource'
                 break
             case 'Organizations':
                 dt = 'Organization'
+                break
+            case 'Parliaments':
+                dt = 'Parliament'
+                break
+            case 'People':
+                dt = 'People'
+                break
+            case 'Political Parties':
+                dt = 'PoliticalParty'
+                break
+            case 'Scientific Publications':
+                dt = 'ScientificPublication'
                 break
             default:
                 return
