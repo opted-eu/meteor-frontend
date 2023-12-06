@@ -6,11 +6,14 @@ const imprint_text = `
 ## License
 
 The contents of the website are published in the World Wide Web for online access. 
-All data and information is published under CC-BY-SA 4.0. 
+All data and information is published under CC-BY-SA 4.0 (full license text see below). 
 
 The production, use and non-commercial distribution of copies in electronic or 
 printed form is allowed provided that the source is mentioned (Source: OPTED Meteor). 
 For detailed information on citation and attribution, please visit our About page. 
+
+Please note that the copyright of the resources that Meteor 
+links to are subject to different licensing terms.
 
 # Liability
 

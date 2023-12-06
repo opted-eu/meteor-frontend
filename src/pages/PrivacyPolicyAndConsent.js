@@ -13,7 +13,7 @@ here: [Data Protection Declaration](https://dsba.univie.ac.at/en/privacy-policy)
 This website only uses cookies that are technically required to ensure its functionality. 
 There are no cookies for marketing purposes or third-party cookies in place.
 
-## Disclaimer
+# Disclaimer
 
 Thank you for your interest in contributing to Meteor!
 
@@ -25,7 +25,28 @@ collect information about various European political text resources.
 Before you start, we would like to draw your attention to a few points. 
 We would kindly ask you to read the following information carefully.
 
+## Data Licencing
+
+Meteor is published under the [CC-BY-SA 4.0 license](https://creativecommons.org/licenses/by-sa/4.0/deed.en). 
+This means you are free to share and adapt Meteor data, 
+as long as you provide proper attribution and use the same license for 
+redistribution or derivate works. 
+
+*Note that this does **not** apply to the individual resources that Meteor links to.*
+
+### Citation Requirements
+
+If you are using Meteor as a dataset, please use the following citations:
+
+- Balluff, P., Lind, F., M., Dinhopl, C., Boomgaarden, H. G., Waldherr, A. (2022). Registry of Data Sources. [OPTED Deliverable (D3.2)]((https://opted.eu/results/project-reports/)). 
+- Balluff, P., Stecker, M., Lind, F., Boomgaarden, H. G., & Waldherr, A. (2022). Tool Collection. [OPTED Deliverable (D3.3)]((https://opted.eu/results/project-reports/)). 
+- Gelovani, S., Kalsnes B., Koc-Michalska, K., and Theocharis, Y. (2021). An inventory of citizen-produced political texts (CPPT): data, tools, and methodology. [OPTED Devliverable (D2.1)](https://opted.eu/results/project-reports/).
+- Greene, Z., Ivanusch, C., Lehmann, P., and Schober T. (2021). A repository of political party and interest group texts. [OPTED Devliverable (D4.2)](https://opted.eu/results/project-reports/).
+- Sebők, M., Proksch, S. and Rauh, C. (2021). Review of available parliamentary corpora. [OPTED Devliverable (D5.1)](https://opted.eu/results/project-reports/).
+- Scotto di Vettimo, M., Banducci, M., Gelovani, S., Theocharis, Y., & Horvath, L. (2021) Report on a Curation Workflow for the OPTED Platform.
+
 ### Purpose of the project
+
 The ultimate goal is an inventory that helps researchers, journalists, 
 and the interested public to extract in-depth knowledge about the 
 political discourses in Europe. We specifically focus on political texts 

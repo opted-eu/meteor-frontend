@@ -83,15 +83,13 @@ const Register = () => {
 
                     <p>This platform respects the General Data Protection Regulation (GDPR, in German: Datenschutzgrundverordnung, DSGVO).</p>
 
-                    <p>We save your email address and IP address locally on this server (hosted in the EU). Your data is not shared with third parties and retained until you decide to delete your account. Your email address is used for technical purposes (e.g. login). We reserve the right to process your IP address for creating anonymous usage statistics.</p>
+                    <p>We save your email address and IP address locally on this server (hosted in the EU). Your data is not shared with third parties and retained until you decide to delete your account. Your email address is used for technical purposes (e.g. login) and to contact you for administrative purposes. We reserve the right to process your IP address for creating anonymous usage statistics.</p>
 
                     <p><strong>By creating an account you agree that we store your email address and IP address.</strong></p>
 
-                    <h2>Informed Consent</h2>
+                    <h2>Conditions of Use</h2>
 
-                    <p><strong>By creating an account you confirm that you have read and acknowledged the <Link to="/privacy">consent statement</Link></strong></p>
-
-                    <p><em>You can read the full statements regarding data privacy and informed consent <Link to="/privacy">here</Link>.</em></p>
+                    <p><strong>By creating an account you confirm that you have read and acknowledged the <Link to="/privacy">Privacy Policy and the Conditions of Use</Link> statements.</strong></p>
 
                 </div>
 

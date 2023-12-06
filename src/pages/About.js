@@ -18,70 +18,59 @@ and with the contribution of resources from other OPTED Work Packages:
 - 129 text resources for texts by political parties were contributed by Work Package 4 (Greene et al, 2021).
 - 195 text resources for legislative texts were contributed by Work Package 5 (Sebők et al, 2021).
 
-# Contact
+## Contact
+
 You can reach us via various means. If you have feedback or questions you 
 can either send us an email to \`info at opted.eu\` or also poke us with a 
 tweet [@OPTED_H2020](https://twitter.com/OPTED_H2020).
-In case some technical aspect is not working you can raise an issue in our 
-[GitHub repository](https://github.com/opted-eu) or directly send an email to 
-[Paul](https://compcommlab.univie.ac.at/team/praedocs/).
 
-# Contributors
+In case some technical aspect is not working you can raise an issue in our 
+[GitHub repository](https://github.com/opted-eu).
+
+## Contributors
 
 - Principal Investigator: Univ.-Prof. Hajo Boomgaarden, PhD
 - Scientific Team: Dr. Michele Scotto di Vettimo, Paul Balluff, Dr. Fabienne Lind, Marvin Stecker, Celina Dinhopl, Univ.-Prof. Dr. Annie Waldherr, and Prof. Susan Banducci
 - Technical Implementation: Paul Balluff & Ian Wellaway
 
-# References
+## References
 
+The data on this platform is a collaborative effort of various scholars 
+who are part of the OPTED design study: 
+
+- Balluff, P., Lind, F., M., Dinhopl, C., Boomgaarden, H. G., Waldherr, A. (2022). Registry of Data Sources. [OPTED Deliverable (D3.2)]((https://opted.eu/results/project-reports/)). 
+- Balluff, P., Stecker, M., Lind, F., Boomgaarden, H. G., & Waldherr, A. (2022). Tool Collection. [OPTED Deliverable (D3.3)]((https://opted.eu/results/project-reports/)). 
 - Gelovani, S., Kalsnes B., Koc-Michalska, K., and Theocharis, Y. (2021). An inventory of citizen-produced political texts (CPPT): data, tools, and methodology. [OPTED Devliverable (D2.1)](https://opted.eu/results/project-reports/).
 - Greene, Z., Ivanusch, C., Lehmann, P., and Schober T. (2021). A repository of political party and interest group texts. [OPTED Devliverable (D4.2)](https://opted.eu/results/project-reports/).
 - Sebők, M., Proksch, S. and Rauh, C. (2021). Review of available parliamentary corpora. [OPTED Devliverable (D5.1)](https://opted.eu/results/project-reports/).
-- Schwaiger, L. (2022). Gegen die Öffentlichkeit: Alternative Nachrichtenmedien im deutschsprachigen Raum. Bielefeld: transcript Verlag. 10.1515/9783839461211 (List of alternative media for German speaking countries).
-- Michele Scotto di Vettimo, Susan Banducci, Shota Gelovani, Yannis Theocharis, & Laszlo Horvath (2021) Report on a Curation Workflow for the OPTED Platform.
-- Bederke, P., Döring, H., Regel, S. (2023). Party Facts [Dataset]. [partyfacts.org](https://partyfacts.herokuapp.com/)
+- Scotto di Vettimo, M., Banducci, M., Gelovani, S., Theocharis, Y., & Horvath, L. (2021) Report on a Curation Workflow for the OPTED Platform.
 
-# Data Licence Agreement
+We also used additional references for improving and extending the data on Meteor:
 
-All data listed in Meteor is published under the [CC-BY-SA 4.0 license](https://creativecommons.org/licenses/by-sa/4.0/deed.en). 
+- Bederke, P., Döring, H., Regel, S. (2023). Party Facts [Dataset]. [partyfacts.org](https://partyfacts.herokuapp.com/) (Disambiguate political parties).
+- Schwaiger, L. (2022). Gegen die Öffentlichkeit: Alternative Nachrichtenmedien im deutschsprachigen Raum. Bielefeld: transcript Verlag. [10.1515/9783839461211](https://www.transcript-open.de/isbn/6121) (List of alternative media for German speaking countries).
+
+# Conditions of Use
+
+## Data Licencing
+
+Meteor is published under the [CC-BY-SA 4.0 license](https://creativecommons.org/licenses/by-sa/4.0/deed.en). 
 This means you are free to share and adapt Meteor data, 
 as long as you provide proper attribution and use the same license for 
 redistribution or derivate works. 
 
+*Note that this does **not** apply to the individual resources that Meteor links to.*
 
-# Citation
-If you are using Meteor as a dataset, please use the following citation:
+## Citation Requirements
 
-- Balluff, P., Lind, F., Stecker, M., Dinhopl, C., Boomgaarden, H. G., Waldherr, A. (2022). Meteor: Inventory of news sources, media organizations, and text analysis tools. OPTED. https://meteor.opted.eu
+If you are using Meteor as a dataset, please use the following citations:
 
-\`\`\`
-@techreport{Meteor,
-    author = {Paul Balluff and Fabienne Lind and Marvin Stecker and 
-        Celina Dinhopl and Hajo G. Boomgaarden and Annie Waldherr},
-    title = {Meteor: Inventory of news sources, media organizations, 
-        and text analysis tools},
-    year = {2022},
-    institution = {OPTED},
-    type = {Database}
-    url = {https://meteor.opted.eu}
-}
-\`\`\`
-
-If you want to reference the Meteor as a platform, please use the following citation:
-
-- Balluff, P., Lind, F., Boomgaarden, H. G., & Waldherr, A. (2022). Mapping the European media landscape – Meteor, a curated and community-coded inventory of news sources. European Journal of Communication. 10.1177/02673231221112006
-
-\`\`\`
-@article{doi:10.1177/02673231221112006,
-    author = {Paul Balluff and Fabienne Lind and 
-        Hajo G. Boomgaarden and Annie Waldherr},
-    title = {Mapping the European media landscape – 
-        Meteor, a curated and community-coded inventory of news sources},
-    venue = {European Journal of Communication},
-    year = {2022},
-    doi = {10.1177/02673231221112006}
-}
-\`\`\`
+- Balluff, P., Lind, F., M., Dinhopl, C., Boomgaarden, H. G., Waldherr, A. (2022). Registry of Data Sources. [OPTED Deliverable (D3.2)]((https://opted.eu/results/project-reports/)). 
+- Balluff, P., Stecker, M., Lind, F., Boomgaarden, H. G., & Waldherr, A. (2022). Tool Collection. [OPTED Deliverable (D3.3)]((https://opted.eu/results/project-reports/)). 
+- Gelovani, S., Kalsnes B., Koc-Michalska, K., and Theocharis, Y. (2021). An inventory of citizen-produced political texts (CPPT): data, tools, and methodology. [OPTED Devliverable (D2.1)](https://opted.eu/results/project-reports/).
+- Greene, Z., Ivanusch, C., Lehmann, P., and Schober T. (2021). A repository of political party and interest group texts. [OPTED Devliverable (D4.2)](https://opted.eu/results/project-reports/).
+- Sebők, M., Proksch, S. and Rauh, C. (2021). Review of available parliamentary corpora. [OPTED Devliverable (D5.1)](https://opted.eu/results/project-reports/).
+- Scotto di Vettimo, M., Banducci, M., Gelovani, S., Theocharis, Y., & Horvath, L. (2021) Report on a Curation Workflow for the OPTED Platform.
 
 # Coverage of Meteor
 
