@@ -35,10 +35,11 @@ const Layout = () => {
             </main>
 
             <footer className="footer mt-auto py-3">
+                <div className="container">
                 <div className="container-fluid">
                     <div className="footer-row">
                         <div className="footer-col-left">
-                            <Link to="about">About</Link> · <Link to="privacy">Privacy Policy & Consent</Link> · <Link to="imprint">Imprint</Link>
+                            <Link to="about">About</Link> · <Link to="privacy">Privacy Policy & Disclaimer</Link> · <Link to="imprint">Imprint</Link>
                         </div>
                         <div className="footer-col-right">
                             <a href="https://opted.eu/" target="_blank">Main OPTED Website</a> · <a href="http://twitter.com/OPTED_H2020" target="_blank"><TwitterIcon/></a> · <a href="https://github.com/opted-eu" target="_blank"><GitHubIcon/></a>
@@ -48,8 +49,10 @@ const Layout = () => {
                     <div className="footer-text">
                         <p>This project has received funding from the European Union’s Horizon 2020 research & innovation programme under grant agreement No 951832. The document reflects only the authors’ views. The European Union is not liable for any use that may be made of the information contained herein.</p>
                         <p>Although the information found on this system has been produced and processed from sources believed to be reliable, no warranty, express or implied, is made regarding accuracy, adequacy, completeness, legality, reliability or usefulness of any information.</p>
-                        <p>Version: <Version /></p>
+                        <p>Meteor is published under the <Link to="imprint"> CC-BY-SA 4.0 license</Link> . See <Link to="about">about page</Link> for details.</p>
+                        <p>Meteor API Version: <Version /></p>
                     </div>
+                </div>
                 </div>
             </footer>
 

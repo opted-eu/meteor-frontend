@@ -21,7 +21,7 @@ const Home = () => {
 
     return (
         <>
-            <h1>Welcome to the METEOR Platform</h1>
+            <h1>Welcome to Meteor</h1>
 
             <div className="home-login">
 
@@ -37,7 +37,9 @@ const Home = () => {
                     <p><strong>You are logged out!</strong></p>
                 }
 
-                <p>Quickly and easily query our database of political text data, tools and more! Find out which databases hold the text data that you are looking for. Do you have a specific source in mind? Try typing the name in the search bar and check if the entry already exists!</p>
+                <p>Quickly and easily query our database of political text resources. Our database is a collection of data, tools and more! Curated for the political text community.</p>
+                <p>Our platform has resources for the seasoned pro and those new to text analysis. Journalists, non-academic researchers and policy practitioners will find resources to support their political text journey. Find out which databases hold the text data that you are looking for.</p>
+                <p>Do you have a specific source in mind? Try typing the name in the search bar and check if the entry already exists!</p>
 
                 {<SearchForm />}
                 
