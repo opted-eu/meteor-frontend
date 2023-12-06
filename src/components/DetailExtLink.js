@@ -6,7 +6,7 @@ const DetailExtLink = ({ d, s, u }) => {
 
     // run after each re-render
     useEffect(() => {
-        window.__dimensions_embed.addBadges();
+        //window.__dimensions_embed.addBadges();
         window._altmetric_embed_init();
     }, [d])
 

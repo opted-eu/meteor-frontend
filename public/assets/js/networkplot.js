@@ -27,7 +27,8 @@ function recurseData(data) {
             heap_nodes.push(node.uid)
             nodes.push({id: node.uid, 
                         uid: node.uid, 
-                        name: node.name, 
+                        name: node.name,
+                        unique_name: node._unique_name,
                         type: node['dgraph.type'].pop('Entry'), 
                         channel: node.channel?._unique_name
                         })
@@ -157,7 +158,7 @@ function drawChart({
         .selectAll("a")
         .data(nodes)
         .join("a")
-        .attr("href", d => `${$SCRIPT_ROOT}/view?uid=${d.uid}`)
+        .attr("href", d => `${$SCRIPT_ROOT}/detail/${d.unique_name}`)
         .attr("class", d => `node-type-${d.type}`)
         .classed('node-group', true)
         .classed('text-decoration-none', true)
