@@ -30,6 +30,7 @@ import ChangePassword from "../user/ChangePassword";
 import Users from "../user/Users";
 import UpdateUser from "../user/UpdateUser";
 import ResendVerificationEmail from "../user/ResendVerificationEmail";
+import { OpenAPIProvider } from "../components/APISpecs"
 
 const App = () =>  {
 
@@ -37,9 +38,10 @@ const App = () =>  {
   const { profile, setProfile } = UseProfile();
 
   return (
-      <UserContext.Provider value={[token, setToken]}>
+    <UserContext.Provider value={[token, setToken]}>
         <ProfileContext.Provider value={[profile, setProfile]}>
           <BrowserRouter>
+            <OpenAPIProvider>
             <Routes>
 
               {/* Main layout route - included in every page */}
@@ -87,6 +89,7 @@ const App = () =>  {
 
               </Route>
             </Routes>
+          </OpenAPIProvider>
           </BrowserRouter>
         </ProfileContext.Provider>
       </UserContext.Provider>

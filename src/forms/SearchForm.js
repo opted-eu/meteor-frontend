@@ -2,7 +2,9 @@ import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import '@material/web/button/filled-button.js';
 import '@material/web/button/text-button.js';
+import { Tooltip } from "@mui/material";
 import Select from 'react-select'
+import TypeDescription from "../components/TypeDescription";
 
 const SearchForm = () => {
 
@@ -156,7 +158,12 @@ const SearchForm = () => {
     ]
 
     let entity_options = entitiesList.map(function (e) {
-        return {value: e.name, label: e.name};
+        let labelWithTooltip = (
+            <Tooltip placement="right" title={<TypeDescription dgraphType={e.name}/>} arrow>
+              <span>{e.name}</span>
+            </Tooltip>
+          )
+        return {value: e.name, label: labelWithTooltip};
     })
 
     let texttypes_options = texttypesList.map(function (t) {
