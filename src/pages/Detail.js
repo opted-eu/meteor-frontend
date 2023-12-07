@@ -20,7 +20,7 @@ import DetailListDictReverse from "../components/DetailListDictReverse";
 import DetailFieldHead from "../components/DetailFieldHead";
 import BugReportIcon from '@mui/icons-material/BugReport';
 import DetailListPubCycle from "../components/DetailListPubCycle";
-import OwnershipStructure from "../search/OwnershipStructure";
+import OwnershipStructure from "../components/OwnershipStructure";
 
 const Detail = () => {
 
@@ -383,7 +383,7 @@ const Detail = () => {
                         {item.uid && os &&
                             <div className="item-img">
                                 <OwnershipStructure
-                                    item={item}
+                                    uid={item.uid}
                                 />
                             </div>
                         }

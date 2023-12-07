@@ -169,3 +169,93 @@ h2{
 .message a{
     color: lightskyblue;
 }
+
+
+/* social colors */
+
+.color-facebook, .color-channel_facebook {
+    color: #3b5999;
+    fill: #3b5999;
+}
+
+.color-twitter, .color-channel_twitter {
+    color: #55acee;
+    fill: #55acee;
+}
+
+.color-instagram, .color-channel_instagram {
+    color: #f82877;
+    fill: #f82877;
+}
+
+.color-researchgate, .color-channel_researchgate {
+    color: #40ba9b;
+    fill: #40ba9b;
+}
+
+.color-github, .color-channel_github {
+    color: black;
+    fill: black;
+}
+
+.color-vkontakte, .color-channel_vkontakte {
+    color: #2787f5;
+    fill: #2787f5;
+}
+
+.color-telegram, .color-channel_telegram {
+    color: #0088cc;
+    fill: #0088cc;
+}
+
+
+/* Network Graph Styling */
+
+svg .node-group {
+    font-size: 0.7rem;
+    color: var(--bs-body-color);
+}
+
+svg .Organization {
+    /* indigo-300 */
+    fill: #a370f7;
+}
+
+svg .NewsSource {
+    /* green-300 */
+    /* fill: #75b798; */
+}
+
+svg .currentNode {
+    fill: var(--bs-orange)!important;
+}
+
+svg .color-website, svg .color-channel_selfhostedwebsite {
+    /* green-300 */
+    fill: #75b798;
+}
+
+svg .color-print, svg .color-channel_print {
+    /* green-300 */
+    fill: var(--bs-gray);
+}
+
+svg .node-group:hover {
+    font-size: 1.1rem;
+}
+
+svg .node-group:hover circle {
+    stroke: lightskyblue;
+}
+
+svg .node-group:hover .Organization {
+    fill: var(--bs-indigo);
+}
+
+svg .node-group:hover .NewsSource {
+    /* fill: var(--bs-green); */
+}
+
+svg .node-group:hover .color-website {
+    fill: var(--bs-green);
+}

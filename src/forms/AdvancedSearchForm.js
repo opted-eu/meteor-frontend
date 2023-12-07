@@ -263,6 +263,21 @@ const AdvancedSearchForm = ({ searchParams }) => {
     // run after each re-render
     useEffect(() => {
         fetchItemData()
+
+        // add listener for pressing 'Enter' button
+        /*
+        const listener = event => {
+            if (event.code === "Enter" || event.code === "NumpadEnter") {
+                let my_button = document.getElementById("submitForm")
+                my_button.click()
+            }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+            document.removeEventListener("keydown", listener);
+        };
+        */
+
     }, [])
 
     // create querystring for search
@@ -527,7 +542,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
 
     return (
         <>
-            <form onSubmit={handleSubmitAS}>
+            <form id="advSearch" onSubmit={handleSubmitAS}>
 
                 <div className='adv_search_field'>
                     <h4>Free-text search</h4>
@@ -628,7 +643,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
                 }
 
                 <div style={{clear:"both", "marginBottom":20}}>
-                    <md-filled-button type="submit">Search</md-filled-button>
+                    <md-filled-button id="submitForm" type="submit">Search</md-filled-button>
                 </div>
 
                 {checkDisplay(show_subunits, entities) &&
