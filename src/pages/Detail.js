@@ -1234,7 +1234,7 @@ const Detail = () => {
             }
 
             {/* Raw Data */}
-            {item &&
+            {process.env.NODE_ENV === "development" && item &&
                 <div className="divTable">
                     <DetailHeader
                         t="Raw Data"
@@ -1245,7 +1245,7 @@ const Detail = () => {
             }
 
             {/* Reverse Data */}
-            {reverse &&
+            {process.env.NODE_ENV === "development" && reverse &&
                 <div className="divTable">
                     <DetailHeader
                         t="Reverse Data"
