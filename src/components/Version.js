@@ -1,46 +1,31 @@
 import React, {useEffect, useState} from "react";
+import { useOpenAPI } from "./APISpecs";
 
 const Version = () => {
 
-    const [api, setApi] = useState(null);
-
-    const fetchData = () => {
-        // fetch types
-        let f = process.env.REACT_APP_API + "openapi.json"
-        //console.log(f)
-        fetch(f)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                setApi(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
+    const openApi = useOpenAPI();
+    const [loading, setLoading] = useState(true);
+    const [apiVersion, setApiVersion] = useState(null);
 
     useEffect(() => {
-        fetchData()
-    }, [])
-
-    //console.log(wikidata_json)
-    //console.log(wiki)
-    let version = null
-    //console.log(wiki['claims']['P18'][0]['mainsnak']['datavalue']['value'])
-    if (api){
-        let info = api["info"]
-        if (info){
-            version = info["version"]
-        }
-    }
-
-    //console.log(version)
+        const fetchData = async () => {
+          try {
+            const data = await openApi.getData();
+            setApiVersion(data.info?.version);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchData();
+      }, [apiVersion, openApi]);
 
     return (
         <>
-            {version &&
-                <span className="version">{version}</span>
+            {apiVersion &&
+                <span className="version">{apiVersion}</span>
             }
         </>
     )

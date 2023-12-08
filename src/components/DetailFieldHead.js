@@ -1,6 +1,11 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
+import TypeDescription from './TypeDescription';
+import Tooltip from '@mui/material/Tooltip';
+import Zoom from '@mui/material/Zoom';
+import InfoIcon from '@mui/icons-material/Info';
+
 const DetailFieldHead = ( {item} ) => {
 
     //console.log(item.uid)
@@ -46,6 +51,8 @@ const DetailFieldHead = ( {item} ) => {
         return null;
     }
 
+    const dgraph_type = getDgraph(item)
+
     return (
         <>
             {item &&
@@ -53,7 +60,18 @@ const DetailFieldHead = ( {item} ) => {
                     <div className="divDetailRow">
                         <div className="divDetailColumn">
                             <div className="divDetailHeadKey">Type</div>
-                            <div className="divDetailHeadValue">{getDgraph(item)}</div>
+                            <div className="divDetailHeadValue">
+                                    {dgraph_type}
+                                    {<span className='mx-1'>
+                                    <Tooltip title={<TypeDescription dgraphType={dgraph_type}/>}
+                                             arrow 
+                                             TransitionComponent={Zoom}
+                                             placement="right" >
+                                        <InfoIcon data-tooltip-id="type-description" 
+                                                  data-tooltip-content="Loading..."/> 
+                                    </Tooltip>
+                                     </span>}
+                                </div>
                         </div>
                         <div className="divDetailColumn">
                             <div className="divDetailHeadKey">Created</div>
