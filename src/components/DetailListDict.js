@@ -10,18 +10,55 @@ const DetailListDict = ({ d, s, h=null }) => {
         return '/detail/' + uid
     }
 
+    function removeDuplicates(arr) {
+        let unique = [];
+        let add = true
+        arr.forEach(element => {
+            add = true
+            unique.forEach(u => {
+                if (u[0] === (element[0])) {
+                    add = false
+                }
+            })
+            if (add){
+                unique.push(element);
+            }
+        });
+        return unique;
+    }
+
     if (s === 'Sources'){
         let countries = []
         for (var x of d){
-            countries.push([x.country.name,x.country.uid])
+            if (x.country) {
+                countries.push([x.country.name, x.country.uid])
+            } else {
+                if (x.countries){
+                    countries.push([x.countries[0].name, x.countries[0].uid])
+                }
+            }
         }
-        let uniq = [...new Set(countries)];
+        console.log(1)
+        console.log(countries)
+        let uniq = removeDuplicates(countries);
+        console.log(2)
+        console.log(uniq)
         uniq.sort()
+        console.log(3)
+        console.log(uniq)
         for (var y of uniq){
             let si = []
             for (var z of d) {
-                if (z.country.name === y[0]) {
-                    si.push(z)
+                if (z.country) {
+                    if (z.country.name === y[0]) {
+                        si.push(z)
+                    }
+                } else {
+                    if (z.countries) {
+                        if (z.countries[0].name === y[0]) {
+                            si.push(z)
+                        }
+                    }
                 }
             }
             let dict = {}
@@ -39,7 +76,7 @@ const DetailListDict = ({ d, s, h=null }) => {
             {d &&
                 <div className="divTableRow">
                     <div className="divTableHead">
-                        {h ? <h3>{s}</h3> : s }
+                        {h ? <h3>{s}</h3> : s + ':' }
                     </div>
                     <div className="divTableCell">
                         {s === "Sources" &&
