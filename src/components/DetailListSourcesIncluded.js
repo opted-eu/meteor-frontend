@@ -10,8 +10,9 @@ const DetailListSourcesIncluded = ({ items }) => {
         return '/detail/' + unique_name
     }
 
+    // TODO: Add sorting by countries
     for (let item of items) {
-        let item_type = items[0]['dgraph.type'].filter(e => e !== 'Entry')[0]
+        let item_type = item['dgraph.type'].filter(e => e !== 'Entry')[0]
         if (!Object.keys(sorted).includes(item_type)) {
             sorted[item_type] = new Array()
         }
