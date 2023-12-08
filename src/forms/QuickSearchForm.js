@@ -15,7 +15,7 @@ const QuickSearchForm = () => {
 
     // handle selection
     const handleChangeQS = value => {
-        navigate("/detail/" + value.uid);
+        navigate("/detail/" + value._unique_name);
     }
 
     // load options using API call
