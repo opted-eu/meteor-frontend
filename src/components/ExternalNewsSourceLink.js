@@ -1,26 +1,35 @@
 import React from 'react';
 import LaunchIcon from '@mui/icons-material/Launch';
 
-const NewsSourceLink = ({ item }) => {
+const ExternalNewsSourceLink = ({ item }) => {
 
     let url = ''
     switch (item.channel._unique_name){
         case "facebook":
-            url = 'https://facebook.com/'
+            url = 'https://facebook.com/' + item.identifier
             break
         case "twitter":
-            url = 'https://twitter.com/'
+            url = 'https://twitter.com/' + item.identifier
             break
         case "instagram":
-            url = 'https://instagram.com/'
+            url = 'https://instagram.com/' + item.identifier
             break
+        case "telegram":
+            url = "https://t.me/" + item.name
+            break
+        case "website":
+            url = item.identifier
+            break
+        case "vkontakte":
+            url = "https://vk.com/anonymousnews_org" + item.identifier
+            break
+        case "youtube":
+            url = "https://www.youtube.com/@" + item.identifier
+                break
         default:
             break
     }
-    if (url){
-        url += item.name
-    }
-
+   
     return (
         <>
             {url &&
@@ -34,4 +43,4 @@ const NewsSourceLink = ({ item }) => {
         </>
     )
 };
-export default NewsSourceLink;
+export default ExternalNewsSourceLink;

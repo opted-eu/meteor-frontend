@@ -1,10 +1,8 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import ArticleIcon from "@mui/icons-material/Article";
-import LanguageIcon from "@mui/icons-material/Language";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";
+import { YouTube, Twitter, Facebook, Language, 
+        Article, Instagram, Telegram, LinkedIn, 
+        Pinterest, Reddit, Mic } from '@mui/icons-material';
 
 const DetailListDictChannel = ({ d, s, h=null }) => {
 
@@ -15,15 +13,27 @@ const DetailListDictChannel = ({ d, s, h=null }) => {
     const getIcon = (i) => {
         switch (i) {
             case "print":
-                return <ArticleIcon />
+                return <Article />
             case "website":
-                return <LanguageIcon />
+                return <Language />
             case "facebook":
-                return <FacebookIcon />
+                return <Facebook />
             case "instagram":
-                return <InstagramIcon />
+                return <Instagram />
             case "twitter":
-                return <TwitterIcon />
+                return <Twitter />
+            case "telegram":
+                return <Telegram />
+            case "youtube":
+                return <YouTube />
+            case "linkedin":
+                return <LinkedIn />
+            case "pinterest":
+                return <Pinterest />
+            case "reddit":
+                return <Reddit />
+            case "transcript":
+                return <Mic />
             default:
                 return null
         }

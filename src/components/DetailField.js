@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-const DetailField = ({ d, s, t, u=null, w=null }) => {
+const DetailField = ({ d, s, t, u=null, w=null, query_predicate="country" }) => {
 
     const formatBoolean = (b) => {
         if (b === true){
@@ -45,10 +45,16 @@ const DetailField = ({ d, s, t, u=null, w=null }) => {
             case 'Scientific Publications':
                 dt = 'ScientificPublication'
                 break
+            case 'Tools':
+                dt = 'Tool'
+                break
+            case 'Learning Materials':
+                dt = 'LearningMaterial'
+                break
             default:
                 return
         }
-        return '/search?dgraph.type=' + dt + '&country=' + uid
+        return '/search?dgraph.type=' + dt + '&' + query_predicate + '=' + uid
     }
 
     const formatText = (t) => {
