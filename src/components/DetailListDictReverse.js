@@ -24,6 +24,24 @@ const DetailListDictReverse = ({ d, s, t = null, h=null }) => {
         }
     }
 
+    const formatAuthors = (entry) => {
+        if (entry.hasOwnProperty("authors") && Array.isArray(entry.authors)) {
+            if (entry.authors.length <= 2) {
+                return entry.authors.map(e => e.name).join(" & ")
+            } else {
+                return entry.authors[0].name + 'et al.'
+            }
+        } else if (entry.hasOwnProperty("_authors_fallback") && Array.isArray(entry._authors_fallback)) {
+            if (entry._authors_fallback.length <= 2) {
+                return entry._authors_fallback.join(" & ")
+            } else {
+                return entry._authors_fallback[0] + 'et al.'
+            }
+        } else {
+            return ""
+        }
+    }
+
     return (
         <>
             {d &&
@@ -36,21 +54,11 @@ const DetailListDictReverse = ({ d, s, t = null, h=null }) => {
                             <p key={x.uid}>
                                 <Link to={getLink(x._unique_name)}>{x.name}</Link>&nbsp;
                                 <span className="reduced">
-                                    {x._authors_fallback &&
-                                        x._authors_fallback
-                                    }
-                                    {x.authors &&
-                                        <>
-                                            {x.authors[0].name ?
-                                                x.authors[0].name + " et al." :
-                                                    x.authors[0] + " et al."
-                                            }
-                                        </>
-                                    }
+                                    {formatAuthors(x)}
                                     {t === 'datasets' &&
                                         <>
                                             {x.temporal_coverage_start &&
-                                                    " from " + retDateYear(x.temporal_coverage_start)
+                                                " from " + retDateYear(x.temporal_coverage_start)
                                             }
                                             {x.temporal_coverage_end &&
                                                 " to " + retDateYear(x.temporal_coverage_end)
