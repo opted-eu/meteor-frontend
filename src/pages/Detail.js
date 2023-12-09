@@ -311,16 +311,6 @@ const Detail = () => {
                                 t="General Information"
                                 m={<md-text-button type="button" onClick={() => correction_email()}><BugReportIcon /> Something not right?</md-text-button>}
                             />
-                            <DetailExtLink
-                                d={item.orcid}
-                                s="ORCID"
-                                u="https://orcid.org/"
-                            />
-                            <DetailListExtLink
-                                d={item.openalex}
-                                s="OpenAlex"
-                                u="https://explore.openalex.org/authors/"
-                            />
                             <DetailList
                                 d={item.affiliations}
                                 s="Affiliations"
@@ -391,6 +381,16 @@ const Detail = () => {
                                 d={item.doi}
                                 s="DOI"
                                 u="https://doi.org/"
+                            />
+                            <DetailExtLink
+                                d={item.orcid}
+                                s="ORCID"
+                                u="https://orcid.org/"
+                            />
+                            <DetailListExtLink
+                                d={item.openalex}
+                                s="OpenAlex"
+                                u="https://explore.openalex.org/authors/"
                             />
                             <DetailField
                                 d={item.venue}
