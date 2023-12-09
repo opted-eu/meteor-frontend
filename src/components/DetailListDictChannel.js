@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 import LinkNewsSource from './LinkNewsSource';
 
 const DetailListDictChannel = ({ d, s, h=null }) => {

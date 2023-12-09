@@ -1060,62 +1060,7 @@ const Detail = () => {
 
 
                     {/* Research  */}
-                    {/* {research.includes(type) &&
-                        <div className="divTable">
-                            <DetailHeader
-                                t="Research"
-                                m={research_header[type]}
-                            />
-                            {reverse.sources_included__scientificpublications &&
-                                <DetailListDictReverse
-                                    d={reverse.sources_included__scientificpublications}
-                                    s=""
-                                />
-                            }
-                            {reverse.datasets_used__scientificpublications &&
-                                <DetailListDictReverse
-                                    d={reverse.datasets_used__scientificpublications}
-                                    s=""
-                                />
-                            }
-                            {reverse.concept_variables__scientificpublications &&
-                                <DetailListDictReverse
-                                    d={reverse.concept_variables__scientificpublications}
-                                    s=""
-                                />
-                            }
-                            {reverse.methodologies__scientificpublications &&
-                                <DetailListDictReverse
-                                    d={reverse.methodologies__scientificpublications}
-                                    s=""
-                                />
-                            }
-                            {reverse.text_types__scientificpublications &&
-                                <DetailListDictReverse
-                                    d={reverse.related_publications__datasets}
-                                    s=""
-                                />
-                            }
-                            {reverse.related_publications__datasets &&
-                                <DetailListDictReverse
-                                    d={reverse.related_publications__datasets}
-                                    s=""
-                                />
-                            }
-                            {reverse.modalities__scientificpublications &&
-                                <DetailListDictReverse
-                                    d={reverse.modalities__scientificpublications}
-                                    s=""
-                                />
-                            }
-                            {reverse.text_units__scientificpublications &&
-                                <DetailListDictReverse
-                                    d={reverse.text_units__scientificpublications}
-                                    s=""
-                                />
-                            }
-                        </div>
-                    } */}
+                   
                     {research.includes(type) &&
                         Object.keys(reverse)
                             .filter((item) => item.includes('scientificpublications'))
