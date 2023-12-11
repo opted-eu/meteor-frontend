@@ -110,6 +110,10 @@
 .badge{
     float: left;
 }
+.search-channel{
+    position: relative;
+    top: -2px;
+}
 
 
 

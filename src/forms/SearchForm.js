@@ -130,7 +130,7 @@ const SearchForm = () => {
 
     const handleChangeEntity = (selectedOption) => {
         let e = selectedOption.value
-        console.log(`Option selected:`, e);
+        //console.log(`Option selected:`, e);
         setEntity('dgraph.type=' + e)
     };
 
@@ -239,6 +239,7 @@ const SearchForm = () => {
                             clearable={true}
                             isMulti
                             closeMenuOnSelect={false}
+                            placeholder={"Please choose..."}
                             placeholder={"Please choose..."}
                         />
                     </div>

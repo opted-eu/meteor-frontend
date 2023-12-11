@@ -1,8 +1,32 @@
 import {Link} from "react-router-dom";
 import React from "react";
 import WikiImg from "./WikiImg";
+import {
+    Article,
+    Facebook,
+    Instagram,
+    Language,
+    LinkedIn, Mic,
+    Pinterest, Reddit,
+    Telegram,
+    Twitter,
+    YouTube
+} from "@mui/icons-material";
+
 
 const Result = ({ item, details }) => {
+
+    const iconMap = {print: <Article />,
+        youtube: <YouTube />,
+        twitter: <Twitter />,
+        facebook: <Facebook />,
+        website: <Language />,
+        instagram: <Instagram />,
+        telegram: <Telegram />,
+        linkedin : <LinkedIn />,
+        pinterest: <Pinterest />,
+        reddit: <Reddit />,
+        transcript: <Mic />}
 
     const getDesc = (un) => {
         const res = details.find(c => c._unique_name === un);
@@ -103,7 +127,15 @@ const Result = ({ item, details }) => {
                         />
                     </div>
                 }
-                <div className="item-title">{showItemName(item.name)}</div>
+                <div className="item-title">
+                    {showItemName(item.name)}
+                    {" "}
+                    {type === 'NewsSource' &&
+                        <span className="search-channel">
+                            {iconMap[item.channel?._unique_name]}
+                        </span>
+                    }
+                </div>
                 <div className="item-type">{type}</div>
                 <div className="item-type">{getCountry(item._unique_name)}</div>
                 <div className="item-desc">{getDesc(item._unique_name)}</div>
