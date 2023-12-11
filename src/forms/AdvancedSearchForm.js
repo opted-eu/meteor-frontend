@@ -192,7 +192,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
     // helper fetch function
     const fetchData = (fetchURL, predicate, val) => {
         // construct API URL
-        let fullURL = 'https://meteor.balluff.dev/api/'
+        let fullURL = process.env.REACT_APP_API
         fullURL += fetchURL
         if (fullURL.slice(-1) === '/'){
             fullURL += predicate
