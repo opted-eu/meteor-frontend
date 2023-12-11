@@ -157,7 +157,12 @@ You also have the right to lodge a complaint with the data protection authority
 `
 
 const PrivacyPolicyAndConsent = () => {
-    return <Markdown>{privacy_text}</Markdown>;
+    return (
+        <>
+            <base target="_blank" />
+            <Markdown>{privacy_text}</Markdown>
+        </>
+    )
 };
 
 export default PrivacyPolicyAndConsent;

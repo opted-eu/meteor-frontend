@@ -91,8 +91,17 @@ just drop us an email or tweet and we are happy to help.
 
 
 const About = () => {
+
+    var links = document.links;
+    for (var i = 0; i < links.length; i++) {
+        links[i].target = "_blank";
+    }
+
     return (
-        <Markdown>{about_text}</Markdown>
+        <>
+            <base target="_blank" />
+            <Markdown>{about_text}</Markdown>
+        </>
     )
 };
 
