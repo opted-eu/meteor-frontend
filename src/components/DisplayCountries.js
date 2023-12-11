@@ -54,7 +54,7 @@ const DisplayCountries = ({ j, t }) => {
     return (
         <>
             <div className="divTableRow">
-                <div className="divTableHead">Countries covered in {t.toLowerCase()}:</div>
+                <div className="divTableHead">Countries covered in {t.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase()}:</div>
                 <div className="divTableCell">
                     {j.map(c =>
                         <span className="link_list" key={c.uid}><Link to={getlink(c._unique_name)}>{c.name}</Link>

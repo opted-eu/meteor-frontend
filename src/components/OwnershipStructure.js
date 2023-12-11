@@ -1,18 +1,12 @@
 import * as d3 from "d3";
 import {useRef, useEffect, useState} from "react";
 import {drawChart, parseNodes} from "../utils/networkplot";
-import InstagramIcon from "@mui/icons-material/Instagram";
 
 const OwnershipStructure = ({uid}) => {
 
-    console.log(InstagramIcon.render)
-
-    // const plotArea = document.getElementById(divId)
-    //const plotWidth = plotArea.parentElement.clientWidth
     const plotWidth = 300
 
     const [endpoint, setEndpoint] = useState(process.env.REACT_APP_API + "view/ownership/" + uid)
-    // const [plot, setPlot] = useState(<div></div>)
     const ref = useRef(null)
 
     const generateChart = () => {

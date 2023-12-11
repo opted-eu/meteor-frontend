@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-
+import LinkNewsSource from './LinkNewsSource';
 
 const DetailListDict = ({ d, s, h=null }) => {
 
@@ -85,7 +85,7 @@ const DetailListDict = ({ d, s, h=null }) => {
                                     <div key={x[0][1]}>
                                         <h5>{x[0][0]}</h5>
                                         <p>{x[1].map(y => (
-                                            <span className="link_list" key={y.uid}><Link to={getLink(y._unique_name)}>{y.name}</Link></span>
+                                            <span className="link_list" key={y.uid}><LinkNewsSource item={y} /></span>
                                         ))}</p>
                                     </div>
                                 ))}
