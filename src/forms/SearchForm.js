@@ -135,9 +135,23 @@ const SearchForm = () => {
     };
 
     const SelectStyles = {
-        option: (defaultStyles, state) => ({
+        menu: (defaultStyles, state) => ({
             ...defaultStyles,
             color: "#000000",
+        }),
+        option: (styles, {isFocused, isSelected}) => ({
+            ...styles,
+            background: isFocused
+                ? '#0e68b9'
+                : isSelected
+                    ? 'darkblue'
+                    : undefined,
+            color: isFocused
+                ? 'white'
+                : isSelected
+                    ? 'white'
+                    : undefined,
+            zIndex: 1
         }),
         container: provided => ({
             ...provided,

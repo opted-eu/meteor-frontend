@@ -103,7 +103,7 @@ h2{
 
 }
 
-.slick .item a, .slick .item a:hover{
+.slick a, .slick a:hover{
     text-decoration: none !important;
     color: white;
 }
