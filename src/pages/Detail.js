@@ -49,9 +49,9 @@ const Detail = () => {
                         })
                         .then(data1 => {
                             setReverse(data1)
+                            window.__dimensions_embed.addBadges();
                         })
                 }
-                window.__dimensions_embed.addBadges();
             })
             .catch((err) => {
                 console.log(err);
@@ -269,36 +269,6 @@ const Detail = () => {
                         <DetailFieldHead
                             item={item}
                         />
-                        {/*
-                        <div className="divTableHeader">
-                            <div className="divTableBody">
-                                <DetailField
-                                    d={type}
-                                    s="Type"
-                                    t="text"
-                                    w={item.color_hex ? 'true' : null}
-                                />
-                                <DetailField
-                                    d={item._date_created}
-                                    s="Created"
-                                    t="date"
-                                    w={item.color_hex ? 'true' : null}
-                                />
-                                <DetailField
-                                    d={item.uid}
-                                    s="UID"
-                                    t="text"
-                                    w={item.color_hex ? 'true' : null}
-                                />
-                                <DetailField
-                                    d={item._unique_name}
-                                    s="OPTED ID"
-                                    t="un"
-                                    w={item.color_hex ? 'true' : null}
-                                />
-                            </div>
-                        </div>
-                        */}
                         {wd && type &&
                             <div className="item-img">
                                 <WikiImg

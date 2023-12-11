@@ -240,7 +240,6 @@ const SearchForm = () => {
                             isMulti
                             closeMenuOnSelect={false}
                             placeholder={"Please choose..."}
-                            placeholder={"Please choose..."}
                         />
                     </div>
                 }
@@ -256,7 +255,6 @@ const SearchForm = () => {
                             isMulti
                             closeMenuOnSelect={false}
                             placeholder={"Please choose..."}
-                            required
                             />
                     </div>
                 }
