@@ -190,7 +190,7 @@ const SearchForm = () => {
         <div className="search-form">
             <form onSubmit={handleSubmitS}>
                 <div className='search_field'>
-                    <h4>Select Entity</h4>
+                    <h4>Select Entry Type</h4>
                     <Select
                         onChange={handleChangeEntity}
                         styles={SelectStyles}
