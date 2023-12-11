@@ -989,13 +989,21 @@ const Detail = () => {
 
                     {/* Owned By */}
                     {owned_by.includes(type) &&
-                        <div className="divTable">
-                            <DetailListDictReverse
-                                d={reverse.owns__organizations}
-                                s="Owned by"
-                                h="true"
-                            />
-                        </div>
+                        <>
+                            {reverse.owns__organizations &&
+                                <>
+                                    {reverse.owns__organizations.length > 0 &&
+                                        <div className="divTable">
+                                            <DetailListDictReverse
+                                                d={reverse.owns__organizations}
+                                                s="Owned by"
+                                                h="true"
+                                            />
+                                        </div>
+                                    }
+                                </>
+                            }
+                        </>
                     }
 
                     {/* Economic */}
