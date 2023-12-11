@@ -4,6 +4,8 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues }) => {
 
+    //console.log(searchValues)
+
     const [inputValue, setValue] = useState('');
 
     // handle input change event
@@ -39,29 +41,53 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues }) => {
     };
 
     const optionLabel = (e) => {
-        var text = e.name[0]
+        var passed_search = false
+        var text
+        try {
+            text = e.name[0]
+        }
+        catch (e) {
+            console.log(e)
+        }
         var shouldBeBold = inputValue
         const textArray = text.split(RegExp(shouldBeBold, "ig"));
         const match = text.match(RegExp(shouldBeBold, "ig"));
         let d_type = e["dgraph.type"]
         let dt = null
-        for (var t of d_type){
-            if (t !== 'Entry'){
-                dt = t
-                break
+        if (!d_type){
+            d_type = e.type
+            dt = d_type
+            passed_search = true
+        } else {
+            for (var t of d_type){
+                if (t !== 'Entry'){
+                    dt = t
+                    break
+                }
             }
         }
 
+
+
         return (
             <span>
-            {textArray.map((item, index) => (
-                <>
-                    {item}
-                    {index !== textArray.length - 1 && match && (
-                        <b>{match[index]}</b>
-                    )}
-                </>
-            ))}
+                {!passed_search &&
+                    <>
+                        {textArray.map((item, index) => (
+                            <>
+                                {item}
+                                {index !== textArray.length - 1 && match && (
+                                    <b>{match[index]}</b>
+                                )}
+                            </>
+                        ))}
+                    </>
+                }
+                {passed_search &&
+                    <>
+                        {e.name}
+                    </>
+                }
                 {dt &&
                     <>
                         &nbsp;(Type: {dt})
