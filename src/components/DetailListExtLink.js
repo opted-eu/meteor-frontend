@@ -10,7 +10,7 @@ const DetailListExtLink = ({ d, s, u }) => {
                     <div className="divTableHead">{s}:</div>
                     <div className="divTableCell">
                         {d.map(x => (
-                            <span className="link_list" key={x}><a href={u+x}>{x}</a> <a href={u + x} target="_blank"><LaunchIcon /></a></span>
+                            <span className="link_list" key={x}><a href={u+x} target="_blank">{x}</a> <a href={u + x} target="_blank"><LaunchIcon /></a></span>
                         ))}
                     </div>
                 </div>
