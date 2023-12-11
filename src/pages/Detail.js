@@ -143,7 +143,7 @@ const Detail = () => {
     const learning_materials = ["Author", "Dataset", "ConceptVariable", "ProgrammingLanguage", "Operation", "TextType", "Modality", "Tool"]
     const initial_source = ["Dataset"]
     const journalistic_brands = ["NewsSource", "Subnational"]
-    const summary = ["Country", "Multinational", "Subnational", "Channel"]
+    const summary = ["Country", "Multinational", "Subnational", "Channel", "TextType", "Operation", "Language", "Modality", "ProgrammingLanguage"]
     const files = ["FileFormat"]
 
     // field titles
@@ -218,6 +218,17 @@ const Detail = () => {
                              Channel: "Shows how many of the news sources and organizations listed in this inventory are associated with this channel." }
 
     const files_header = { FileFormat: "Following files use this fileformat." }
+
+    const summary_predicate_mapping = {Channel: 'channel', 
+                                       Country: 'country', 
+                                       Multinational: 'country',
+                                       Subnational: 'subnational_scope',
+                                       Archive: '~sources_included',
+                                       Language: 'languages', 
+                                       ProgrammingLanguage: 'programming_languages', 
+                                       TextType: 'text_types',
+                                       Modality: 'modalities', 
+                                       Operation: 'methodologies'}
 
     const correction_email = () => {
         let email_to = 'info@opted.eu'
@@ -457,12 +468,14 @@ const Detail = () => {
                                 s="Archives"
                                 t="query"
                                 u={item.uid}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_dataset}
                                 s="Datasets"
                                 t="query"
                                 u={item.uid}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_government}
@@ -475,65 +488,70 @@ const Detail = () => {
                                 s="Journalistic Brands"
                                 t="query"
                                 u={item.uid}
-                                query_predicate={type === 'Subnational' ? 'subnational_scope' : 'country'}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_newssource}
                                 s="News Sources"
                                 t="query"
                                 u={item.uid}
-                                query_predicate={type === 'Channel' ? 'channel' : type === 'Subnational' ? 'subnational_scope' : 'country'}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_organization}
                                 s="Organizations"
                                 t="query"
                                 u={item.uid}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_parliament}
                                 s="Parliaments"
                                 t="query"
                                 u={item.uid}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_person}
                                 s="People"
                                 t="query"
                                 u={item.uid}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_politicalparty}
                                 s="Political Parties"
                                 t="query"
                                 u={item.uid}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_scientificpublication}
                                 s="Scientific Publications"
                                 t="query"
                                 u={item.uid}
-                                query_predicate={type === 'Channel' ? 'channel' : 'country'}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_subnational}
                                 s="Sub Nationals"
                                 t="query"
                                 u={item.uid}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_learningmaterial}
                                 s="Learning Materials"
                                 t="query"
                                 u={item.uid}
-                                query_predicate={type === 'Channel' ? 'channel' : 'country'}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                             <DetailField
                                 d={item.num_tool}
                                 s="Tools"
                                 t="query"
                                 u={item.uid}
-                                query_predicate={type === 'Channel' ? 'designed_for' : 'country'}
+                                query_predicate={summary_predicate_mapping[type]}
                             />
                         </div>
                     }
