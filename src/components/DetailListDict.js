@@ -38,14 +38,8 @@ const DetailListDict = ({ d, s, h=null }) => {
                 }
             }
         }
-        console.log(1)
-        console.log(countries)
         let uniq = removeDuplicates(countries);
-        console.log(2)
-        console.log(uniq)
         uniq.sort()
-        console.log(3)
-        console.log(uniq)
         for (var y of uniq){
             let si = []
             for (var z of d) {
