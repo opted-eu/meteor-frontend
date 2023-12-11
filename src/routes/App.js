@@ -1,5 +1,5 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import React, {useState} from "react";
+import React from "react";
 import Layout from "../layout/Layout";
 import Home from "../pages/Home";
 import Register from "../user/Register";
@@ -11,10 +11,8 @@ import About from "../pages/About";
 import PrivacyPolicyAndConsent from "../pages/PrivacyPolicyAndConsent";
 import Imprint from "../pages/Imprint";
 import Detail from "../pages/Detail";
-import QuickSearch from "../search/QuickSearch";
 import NoPage from "../pages/NoPage";
 import Search from "../search/Search";
-import AdvancedSearch from "../search/AdvancedSearch";
 import SearchLink from "../search/SearchLink";
 import Login from "../user/Login";
 import UseToken from "../user/UseToken";
@@ -52,10 +50,8 @@ const App = () =>  {
                 <Route index element={<Home />} />
 
                 {/* Search pages */}
-                <Route path="quicksearch/:query" element={<QuickSearch />} />
                 <Route path="search/link" element={<SearchLink />} />
                 <Route path="search" element={<Search />} />
-                <Route path="advanced-search" element={<AdvancedSearch />} />
 
                 {/* Nav pages */}
                 <Route path="guides" element={<Guides />} />

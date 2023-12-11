@@ -73,6 +73,17 @@ const SearchForm = () => {
 
     useEffect(() => {
         fetchItemData()
+        // add listener for pressing 'Enter' button
+        const listener = event => {
+            if (event.code === "Enter" || event.code === "NumpadEnter") {
+                let my_button = document.getElementById("submitForm")
+                my_button.click()
+            }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+            document.removeEventListener("keydown", listener);
+        };
     }, [])
 
     const handleSubmitS = (event) => {
@@ -254,7 +265,7 @@ const SearchForm = () => {
                     </div>
                 }
                 <div style={{clear:"left", "marginBottom":20}}>
-                    <md-filled-button type="submit">Search</md-filled-button> <md-text-button type="button" onClick={() => navigate('search')}>Advanced Search</md-text-button>
+                    <md-filled-button type="submit" id="submitForm">Search</md-filled-button> <md-text-button type="button" onClick={() => navigate('search')}>Advanced Search</md-text-button>
                 </div>
             </form>
         </div>

@@ -265,7 +265,6 @@ const AdvancedSearchForm = ({ searchParams }) => {
         fetchItemData()
 
         // add listener for pressing 'Enter' button
-        /*
         const listener = event => {
             if (event.code === "Enter" || event.code === "NumpadEnter") {
                 let my_button = document.getElementById("submitForm")
@@ -276,7 +275,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
         return () => {
             document.removeEventListener("keydown", listener);
         };
-        */
+
 
     }, [])
 
