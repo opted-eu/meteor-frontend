@@ -8,8 +8,14 @@ import '../assets/css/sticky-footer-navbar.css'
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Version from "../components/Version";
+import React from "react";
 
 const Layout = () => {
+
+    const apiURL = () => {
+        return process.env.REACT_APP_API + '/swagger'
+    }
+
     return (
         <>
             <header>
@@ -49,7 +55,7 @@ const Layout = () => {
                     <div className="footer-text">
                         <p>This project has received funding from the European Union’s Horizon 2020 research & innovation programme under grant agreement No 951832. The document reflects only the authors’ views. The European Union is not liable for any use that may be made of the information contained herein.</p>
                         <p>Although the information found on this system has been produced and processed from sources believed to be reliable, no warranty, express or implied, is made regarding accuracy, adequacy, completeness, legality, reliability or usefulness of any information.</p>
-                        <p>Meteor is published under the <Link to="imprint"> CC-BY-SA 4.0 license</Link> . See <Link to="about">about page</Link> for details.</p>
+                        <p>Meteor is published under the <Link to="imprint"> CC-BY-SA 4.0 license</Link>. See <Link to="about">about page</Link> for details. Data can also be accessed via the <a target="_blank" href={apiURL()}>API</a>.</p>
                         <p>Meteor API Version: <Version /></p>
                     </div>
                 </div>

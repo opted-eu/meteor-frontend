@@ -15,6 +15,10 @@ const Nav = () => {
     }
     //console.log(role)
 
+    const apiURL = () => {
+        return process.env.REACT_APP_API + '/swagger'
+    }
+
     return (
         <ul className="navbar-nav me-auto mb-2 mb-md-0">
             {!token &&
@@ -59,6 +63,9 @@ const Nav = () => {
                     {/* <li><Link className="dropdown-item" to="/teaching-materials">Teaching Material</Link></li> */}
                     <li><Link className="dropdown-item" to="/faq">FAQ</Link></li>
                 </ul>
+            </li>
+            <li className="nav-item">
+                <a className="nav-link" target="_blank" href={apiURL()}>API</a>
             </li>
             <li className="nav-item">
                 <Link className="nav-link" to="/about">About</Link>
