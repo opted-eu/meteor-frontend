@@ -259,3 +259,17 @@ svg .node-group:hover .NewsSource {
 svg .node-group:hover .color-website {
     fill: var(--bs-green);
 }
+
+@media all and (max-width: 1000px) {
+    .home-login{
+        width: 200px;
+    }
+}
+@media all and (max-width: 800px) {
+    .home-login{
+        display: none;
+    }
+    .home-text{
+        width: 100%;
+    }
+}

@@ -79,7 +79,11 @@ const SimpleSlider = () => {
                 var length = 100;
                 var trimmedString = s.length > length ?
                     s.substring(0, length - 3) + "... (more)" : s;
-                return trimmedString;
+                var firstLetter = trimmedString.charAt(0)
+                var firstLetterCap = firstLetter.toUpperCase()
+                var remainingLetters = trimmedString.slice(1)
+                var return_string = firstLetterCap + remainingLetters
+                return return_string;
             } else {
                 return null;
             }

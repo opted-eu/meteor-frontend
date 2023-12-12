@@ -153,3 +153,12 @@ img svg  {
     height: auto;
     width: 100%;
 }
+
+@media all and (max-width: 1000px) {
+    .divDetailHeader{
+        width:100%;
+    }
+    .home-text{
+        width: 100%;
+    }
+}

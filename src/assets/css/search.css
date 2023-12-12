@@ -90,6 +90,18 @@
     flex-grow: 1;
 }
 
+.circle {
+    background:radial-gradient(#fff 20px,transparent 20px);
+}
+
+.badge{
+    float: left;
+}
+.search-channel{
+    position: relative;
+    top: -2px;
+}
+
 @media all and (max-width: 800px) {
     .content {
         flex-wrap: wrap;
@@ -101,18 +113,6 @@
         order: 2;
         min-width: 100%;
     }
-}
-
-.circle {
-    background:radial-gradient(#fff 20px,transparent 20px);
-}
-
-.badge{
-    float: left;
-}
-.search-channel{
-    position: relative;
-    top: -2px;
 }
 
 

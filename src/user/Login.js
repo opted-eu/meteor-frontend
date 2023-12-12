@@ -103,8 +103,8 @@ export default function Login({ setToken }) {
                 }
 
                 <div className="login-register">
-                    <md-filled-button type="submit">Login</md-filled-button>
-                    <md-text-button style={{marginLeft:"10px"}} type="button" onClick={() => navigate('/password/reset')}>Forgot Password?</md-text-button>
+                    <md-filled-button type="submit" style={{marginRight:"10px", marginBottom:"10px"}}>Login</md-filled-button>
+                    <md-text-button type="button" onClick={() => navigate('/password/reset')}>Forgot Password?</md-text-button>
                     {login_page &&
                         <md-text-button style={{marginLeft: "10px"}} type="button"
                                         onClick={() => navigate('/register')}>Need an account? Sign Up</md-text-button>
