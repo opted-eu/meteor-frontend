@@ -5,11 +5,6 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@fortawesome/fontawesome-svg-core": "^6.4.2",
-    "@fortawesome/free-brands-svg-icons": "^6.4.2",
-    "@fortawesome/free-regular-svg-icons": "^6.4.2",
-    "@fortawesome/free-solid-svg-icons": "^6.4.2",
-    "@fortawesome/react-fontawesome": "^0.2.0",
     "@material/web": "^1.0.0",
     "@mui/icons-material": "^5.14.18",
     "@mui/material": "^5.14.20",
@@ -17,16 +12,13 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "d3": "^7.8.5",
-    "pretty-print-json": "^2.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-markdown": "^9.0.1",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.7",
-    "react-slick": "^0.29.0",
-    "slick-carousel": "^1.8.1",
-    "web-vitals": "^2.1.4"
+    "react-slick": "^0.29.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -53,7 +45,6 @@
     ]
   },
   "devDependencies": {
-    "babel-install": "2.1.0",
     "react-router-dom": "^6.16.0"
   }
 }
