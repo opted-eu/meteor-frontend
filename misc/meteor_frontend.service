@@ -1,0 +1,14 @@
+# /etc/systemd/system/meteor_frontend.service 
+[Unit]
+Description=Meteor React Frontend Client
+After=network.target
+
+[Service]
+User=ava
+Group=www-data
+WorkingDirectory=/path/to/meteor-frontend
+Environment="NODE_ENV=production"
+ExecStart=/bin/sh -c 'umask 0002 && /usr/bin/serve -s build -l unix:/path/to/meteor-frontend/react.sock'
+
+[Install]
+WantedBy=multi-user.target

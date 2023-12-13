@@ -17,6 +17,19 @@ Current state: **Beta**
 - run `npm install`
 - start development server with `npm run start`
 
+## Production Deployment
+
+- Clone this repository
+- set the server address in `.env` (e.g., `REACT_APP_API=https://meteor.opted.eu/api/`)
+- run `npm install`
+- test server with `npm run start`
+- install `serve` as root user with `npm install -g serve`
+- build the react app with `npm run build`
+- Use `misc/meteor_frontend.service` to run it with system.d
+- Reload systemctl: `sudo systemctl daemon-reload` & `sudo systemctl enable meteor_frontend.service`
+- Pass the socket connection to your nginx configuration
+
+
 ## Troubleshooting
 **Babel devdependencies issue**
 
