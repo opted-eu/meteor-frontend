@@ -1,4 +1,5 @@
 import Markdown from "react-markdown";
+import {useEffect} from "react";
 
 const privacy_text = `
 # Privacy Policy & Disclaimer
@@ -157,6 +158,11 @@ You also have the right to lodge a complaint with the data protection authority
 `
 
 const PrivacyPolicyAndConsent = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     return (
         <>
             <base target="_blank" />

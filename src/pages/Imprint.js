@@ -1,4 +1,5 @@
 import Markdown from "react-markdown";
+import {useEffect} from "react";
 
 const imprint_text = `
 # Imprint
@@ -469,6 +470,11 @@ Creative Commons may be contacted at creativecommons.org.
 `
 
 const Imprint = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     return <Markdown>{imprint_text + licence_text}</Markdown>;
 };
 

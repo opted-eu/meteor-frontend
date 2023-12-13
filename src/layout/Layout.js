@@ -45,7 +45,7 @@ const Layout = () => {
                 <div className="container-fluid">
                     <div className="footer-row">
                         <div className="footer-col-left">
-                            <Link to="about">About</Link> · <Link to="privacy">Privacy Policy & Disclaimer</Link> · <Link to="imprint">Imprint</Link>
+                            <Link to="about">About</Link> · <Link to="privacy">Privacy Policy & Disclaimer</Link> · <Link to="imprint">Imprint</Link> · <Link to="accreditation">Accreditation</Link>
                         </div>
                         <div className="footer-col-right">
                             <a href="https://opted.eu/" target="_blank">Main OPTED Website</a> · <a href="http://twitter.com/OPTED_H2020" target="_blank"><TwitterIcon/></a> · <a href="https://github.com/opted-eu" target="_blank"><GitHubIcon/></a>

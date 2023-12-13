@@ -28,7 +28,8 @@ import ChangePassword from "../user/ChangePassword";
 import Users from "../user/Users";
 import UpdateUser from "../user/UpdateUser";
 import ResendVerificationEmail from "../user/ResendVerificationEmail";
-import { OpenAPIProvider } from "../components/APISpecs"
+import { OpenAPIProvider } from "../components/APISpecs";
+import Accreditation from "../pages/Accreditation";
 
 const App = () =>  {
 
@@ -76,6 +77,7 @@ const App = () =>  {
                 {/* Footer pages */}
                 <Route path="privacy" element={<PrivacyPolicyAndConsent />} />
                 <Route path="imprint" element={<Imprint />} />
+                <Route path="accreditation" element={<Accreditation />} />
 
                 {/* Dynamic pages */}
                 <Route path="detail/:uid" element={<Detail />} />
