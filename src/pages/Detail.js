@@ -353,11 +353,13 @@ const Detail = () => {
                                 s="Color"
                                 t="color"
                             />
+                            {item.partyfacts_id && 
                             <DetailExtLink
-                                d={item.partyfacts_id}
+                                d={item.partyfacts_id + "/"}
                                 s="Partyfacts ID"
                                 u="https://partyfacts.herokuapp.com/data/partycodes/"
                             />
+                            }
                             <DetailField
                                 d={item.date_founded}
                                 s="Founded"
@@ -772,7 +774,7 @@ const Detail = () => {
                             />
                             <DetailListDict
                                 d={item.used_for}
-                                s="Used For"
+                                s="Operations performed"
                             />
                             <DetailListDict
                                 d={item.designed_for}

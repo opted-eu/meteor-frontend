@@ -201,7 +201,8 @@ export function drawChart({
         .attr('text-anchor', 'middle')
         .classed('nodeLabel', true)
         .text(d => truncate(d.name))
-        .clone(true).lower()
+        .attr("fill", 'lightskyblue')
+        // .clone(true).lower()
     // .attr("fill", "none")
     // .attr("stroke", "white")
     // .attr("stroke-width", 1);

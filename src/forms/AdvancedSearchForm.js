@@ -494,8 +494,10 @@ const AdvancedSearchForm = ({ searchParams }) => {
         'Language',
         'MetaVariable',
         'Modality',
+        'Multinational',
         'Operation',
-        'TextType'
+        'TextType',
+        'Subnational'
     ]
 
     // function to compare an array of dictionaries
@@ -539,7 +541,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
             options: resources_options
         },
         {
-            label: "Actors",
+            label: "Actors & Instituttions",
             options: actors_options
         },
         {

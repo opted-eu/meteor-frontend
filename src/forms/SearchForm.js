@@ -210,8 +210,10 @@ const SearchForm = () => {
         'Language',
         'MetaVariable',
         'Modality',
+        'Multinational',
         'Operation',
-        'TextType'
+        'TextType',
+        'Subnational'
     ]
 
     // function to compare an array of dictionaries
@@ -255,7 +257,7 @@ const SearchForm = () => {
             options: resources_options
         },
         {
-            label: "Actors",
+            label: "Actors & Institutions",
             options: actors_options
         },
         {

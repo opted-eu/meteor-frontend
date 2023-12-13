@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {useNavigate, useSearchParams, Link} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import '@material/web/textfield/filled-text-field.js'
 import '@material/web/textfield/outlined-text-field.js'
 import '@material/web/button/filled-button.js';

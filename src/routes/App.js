@@ -12,6 +12,7 @@ import PrivacyPolicyAndConsent from "../pages/PrivacyPolicyAndConsent";
 import Imprint from "../pages/Imprint";
 import Detail from "../pages/Detail";
 import NoPage from "../pages/NoPage";
+import NotImplemented from "../pages/NotImplemented";
 import Search from "../search/Search";
 import SearchLink from "../search/SearchLink";
 import Login from "../user/Login";
@@ -81,6 +82,10 @@ const App = () =>  {
 
                 {/* Dynamic pages */}
                 <Route path="detail/:uid" element={<Detail />} />
+
+                {/* Not Implemented */}
+                <Route path="add" element={<NotImplemented />} />
+                <Route path="profile/entries" element={<NotImplemented />} />
 
                 {/* No page */}
                 <Route path="*" element={<NoPage />} />

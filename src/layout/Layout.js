@@ -1,7 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 import Nav from './Nav'
 import QuickSearchForm from "../forms/QuickSearchForm";
-import logo from '../assets/img/opted_logo_stylized_blue.png'
+import logo from '../assets/img/opted_logo_stylized.svg'
 import '../assets/css/pub.css'
 import '../assets/css/m3.css'
 import '../assets/css/sticky-footer-navbar.css'
@@ -21,7 +21,7 @@ const Layout = () => {
             <header>
                 <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                     <div className="container-fluid">
-                        <Link className="navbar-brand" to="/"><img src={logo} width="50" /></Link><Link className="navbar-brand" to="/">METEOR</Link>
+                        <Link className="navbar-brand" to="/"><img src={logo} width="64" /></Link><Link className="navbar-brand" to="/">METEOR</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>

@@ -1,8 +1,8 @@
 import SearchForm from '../forms/SearchForm';
 import Login from "../user/Login";
 import SlickRecent from '../components/SlickRecent';
-import SlickHome1 from '../components/SlickHome1';
-import SlickHome2 from '../components/SlickHome2';
+// import SlickHome1 from '../components/SlickHome1';
+// import SlickHome2 from '../components/SlickHome2';
 import {useContext} from "react";
 import {UserContext} from "../user/UserContext"
 import {useSearchParams} from "react-router-dom";

@@ -255,10 +255,16 @@ h2{
 
 svg .node-group {
     font-size: 0.7rem;
-    color: var(--bs-body-color);
+    /* color: var(--bs-body-color); */
 }
 
 svg .Organization {
+    /* indigo-300 */
+    fill: #a370f7;
+}
+
+
+svg .Entry {
     /* indigo-300 */
     fill: #a370f7;
 }
@@ -300,6 +306,10 @@ svg .node-group:hover .NewsSource {
 
 svg .node-group:hover .color-website {
     fill: var(--bs-green);
+}
+
+svg .text-decoration-none {
+    text-decoration: none!important;
 }
 
 @media all and (max-width: 1000px) {
