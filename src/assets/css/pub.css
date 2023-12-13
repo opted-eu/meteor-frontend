@@ -85,32 +85,70 @@ h2{
     text-align: center;
 }
 
-.slick .item {
+.slick .item, .slick-detail .item, .slick-detail-small .item {
     background: #666666;
     color: #ffffff;
-    height: 250px !important;
-    margin: 10px;
+    margin-bottom: 10px;
     padding: 2%;
     position: relative;
     text-align: center;
-    font-size: medium;
     border-radius: 20px;
     background-size: cover;
 }
+
+.slick .item {
+    height: 250px !important;
+    font-size: medium;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.slick-detail .item {
+    height: 200px !important;
+    font-size: small;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.slick-detail-small .item {
+    height: 150px !important;
+    font-size: small;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.slick-detail-header{
+    color:#999999;
+    font-size:medium;
+    margin-left:20px;
+}
+
 .item-overlay{
     background-color: rgba(0,0,0,0.6);
     border-radius: 20px;
 
 }
 
-.slick a, .slick a:hover{
+.slick a, .slick a:hover, .slick-detail a, .slick-detail a:hover, .slick-detail-small a, .slick-detail-small a:hover{
     text-decoration: none !important;
     color: white;
 }
 
-.item-title-slick{
+.slick .item-title-slick{
     color: lightskyblue;
     font-size: x-large;
+}
+
+.slick-detail .item-title-slick{
+    color: lightskyblue;
+    font-size: large;
+}
+
+.slick-detail-small .item-title-slick{
+    color: lightskyblue;
+    font-size: medium;
 }
 
 .item-desc-slick{
@@ -271,5 +309,12 @@ svg .node-group:hover .color-website {
     }
     .home-text{
         width: 100%;
+    }
+}
+
+@media all and (max-width: 650px) {
+    .slick-detail-small {
+        width: 95%;
+        margin: auto;
     }
 }

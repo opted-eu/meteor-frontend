@@ -23,6 +23,7 @@ import BugReportIcon from '@mui/icons-material/BugReport';
 import DetailListPubCycle from "../components/DetailListPubCycle";
 import OwnershipStructure from "../components/OwnershipStructure";
 import DetailListSourcesIncluded from "../components/DetailListSourcesIncluded";
+import SlickSimilar from "../components/SlickSimilar";
 
 const Detail = () => {
 
@@ -30,6 +31,15 @@ const Detail = () => {
     const [item, setItem] = useState([])
     const [reverse, setReverse] = useState([])
     const navigate = useNavigate();
+
+    const types_similar = [
+        'Dataset',
+        'Archive',
+        'ScientificPublication',
+        'Tool',
+        'Collection',
+        'LearningMaterial'
+    ]
 
     const fetchItemData = () => {
         let forward_url = process.env.REACT_APP_API + "view/entry/" + uid
@@ -284,6 +294,12 @@ const Detail = () => {
                         }
 
                     </div>
+
+                    {item.uid && types_similar.includes(type) &&
+                        <SlickSimilar
+                            uid={item.uid}
+                        />
+                    }
 
                     {/* General */}
                     <div className="divTable">
