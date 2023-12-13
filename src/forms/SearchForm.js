@@ -268,15 +268,6 @@ const SearchForm = () => {
         }
     ]
 
-    let entity_options = entitiesList.map(function (e) {
-        let labelWithTooltip = (
-            <Tooltip placement="right" title={<TypeDescription dgraphType={e.name}/>} arrow>
-              <span>{e.name}</span>
-            </Tooltip>
-          )
-        return {value: e.name, label: labelWithTooltip};
-    })
-
     let texttypes_options = texttypesList.map(function (t) {
         return {value: t.uid, label: t.name};
     })

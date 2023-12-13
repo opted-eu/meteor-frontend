@@ -101,7 +101,7 @@ const SlickSimilar = ({uid}) => {
 
     useEffect(() => {
         fetchItemData()
-    }, [])
+    }, [uid])
 
     const getDesc = (un) => {
         const res = details.find(c => c._unique_name === un);
@@ -153,19 +153,20 @@ const SlickSimilar = ({uid}) => {
         "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/European-parliament-strasbourg-inside.jpg/256px-European-parliament-strasbourg-inside.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Cyrus_Engerer_addressing_PL_AGM_2013.JPG/256px-Cyrus_Engerer_addressing_PL_AGM_2013.JPG",
         "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/House_of_Commons_2010.jpg/256px-House_of_Commons_2010.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Working-class_protest_in_Greece.JPG/256px-Working-class_protest_in_Greece.JPG"
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Working-class_protest_in_Greece.JPG/256px-Working-class_protest_in_Greece.JPG",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Politics_at_the_2015_Iowa_State_Fair_%2820424491760%29_%282%29.jpg/256px-Politics_at_the_2015_Iowa_State_Fair_%2820424491760%29_%282%29.jpg"
     ]
 
     const getImg = (i) => {
-        if (i > 3){
-            i = i%4
+        if (i > 4){
+            i = i%5
         }
         return 'url(' + bg_img[i] + ')'
     }
 
     return (
         <div className={slick_css}>
-            <span className="slick-detail-header">Similar Records</span>
+            {/*<span className="slick-detail-header">Similar Records</span>*/}
                 {items.length > 0 && (
                     <Slider {...settings}>
                         {items.map((item, index) => (

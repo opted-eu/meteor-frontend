@@ -295,12 +295,6 @@ const Detail = () => {
 
                     </div>
 
-                    {item.uid && types_similar.includes(type) &&
-                        <SlickSimilar
-                            uid={item.uid}
-                        />
-                    }
-
                     {/* General */}
                     <div className="divTable">
                         <div className={generalClass}>
@@ -434,6 +428,18 @@ const Detail = () => {
                         }
 
                     </div>
+
+                    {item.uid && types_similar.includes(type) &&
+                        <div className="divTableSlick">
+                            <DetailHeader
+                                t="Similar Records"
+                                m=''
+                            />
+                            <SlickSimilar
+                                uid={item.uid}
+                            />
+                        </div>
+                    }
 
                     {/* Summary */}
                     {type === 'Subnational' && 

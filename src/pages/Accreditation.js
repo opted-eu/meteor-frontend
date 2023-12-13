@@ -58,6 +58,17 @@ const Accreditation = () => {
                 License: <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0 Deed</a><br />
                 Source: <a target="_blank" href="https://commons.wikimedia.org/wiki/File:Working-class_protest_in_Greece.JPG">Wikimedia Commons</a>
             </p>
+
+            <p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Politics_at_the_2015_Iowa_State_Fair_%2820424491760%29_%282%29.jpg/256px-Politics_at_the_2015_Iowa_State_Fair_%2820424491760%29_%282%29.jpg" />
+            </p>
+
+            <p>
+                <strong>Bernie Sanders speaks to thousands of people during his remarks at the Des Moines Register's political soapbox at the State Fair</strong><br />
+                Author: Phil Roeder from Des Moines, IA, USA<br />
+                License: <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0 Deed</a><br />
+                Source: <a target="_blank" href="https://commons.wikimedia.org/wiki/File:Politics_at_the_2015_Iowa_State_Fair_(20424491760)_(2).jpg">Wikimedia Commons</a>
+            </p>
         </>
     )
 };

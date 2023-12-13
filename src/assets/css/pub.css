@@ -95,6 +95,10 @@ h2{
     border-radius: 20px;
     background-size: cover;
 }
+.slick-detail {
+    width: 95%;
+    margin: auto;
+}
 
 .slick .item {
     height: 250px !important;
@@ -312,9 +316,18 @@ svg .node-group:hover .color-website {
     }
 }
 
+@media all and (max-width: 850px) {
+    .slick-detail {
+        width: 92%;
+    }
+}
+
 @media all and (max-width: 650px) {
     .slick-detail-small {
         width: 95%;
         margin: auto;
+    }
+    .slick-detail {
+        width: 90%;
     }
 }

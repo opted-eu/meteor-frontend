@@ -5,6 +5,8 @@ import '@material/web/textfield/filled-text-field.js'
 import SearchSelectBox from "./SearchSelectBox";
 import SearchRadioButtons from "./SearchRadioButtons";
 import SearchAsyncSelectBox from "./SearchAsyncSelectBox";
+import {Tooltip} from "@mui/material";
+import TypeDescription from "../components/TypeDescription";
 
 const AdvancedSearchForm = ({ searchParams }) => {
 
@@ -463,6 +465,94 @@ const AdvancedSearchForm = ({ searchParams }) => {
             options: individual_country_options
         }
     ];
+
+    let resources_options = []
+    let actors_options = []
+    let linking_entities_options = []
+    let other_options = []
+    let resources = [
+        'Archive',
+        'Collection',
+        'Dataset',
+        'LearningMaterial',
+        'Tool',
+        'ScientificPublication'
+    ]
+    let actors = [
+        'Government',
+        'JournalisticBrand',
+        'NewsSource',
+        'PoliticalParty',
+        'Parliament',
+        'Person',
+        'Organization'
+    ]
+    let linking_entities = [
+        'Channel',
+        'ConceptVariable',
+        'Country',
+        'Language',
+        'MetaVariable',
+        'Modality',
+        'Operation',
+        'TextType'
+    ]
+
+    // function to compare an array of dictionaries
+    function compare( a, b ) {
+        if ( a.name < b.name ){
+            return -1;
+        }
+        if ( a.name > b.name ){
+            return 1;
+        }
+        return 0;
+    }
+    entitiesList.sort( compare );
+
+    const labelWithTooltip = (n) => {
+        return (
+            <Tooltip placement="right" title={<TypeDescription dgraphType={n}/>} arrow>
+                <span>{n}</span>
+            </Tooltip>
+        )
+    }
+
+    for (var e of entitiesList){
+        if (resources.includes(e.name) ){
+            resources_options.push({value: e.name, label: labelWithTooltip(e.name)})
+        } else {
+            if (actors.includes(e.name) ){
+                actors_options.push({value: e.name, label: labelWithTooltip(e.name)})
+            } else {
+                if (linking_entities.includes(e.name) ){
+                    linking_entities_options.push({value: e.name, label: labelWithTooltip(e.name)})
+                } else {
+                    other_options.push({value: e.name, label: labelWithTooltip(e.name)})
+                }
+            }
+        }
+    }
+    const entry_type_options = [
+        {
+            label: "Resources",
+            options: resources_options
+        },
+        {
+            label: "Actors",
+            options: actors_options
+        },
+        {
+            label: "Linking Entities",
+            options: linking_entities_options
+        },
+        {
+            label: "Others",
+            options: other_options
+        }
+    ]
+
+
     let entity_options = entitiesList.map(function (p) {
         return {value: p.name, label: p.name};
     })
@@ -561,10 +651,10 @@ const AdvancedSearchForm = ({ searchParams }) => {
                 </div>
 
                 <div className='adv_search_field'>
-                    <h4>Entity</h4>
+                    <h4>Entry Type</h4>
                     <SearchSelectBox
                         handleChangeEntity={handleChangeEntity}
-                        searchOptions={entity_options}
+                        searchOptions={entry_type_options}
                         searchValues={searchEntities}
                     />
                 </div>
