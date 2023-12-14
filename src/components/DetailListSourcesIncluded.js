@@ -55,8 +55,8 @@ const DetailListSourcesIncluded = ({ items }) => {
                     <h6 key={country + index}>{country}</h6>
                     {<><p>
                         {sorted_by_country[dgraph_type][country].map((item, i) => (
-                        <span key={item.uid} className='me-4'>{
-                            dgraph_type === 'NewsSource' ? <LinkNewsSource item={item} /> : <Link to={getLink(item._unique_name)}>{item.name}</Link>}
+                        <span key={item.uid} className='me-3'>{
+                            dgraph_type === 'NewsSource' ? <LinkNewsSource item={item} /> : <Link to={getLink(item._unique_name)}>{item.name} </Link>}
                         </span>
                     ))}
                     </p></>

@@ -92,12 +92,6 @@ const DetailField = ({ d, s, t, u=null, w=null, query_predicate="country" }) => 
         return d.toUpperCase()
     }
 
-    const getWidth = (w) => {
-        if (w){
-            return "150px"
-        }
-        return "200px"
-    }
     //console.log('d=' + d)
     //console.log('w=' + w)
 
@@ -105,7 +99,7 @@ const DetailField = ({ d, s, t, u=null, w=null, query_predicate="country" }) => 
         <>
             {d &&
                 <div className="divTableRow">
-                    <div className="divTableHead" style={{width:getWidth(w)}}>{s}:</div>
+                    <div className="divTableHead">{s}:</div>
                     <div className={getCellStyle(t)}>
                         {
                             t === 'boolean' ? formatBoolean(d) :

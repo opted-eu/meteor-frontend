@@ -839,7 +839,7 @@ const Detail = () => {
                             />
                             <DetailListDict
                                 d={item.concept_variables}
-                                s={concept_variables[type]}
+                                s="Included Concept Variables"
                             />
                             <DetailField
                                 d={item.temporal_coverage_start}

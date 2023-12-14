@@ -57,7 +57,7 @@ const DisplayCountries = ({ j, t }) => {
                 <div className="divTableHead">Countries covered in {t.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase()}:</div>
                 <div className="divTableCell">
                     {j.map(c =>
-                        <span className="link_list" key={c.uid}><Link to={getlink(c._unique_name)}>{c.name}</Link>
+                        <span className="link_list" key={c.uid}><Link to={getlink(c._unique_name)}>{c.name} </Link>
                             {!types.includes(t) &&
                                 <>
                                     <span className="reduced">{retYearFrom(c["countries|temporal_coverage_end"])}
