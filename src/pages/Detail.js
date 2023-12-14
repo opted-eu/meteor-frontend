@@ -401,6 +401,16 @@ const Detail = () => {
                                 u="https://arXiv/abs/"
                             />
                             <DetailExtLink
+                                d={item.cran}
+                                s="CRAN"
+                                u="https://cran.r-project.org/package="
+                            />
+                            <DetailExtLink
+                                d={item.pypi}
+                                s="PyPI"
+                                u="https://pypi.org/project/"
+                            />
+                            <DetailExtLink
                                 d={item.github}
                                 s="GitHub"
                                 u="https://github.com/"
