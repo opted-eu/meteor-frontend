@@ -29,13 +29,13 @@ const DetailListDictReverse = ({ d, s, t = null, h=null }) => {
             if (entry.authors.length <= 2) {
                 return entry.authors.map(e => e.name).join(" & ")
             } else {
-                return entry.authors[0].name + 'et al.'
+                return entry.authors[0].name + ' et al.'
             }
         } else if (entry.hasOwnProperty("_authors_fallback") && Array.isArray(entry._authors_fallback)) {
             if (entry._authors_fallback.length <= 2) {
                 return entry._authors_fallback.join(" & ")
             } else {
-                return entry._authors_fallback[0] + 'et al.'
+                return entry._authors_fallback[0] + ' et al.'
             }
         } else {
             return ""
