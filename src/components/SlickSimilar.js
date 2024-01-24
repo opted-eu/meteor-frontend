@@ -125,15 +125,15 @@ const SlickSimilar = ({uid}) => {
 
     const getDgraph = (d) => {
         if(d) {
-            for (var e of d["dgraph.type"]){
-                if (e !== "Entry"){
-                    return e;
+            if (d["dgraph.type"]) {
+                for (var e of d["dgraph.type"]) {
+                    if (e !== "Entry") {
+                        return e;
+                    }
                 }
             }
-
-        } else {
-            return null;
         }
+        return null;
     }
 
     const showItemName = (name) => {

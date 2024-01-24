@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import AsyncSelect from 'react-select/async';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues }) => {
+const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types }) => {
 
     //console.log(searchValues)
 
@@ -16,7 +16,12 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues }) => {
     // load options using API call
     const loadOptions = (inputValue) => {
         if (inputValue.length >= 3) {
-            let iv = process.env.REACT_APP_API + "lookup?predicate=name&dgraph_types=Organization&dgraph_types=PoliticalParty&dgraph_types=NewsSource&dgraph_types=Person&query=" + inputValue
+            let iv = process.env.REACT_APP_API + "lookup?predicate=name&query=" + inputValue
+            //iv = iv + '&dgraph_types=Organization&dgraph_types=PoliticalParty&dgraph_types=NewsSource&dgraph_types=Person'
+            for (var t in types){
+                iv += '&dgraph_types=' + types[t]
+                //console.log(iv)
+            }
             //console.log(iv)
             return fetch(iv).then(res => res.json());
         }
