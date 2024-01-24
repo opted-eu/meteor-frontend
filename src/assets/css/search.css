@@ -49,6 +49,7 @@
     float:right;
     font-size: medium;
     margin-top:5px;
+    margin-bottom:10px;
 }
 .adv_search_field, .search_field{
     float:left;
