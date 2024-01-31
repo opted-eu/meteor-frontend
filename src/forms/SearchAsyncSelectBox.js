@@ -47,9 +47,12 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types }) => {
 
     const optionLabel = (e) => {
         var passed_search = false
-        var text
+        var text = e.name
+        //console.log(e.name)
         try {
-            text = e.name[0]
+            if (Array.isArray(text)) {
+                text = e.name[0]
+            }
         }
         catch (e) {
             console.log(e)
