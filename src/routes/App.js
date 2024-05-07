@@ -31,6 +31,11 @@ import UpdateUser from "../user/UpdateUser";
 import ResendVerificationEmail from "../user/ResendVerificationEmail";
 import { OpenAPIProvider } from "../components/APISpecs";
 import Accreditation from "../pages/Accreditation";
+import Add from "../entries/Add"
+import GuidesNewssource from "../pages/GuidesNewssource";
+import AddCheck from "../entries/AddCheck";
+import AddEntry from "../entries/AddEntry";
+import Entries from "../entries/Entries";
 
 const App = () =>  {
 
@@ -57,13 +62,14 @@ const App = () =>  {
 
                 {/* Nav pages */}
                 <Route path="guides" element={<Guides />} />
+                <Route path="guides/newssource" element={<GuidesNewssource />} />
                 <Route path="link-collection" element={<LinkCollection />} />
                 <Route path="teaching-materials" element={<TeachingMaterials />} />
                 <Route path="faq" element={<Faq />} />
                 <Route path="about" element={<About />} />
 
                 {/* User pages */}
-                <Route path="login" element={<Login setToken={setToken} />} />
+                <Route path="login" element={<Login setToken={setToken} token={token} setProfile={setProfile} />} />
                 <Route path="register" element={<Register />} />
                 <Route path="register/resend" element={<ResendVerificationEmail />} />
                 <Route path="logout" element={<Logout />} />
@@ -83,9 +89,12 @@ const App = () =>  {
                 {/* Dynamic pages */}
                 <Route path="detail/:uid" element={<Detail />} />
 
-                {/* Not Implemented */}
-                <Route path="add" element={<NotImplemented />} />
-                <Route path="profile/entries" element={<NotImplemented />} />
+                {/* Add Entry pages */}
+                <Route path="add/check" element={<AddCheck />} />
+                <Route path="add/entry" element={<AddEntry />} />
+                <Route path="add" element={<Add />} />
+                <Route path="edit/:uid" element={<AddEntry />} />
+                <Route path="profile/entries" element={<Entries />} />
 
                 {/* No page */}
                 <Route path="*" element={<NoPage />} />

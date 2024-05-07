@@ -6,6 +6,7 @@ import '@material/web/textfield/outlined-text-field.js'
 import '@material/web/button/filled-button.js';
 import '@material/web/checkbox/checkbox.js'
 import '@material/web/button/text-button.js';
+import loginProfile from "./loginProfile";
 
 
 async function loginUser(credentials) {
@@ -20,7 +21,7 @@ async function loginUser(credentials) {
 
 }
 
-export default function Login({ setToken }) {
+export default function Login({ setToken, token, setProfile }) {
 
     const navigate = useNavigate();
     const [email, setEmail] = useState();
@@ -44,12 +45,15 @@ export default function Login({ setToken }) {
             email,
             password
         });
-        //console.log(token)
         if (token.status === 200) {
+            if(!rememberMe){
+                delete token.refreh_token_valid_until
+                delete token.refresh_token
+            }
             setToken(token);
             setError(null)
-            navigate(
-                '/profile')
+            await loginProfile(token, setProfile)
+            navigate('/profile')
         } else {
             setError(token.message)
         }
@@ -65,21 +69,33 @@ export default function Login({ setToken }) {
             <form onSubmit={handleSubmit}>
 
                 <div className="login-register">
+                    {/*
                     <md-filled-text-field
+                        name="username"
                         label="Email"
                         type="email"
+                        autoComplete='on'
                         onBlur={e => setEmail(e.target.value)}
                         required
                     />
+                    */}
+                    <strong>Email:</strong><br />
+                    <input type='email' name='username' onChange={e => setEmail(e.target.value)} required />
                 </div>
 
                 <div className="login-register">
+                    {/*
                     <md-filled-text-field
+                        name="password"
                         label="Password"
                         type="password"
                         onBlur={e => setPassword(e.target.value)}
+                        autoComplete='on'
                         required
                     />
+                    */}
+                    <strong>Password:</strong><br />
+                    <input type='password' name='password' onChange={e => setPassword(e.target.value)} required />
                 </div>
 
                 <div className="login-register">

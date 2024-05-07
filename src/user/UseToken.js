@@ -4,8 +4,7 @@ export default function UseToken() {
     const getToken = () => {
         const tokenString = localStorage.getItem('token');
         try {
-            const userToken = JSON.parse(tokenString);
-            return userToken?.access_token
+            return JSON.parse(tokenString);
         }
         catch {
             return null
@@ -20,7 +19,7 @@ export default function UseToken() {
     const saveToken = userToken => {
         if (userToken) {
             localStorage.setItem('token', JSON.stringify(userToken));
-            setToken(userToken.access_token);
+            setToken(userToken);
         } else {
             setToken(null)
         }

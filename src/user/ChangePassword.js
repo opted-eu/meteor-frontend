@@ -23,13 +23,13 @@ const ChangePassword = () => {
     const [confirm_new, setConfirmPassword] = useState();
 
     const getData = () => {
-        getLoggedIn(token, setLoggedIn, navigate)
-        getProfile(token, setProfile, navigate)
+        getLoggedIn(token, setLoggedIn, setToken, navigate)
+        getProfile(setProfile)
     }
 
     useEffect(() => {
         getData()
-    }, [token])
+    }, [])
 
     async function resetPwd(credentials) {
         console.log(credentials)

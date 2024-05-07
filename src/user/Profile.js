@@ -28,13 +28,13 @@ const Profile = () => {
     }
 
     const getData = () => {
-        getLoggedIn(token, setLoggedIn, navigate)
-        getProfile(token, setProfile, navigate)
+        getLoggedIn(token, setLoggedIn, setToken, navigate)
+        getProfile(setProfile)
     }
 
     useEffect(() => {
         getData()
-    }, [token])
+    }, [])
 
     async function deleteAccount() {
         return fetch(process.env.REACT_APP_API + 'user/profile/delete', {

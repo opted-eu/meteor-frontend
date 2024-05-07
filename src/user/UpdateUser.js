@@ -26,7 +26,7 @@ const UpdateUser = () => {
         return fetch(process.env.REACT_APP_API + 'admin/users/' + uid + '?role=' + role, {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer ' + token,
+                'Authorization': 'Bearer ' + token?.access_token,
             }
         })
             .then(data => data.json())
@@ -34,13 +34,13 @@ const UpdateUser = () => {
     }
 
     const getData = () => {
-        getLoggedIn(token, setLoggedIn, navigate)
-        getProfile(token, setProfile, navigate)
+        getLoggedIn(token, setLoggedIn, setToken, navigate)
+        getProfile(setProfile)
     }
 
     useEffect(() => {
         getData()
-    }, [token])
+    }, [])
 
     const handleSubmitUpdateUser = async e => {
         e.preventDefault();

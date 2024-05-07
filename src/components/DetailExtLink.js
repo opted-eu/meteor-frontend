@@ -7,7 +7,11 @@ const DetailExtLink = ({ d, s, u }) => {
     // run after each re-render
     useEffect(() => {
         //window.__dimensions_embed.addBadges();
-        window['_altmetric_embed_init']()
+        try {
+            window['_altmetric_embed_init']()
+        } catch (e){
+            console.log('Caught Error with Altmetric: ' + e)
+        }
     }, [d])
 
     return (

@@ -1,17 +1,30 @@
 import SearchForm from '../forms/SearchForm';
 import Login from "../user/Login";
 import SlickRecent from '../components/SlickRecent';
-// import SlickHome1 from '../components/SlickHome1';
-// import SlickHome2 from '../components/SlickHome2';
-import {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "../user/UserContext"
-import {useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams, Link} from "react-router-dom";
+import getLoggedIn from "../user/getLoggedIn";
+import {ProfileContext} from "../user/ProfileContext";
+import getProfile from "../user/getProfile";
 
 const Home = () => {
 
     const [token, setToken] = useContext(UserContext);
     const [searchParams] = useSearchParams();
     let logout = false
+    const [loggedIn, setLoggedIn] = useState('Checking');
+    const navigate = useNavigate();
+    const [profile, setProfile] = useContext(ProfileContext);
+
+    const getData = () => {
+        getLoggedIn(token, setLoggedIn, setToken)
+        getProfile(setProfile)
+    }
+
+    useEffect(() => {
+        getData()
+    }, [])
 
     for (let param of searchParams) {
         if (param[0] === 'logout' && param[1] === 'true'){
@@ -24,9 +37,30 @@ const Home = () => {
             <h1>Welcome to Meteor</h1>
 
             <div className="home-login">
+                {!loggedIn &&
+                    <Login setToken={setToken} token={token} setProfile={setProfile}/>
+                }
 
-                {!token &&
-                    <Login setToken={setToken}/>
+                {loggedIn &&
+                    <>
+                        {loggedIn.status === 200 && (
+                            <>
+                                <p>
+                                    You are logged in
+                                    {profile && (
+                                        <>
+                                            &nbsp;as:<br />
+                                            <Link to='/profile/'>{profile.email}</Link>
+                                        </>
+                                        )
+                                    }
+                                </p>
+                                <div align='right' style={{borderTop:'1px solid grey', paddingTop:'10px'}}>
+                                    <md-text-button type="button" onClick={() => navigate('/logout/')}>Logout</md-text-button>
+                                </div>
+                            </>
+                        )}
+                    </>
                 }
 
             </div>

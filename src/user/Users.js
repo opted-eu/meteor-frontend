@@ -28,7 +28,7 @@ const Users = () => {
         fetch(process.env.REACT_APP_API + "admin/users", {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer ' + token,
+                'Authorization': 'Bearer ' + token?.access_token,
                 'Content-Type': 'application/json'
             }
         })
@@ -50,14 +50,14 @@ const Users = () => {
     }
 
     const getData = () => {
-        getLoggedIn(token, setLoggedIn, navigate)
-        getProfile(token, setProfile, navigate)
+        getLoggedIn(token, setLoggedIn, setToken, navigate)
+        getProfile(setProfile)
     }
 
     useEffect(() => {
         getData()
         fetchItemData()
-    }, [token])
+    }, [])
 
     const retDateTime = (d) => {
         let dt = new Date(d)

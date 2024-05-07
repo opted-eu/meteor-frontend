@@ -15,7 +15,7 @@ const ResetPassword = () => {
     const [error, setError] = useState(null);
 
     async function resetPwd(credentials) {
-        return fetch(process.env.REACT_APP_API + 'user/password/reset/' + token, {
+        return fetch(process.env.REACT_APP_API + 'user/password/reset/' + token?.access_token, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

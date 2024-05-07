@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import '../assets/css/detail.css'
 import DisplayCountry from "../components/DisplayCountry";
 import DisplayCountries from "../components/DisplayCountries";
@@ -24,6 +24,23 @@ import DetailListPubCycle from "../components/DetailListPubCycle";
 import OwnershipStructure from "../components/OwnershipStructure";
 import DetailListSourcesIncluded from "../components/DetailListSourcesIncluded";
 import SlickSimilar from "../components/SlickSimilar";
+import {UserContext} from "../user/UserContext";
+import {ProfileContext} from "../user/ProfileContext";
+import getLoggedIn from "../user/getLoggedIn";
+import getProfile from "../user/getProfile";
+
+async function submitReview(json_review, token) {
+    return fetch(process.env.REACT_APP_API + 'review/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token?.access_token
+        },
+        body: JSON.stringify(json_review)
+    })
+        .then(data => data.json())
+
+}
 
 const Detail = () => {
 
@@ -31,6 +48,10 @@ const Detail = () => {
     const [item, setItem] = useState([])
     const [reverse, setReverse] = useState([])
     const navigate = useNavigate();
+    const [token, setToken] = useContext(UserContext);
+    const [profile, setProfile] = useContext(ProfileContext);
+    const [loggedIn, setLoggedIn] = useState();
+    const [submitError, setSubmitError] = useState(null);
 
     const types_similar = [
         'Dataset',
@@ -44,23 +65,69 @@ const Detail = () => {
     const fetchItemData = () => {
         let forward_url = process.env.REACT_APP_API + "view/entry/" + uid
         //console.log(forward_url)
-        fetch(forward_url)
+        fetch(forward_url, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token?.access_token
+            }
+        })
             .then(response => {
                 return response.json()
             })
             .then(data => {
-                setItem(data);
-                let rev_url = process.env.REACT_APP_API + "view/reverse/" + data.uid
-                //console.log(rev_url)
-                if (getDgraph(data) !== 'Collection') {
-                    fetch(rev_url)
-                        .then(response1 => {
-                            return response1.json()
+                if (data.status){
+                    //console.log('uid')
+                    let forward_url2 = process.env.REACT_APP_API + "view/uid/" + uid
+                    //console.log(forward_url)
+                    fetch(forward_url2, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token?.access_token
+                        }
+                    })
+                        .then(response2 => {
+                            return response2.json()
                         })
-                        .then(data1 => {
-                            setReverse(data1)
-                            window.__dimensions_embed.addBadges();
+                        .then(data2 => {
+                            setItem(data2);
+                            let rev_url = process.env.REACT_APP_API + "view/reverse/" + data.uid
+                            //console.log(rev_url)
+                            if (getDgraph(data2) !== 'Collection') {
+                                fetch(rev_url, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Authorization': 'Bearer ' + token?.access_token
+                                    }
+                                })
+                                    .then(response3 => {
+                                        return response3.json()
+                                    })
+                                    .then(data3 => {
+                                        setReverse(data3)
+                                        window.__dimensions_embed.addBadges();
+                                    })
+                            }
                         })
+                } else {
+                    //console.log('_unique_name')
+                    setItem(data);
+                    let rev_url = process.env.REACT_APP_API + "view/reverse/" + data.uid
+                    //console.log(rev_url)
+                    if (getDgraph(data) !== 'Collection') {
+                        fetch(rev_url, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': 'Bearer ' + token?.access_token
+                            }
+                        })
+                            .then(response1 => {
+                                return response1.json()
+                            })
+                            .then(data1 => {
+                                setReverse(data1)
+                                window.__dimensions_embed.addBadges();
+                            })
+                    }
                 }
             })
             .catch((err) => {
@@ -69,10 +136,32 @@ const Detail = () => {
             });
     }
 
+    const getData = () => {
+        getLoggedIn(token, setLoggedIn, setToken)
+        getProfile(setProfile)
+    }
+
     useEffect(() => {
         fetchItemData()
         window.scrollTo(0, 0)
+        getData(token)
     }, [uid])
+
+    const reviewEntry = async (accept_or_reject) => {
+        let json_review = {
+            "status": accept_or_reject,
+            "uid": item.uid
+        }
+        let resp = await submitReview(
+            json_review,
+            token
+        );
+        if (resp.status === 200) {
+            navigate('/profile/entries')
+        } else {
+            setSubmitError(resp.message)
+        }
+    }
 
     const getDgraph = (d) => {
         let dg = d["dgraph.type"]
@@ -266,6 +355,26 @@ const Detail = () => {
 
                     {/* Title Info */}
                     <p style={{ float: "right" }}>
+                        {item._added_by && (
+                            <>
+                                {profile.uid === item._added_by.uid && item.entry_review_status === 'pending' && (
+                                    <>
+                                        <md-filled-button type="button" onClick={() => navigate('/edit/' + uid)}>Edit</md-filled-button>&nbsp;&nbsp;
+                                    </>
+                                )}
+                                {profile.role > 1 && item.entry_review_status === 'pending' && (
+                                    <>
+                                        <md-filled-button type="button" onClick={() => reviewEntry('rejected')}>Reject</md-filled-button>&nbsp;&nbsp;
+                                        <md-filled-button type="button" onClick={() => reviewEntry('accepted')}>Accept</md-filled-button>&nbsp;&nbsp;
+                                        {submitError && (
+                                            <>
+                                                <p>{submitError}</p>
+                                            </>
+                                            )}
+                                    </>
+                                )}
+                            </>
+                        )}
                         <md-text-button type="button" onClick={() => navigate('/search')}>New Search</md-text-button>
                     </p>
 
@@ -1180,11 +1289,7 @@ const Detail = () => {
                                                 <DetailListDictReverse d={reverse[predicate]} s="" /> </div> </>
                                 }
                             })
-                    
                     }
-
-                    
-
                 </>
             }
 

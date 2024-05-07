@@ -26,7 +26,7 @@ const UpdateProfile = () => {
         return fetch(process.env.REACT_APP_API + 'user/profile/update', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + token,
+                'Authorization': 'Bearer ' + token?.access_token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(update)
@@ -36,11 +36,11 @@ const UpdateProfile = () => {
     }
 
     const getData = () => {
-        getLoggedIn(token, setLoggedIn, navigate)
+        getLoggedIn(token, setLoggedIn, setToken, navigate)
         return fetch(process.env.REACT_APP_API + 'user/profile', {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer ' + token
+                'Authorization': 'Bearer ' + token?.access_token
             },
         }).then(response => response.json())
             .then(data => {
@@ -59,7 +59,7 @@ const UpdateProfile = () => {
 
     useEffect(() => {
         getData()
-    }, [token])
+    }, [])
 
     const handleSubmitUpdateProfile = async e => {
         e.preventDefault();
