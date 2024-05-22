@@ -28,6 +28,7 @@ import {UserContext} from "../user/UserContext";
 import {ProfileContext} from "../user/ProfileContext";
 import getLoggedIn from "../user/getLoggedIn";
 import getProfile from "../user/getProfile";
+import '@material/web/dialog/dialog.js';
 
 async function submitReview(json_review, token) {
     return fetch(process.env.REACT_APP_API + 'review/submit', {
@@ -62,15 +63,24 @@ const Detail = () => {
         'LearningMaterial'
     ]
 
+    let tkn = null
+    if (token){
+        tkn = {
+                method: 'GET',
+                    headers: {
+                'Authorization': 'Bearer ' + token?.access_token
+            }
+        }
+    } else {
+        tkn = {
+            method: 'GET'
+        }
+    }
+
     const fetchItemData = () => {
         let forward_url = process.env.REACT_APP_API + "view/entry/" + uid
         //console.log(forward_url)
-        fetch(forward_url, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + token?.access_token
-            }
-        })
+        fetch(forward_url, tkn)
             .then(response => {
                 return response.json()
             })
@@ -79,12 +89,7 @@ const Detail = () => {
                     //console.log('uid')
                     let forward_url2 = process.env.REACT_APP_API + "view/uid/" + uid
                     //console.log(forward_url)
-                    fetch(forward_url2, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': 'Bearer ' + token?.access_token
-                        }
-                    })
+                    fetch(forward_url2, tkn)
                         .then(response2 => {
                             return response2.json()
                         })
@@ -93,12 +98,7 @@ const Detail = () => {
                             let rev_url = process.env.REACT_APP_API + "view/reverse/" + data.uid
                             //console.log(rev_url)
                             if (getDgraph(data2) !== 'Collection') {
-                                fetch(rev_url, {
-                                    method: 'GET',
-                                    headers: {
-                                        'Authorization': 'Bearer ' + token?.access_token
-                                    }
-                                })
+                                fetch(rev_url, tkn)
                                     .then(response3 => {
                                         return response3.json()
                                     })
@@ -143,23 +143,25 @@ const Detail = () => {
 
     useEffect(() => {
         fetchItemData()
-        window.scrollTo(0, 0)
         getData(token)
-    }, [uid])
+        document.documentElement.scrollTo(0, 0)
+    }, [uid, token])
 
     const reviewEntry = async (accept_or_reject) => {
-        let json_review = {
-            "status": accept_or_reject,
-            "uid": item.uid
-        }
-        let resp = await submitReview(
-            json_review,
-            token
-        );
-        if (resp.status === 200) {
-            navigate('/profile/entries')
-        } else {
-            setSubmitError(resp.message)
+        if (accept_or_reject !== 'cancel'){
+            let json_review = {
+                "status": accept_or_reject,
+                "uid": item.uid
+            }
+            let resp = await submitReview(
+                json_review,
+                token
+            );
+            if (resp.status === 200) {
+                navigate('/review')
+            } else {
+                setSubmitError(resp.message)
+            }
         }
     }
 
@@ -342,8 +344,56 @@ const Detail = () => {
         window.open("mailto:" + email_to + "?subject=" + email_subject + "&body=" + email_body)
     }
 
+    const showDialogReject = () => {
+        let dialog_reject = document.getElementById('dialog_reject')
+        dialog_reject.show()
+    }
+
+    const closeDialogReject = (res) => {
+        let dialog_reject = document.getElementById('dialog_reject')
+        dialog_reject.close()
+        reviewEntry(res)
+    }
+
+    const showDialogAccept = () => {
+        let dialog_accept = document.getElementById('dialog_accept')
+        dialog_accept.show()
+    }
+
+    const closeDialogAccept = (res) => {
+        let dialog_accept = document.getElementById('dialog_accept')
+        dialog_accept.close()
+        reviewEntry(res)
+    }
+
     return (
         <>
+            <md-dialog id="dialog_reject" type="alert">
+                <div slot="headline">
+                    Confirm Rejection
+                </div>
+                <form slot="content" id="form-id" method="dialog">
+                    Are you sure you wish to reject this item?
+                </form>
+                <div slot="actions">
+                    <md-text-button type="button" onClick={() => closeDialogReject('cancel')}>Cancel</md-text-button>
+                    <md-filled-button type="button" onClick={() => closeDialogReject('rejected')}>Reject</md-filled-button>
+                </div>
+            </md-dialog>
+
+            <md-dialog id="dialog_accept" type="alert">
+                <div slot="headline">
+                    Confirm Accept
+                </div>
+                <form slot="content" id="form-id" method="dialog">
+                    Are you sure you wish to accept this item?
+                </form>
+                <div slot="actions">
+                    <md-text-button type="button" onClick={() => closeDialogAccept('cancel')}>Cancel</md-text-button>
+                    <md-filled-button type="button" onClick={() => closeDialogAccept('accepted')}>Accept</md-filled-button>
+                </div>
+            </md-dialog>
+
             {item.status == 403 &&
                 <>
                     <p>{item.message}</p>
@@ -357,15 +407,20 @@ const Detail = () => {
                     <p style={{ float: "right" }}>
                         {item._added_by && (
                             <>
-                                {profile.uid === item._added_by.uid && item.entry_review_status === 'pending' && (
+                                {profile?.uid === item._added_by.uid && item.entry_review_status === 'pending' && (
                                     <>
-                                        <md-filled-button type="button" onClick={() => navigate('/edit/' + uid)}>Edit</md-filled-button>&nbsp;&nbsp;
+                                        <md-filled-button type="button" onClick={() => navigate('/edit/' + item.uid)}>Edit</md-filled-button>&nbsp;&nbsp;
                                     </>
                                 )}
-                                {profile.role > 1 && item.entry_review_status === 'pending' && (
+                                {profile?.uid !== item._added_by.uid && profile?.role > 1 && item.entry_review_status === 'pending' && (
                                     <>
-                                        <md-filled-button type="button" onClick={() => reviewEntry('rejected')}>Reject</md-filled-button>&nbsp;&nbsp;
-                                        <md-filled-button type="button" onClick={() => reviewEntry('accepted')}>Accept</md-filled-button>&nbsp;&nbsp;
+                                        <md-filled-button type="button" onClick={() => navigate('/edit/' + item.uid)}>Edit</md-filled-button>&nbsp;&nbsp;
+                                    </>
+                                )}
+                                {profile?.role > 1 && item.entry_review_status === 'pending' && (
+                                    <>
+                                        <md-filled-button type="button" onClick={() => showDialogReject()}>Reject</md-filled-button>&nbsp;&nbsp;
+                                        <md-filled-button type="button" onClick={() => showDialogAccept()}>Accept</md-filled-button>&nbsp;&nbsp;
                                         {submitError && (
                                             <>
                                                 <p>{submitError}</p>

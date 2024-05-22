@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from "react-select";
 
-const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, multi=true, req=true }) => {
+const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, multi=true, req=false, width=300, special=false }) => {
 
     // apply styles to select boxes
     const SelectStyles = {
@@ -12,7 +12,7 @@ const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, mult
         container: provided => ({
             ...provided,
             display: "inline-block",
-            width: 300
+            width: width
         })
     };
 
@@ -31,7 +31,7 @@ const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, mult
 
     return (
         <>
-            {multi &&
+            {multi && !req && !special &&
                 <Select
                     onChange={handleChangeEntity}
                     styles={SelectStyles}
@@ -43,19 +43,43 @@ const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, mult
                     isMulti
                 />
             }
-            {!multi && req &&
+            {multi && req && !special &&
+                <Select
+                    onChange={handleChangeEntity}
+                    styles={SelectStyles}
+                    options={searchOptions}
+                    clearable={true}
+                    closeMenuOnSelect={false}
+                    placeholder={"Please choose..."}
+                    value={searchValues}
+                    isMulti
+                    required
+                />
+            }
+            {!multi && !req && !special &&
+                <Select
+                    onChange={handleChangeEntity}
+                    styles={SelectStyles}
+                    options={searchOptions}
+                    clearable={true}
+                    closeMenuOnSelect={false}
+                    placeholder={"Please choose..."}
+                    value={searchValues}
+                />
+            }
+            {!multi && req && !special &&
                 <Select
                     onChange={handleChangeEntity}
                     styles={SelectStyles}
                     options={searchOptions}
                     clearable={true}
                     closeMenuOnSelect={true}
-                    placeholder={"Please choose..."}
                     value={searchValues}
+                    placeholder={"Please choose..."}
                     required
                 />
             }
-            {!multi && !req &&
+            {special &&
                 <Select
                     onChange={handleChangeEntity}
                     styles={SelectStyles2}

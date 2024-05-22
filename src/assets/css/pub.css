@@ -250,6 +250,13 @@ h2{
     fill: #0088cc;
 }
 
+.add_entry{
+    margin-top:20px;
+}
+.add_entry_grey{
+    color:#cccccc;
+}
+
 
 /* Network Graph Styling */
 
@@ -310,6 +317,10 @@ svg .node-group:hover .color-website {
 
 svg .text-decoration-none {
     text-decoration: none!important;
+}
+
+.tab_panel{
+    margin-top:10px;
 }
 
 @media all and (max-width: 1000px) {

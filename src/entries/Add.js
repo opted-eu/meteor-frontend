@@ -18,7 +18,7 @@ const Add = () => {
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [token])
 
     return (
         <>

@@ -44,7 +44,7 @@ const Nav = () => {
                             <li><Link className="dropdown-item" to="/Profile/entries">My Entries</Link></li>
                             {role == 10 &&
                                 <>
-                                    <li><Link className="dropdown-item" to="/profile/entries/review">Review Entries</Link></li>
+                                    <li><Link className="dropdown-item" to="/review">Review Entries</Link></li>
                                     <li><Link className="dropdown-item" to="/admin/users">Change user Permissions</Link></li>
                                 </>
                             }

@@ -59,7 +59,7 @@ const UpdateProfile = () => {
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [token])
 
     const handleSubmitUpdateProfile = async e => {
         e.preventDefault();

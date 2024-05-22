@@ -34,7 +34,6 @@
     --md-text-button-disabled-label-text-color: white;
     --md-text-button-disabled-label-text-opacity: white;
     --md-text-button-focus-label-text-color: white;
-    --md-text-button-hover-label-text-color: white;
 
     /* Filled Text Field  */
     --md-filled-text-field-container-shape: 5px;
@@ -83,6 +82,21 @@
     --md-dialog-headline-font: system-ui;
     --md-dialog-supporting-text-color: black;
     --md-dialog-supporting-text-font: system-ui;
+
+    /* Tabs */
+    --md-primary-tab-label-text-font: system-ui;
+    --md-primary-tab-container-color: black;
+    --md-primary-tab-hover-label-text-color: lightskyblue;
+    --md-primary-tab-pressed-label-text-color: lightskyblue;
+    --md-primary-tab-active-label-text-color: white;
+    --md-primary-tab-active-hover-label-text-color: white;
+    --md-primary-tab-active-pressed-label-text-color: white;
+    --md-primary-tab-active-indicator-color: white;
+    --md-primary-tab-label-text-color: #666666;
+    --md-primary-tab-label-text-weight: bold;
+    --md-divider-color: black;
+
+
 }
 
 .m3_icon{

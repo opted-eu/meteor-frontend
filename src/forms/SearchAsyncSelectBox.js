@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import AsyncSelect from 'react-select/async';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types }) => {
+const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types, width=300, req=false }) => {
 
     //console.log(searchValues)
 
@@ -41,7 +41,7 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types }) => {
         container: provided => ({
             ...provided,
             display: "inline-block",
-            width: 300
+            width: width
         })
     };
 
@@ -134,20 +134,39 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types }) => {
 
     return (
         <>
-            <AsyncSelect
-                key={e => e.uid}
-                styles={selectStyles}
-                getOptionLabel={e => optionLabel(e)}
-                //getOptionLabel={e => e.name}
-                getOptionValue={e => e.uid}
-                defaultValue={searchValues}
-                loadOptions={loadOptions}
-                onInputChange={handleInputChange}
-                onChange={handleChangeEntity}
-                placeholder={placeholderComponent}
-                isMulti
-                closeMenuOnSelect={true}
-            />
+            {req &&
+                <AsyncSelect
+                    key={e => e.uid}
+                    styles={selectStyles}
+                    getOptionLabel={e => optionLabel(e)}
+                    //getOptionLabel={e => e.name}
+                    getOptionValue={e => e.uid}
+                    defaultValue={searchValues}
+                    loadOptions={loadOptions}
+                    onInputChange={handleInputChange}
+                    onChange={handleChangeEntity}
+                    placeholder={placeholderComponent}
+                    isMulti
+                    closeMenuOnSelect={true}
+                    required
+                />
+            }
+            {!req &&
+                <AsyncSelect
+                    key={e => e.uid}
+                    styles={selectStyles}
+                    getOptionLabel={e => optionLabel(e)}
+                    //getOptionLabel={e => e.name}
+                    getOptionValue={e => e.uid}
+                    defaultValue={searchValues}
+                    loadOptions={loadOptions}
+                    onInputChange={handleInputChange}
+                    onChange={handleChangeEntity}
+                    placeholder={placeholderComponent}
+                    isMulti
+                    closeMenuOnSelect={true}
+                />
+            }
         </>
     )
 }

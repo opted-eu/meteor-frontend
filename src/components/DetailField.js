@@ -75,10 +75,21 @@ const DetailField = ({ d, s, t, u=null, w=null, query_predicate="country" }) => 
         return dt
     }
 
-    const retDateYear = (d) => {
+    const retDateYear_old = (d) => {
         let dt = new Date(d)
         dt = dt.getFullYear()
         return dt
+    }
+
+    // This version ignores time zones
+    const retDateYear = (d, str=false) => {
+        if (d) {
+            let dt = d.substring(0, 4);
+            if (!str){
+                dt = parseInt(dt)
+            }
+            return dt
+        }
     }
 
     const getCellStyle = (t) => {

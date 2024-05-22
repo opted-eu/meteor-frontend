@@ -40,7 +40,7 @@ const UpdateUser = () => {
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [token])
 
     const handleSubmitUpdateUser = async e => {
         e.preventDefault();

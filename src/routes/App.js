@@ -36,6 +36,9 @@ import GuidesNewssource from "../pages/GuidesNewssource";
 import AddCheck from "../entries/AddCheck";
 import AddEntry from "../entries/AddEntry";
 import Entries from "../entries/Entries";
+import Rejected from "../entries/Rejected";
+import Review from "../entries/Review";
+import ReviewLink from "../entries/ReviewLink";
 
 const App = () =>  {
 
@@ -94,7 +97,10 @@ const App = () =>  {
                 <Route path="add/entry" element={<AddEntry />} />
                 <Route path="add" element={<Add />} />
                 <Route path="edit/:uid" element={<AddEntry />} />
+                <Route path="rejected/:uid" element={<Rejected />} />
                 <Route path="profile/entries" element={<Entries />} />
+                <Route path="review" element={<Review />} />
+                <Route path="review/link" element={<ReviewLink />} />
 
                 {/* No page */}
                 <Route path="*" element={<NoPage />} />

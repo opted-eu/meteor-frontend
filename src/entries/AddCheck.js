@@ -59,7 +59,7 @@ const AddCheck = () => {
     useEffect(() => {
         fetchItemData()
         getData()
-    }, [])
+    }, [token])
 
     const getQuery = (un) => {
         return '/detail/' + un

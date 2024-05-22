@@ -57,7 +57,7 @@ const Users = () => {
     useEffect(() => {
         getData()
         fetchItemData()
-    }, [])
+    }, [token])
 
     const retDateTime = (d) => {
         let dt = new Date(d)
@@ -87,15 +87,19 @@ const Users = () => {
                                 <div className="divTableHead">UID</div>
                                 <div className="divTableHead">Display Name</div>
                                 <div className="divTableHead">User Level</div>
+                                <div className="divTableHead"></div>
                             </div>
 
-                            {userData.map(item => (
+                            {userData?.map(item => (
                                 <div className="divTableRow" key={item.uid}>
                                     <div className="divTableCell">{retDateTime(item._date_joined)}</div>
                                     <div className="divTableCell">{item.email}</div>
-                                    <div className="divTableCell"><Link to={getUserLink(item.uid)}>{item.uid}</Link></div>
+                                    <div className="divTableCell">{item.uid}</div>
                                     <div className="divTableCell">{item.display_name}</div>
                                     <div className="divTableCell">{item.role}</div>
+                                    <div className="divTableCell"><md-filled-button type="button"
+                                                                                    onClick={() => navigate('/admin/users/' + item.uid)}>Change Role
+                                    </md-filled-button></div>
                                 </div>
                             ))}
                         </div>

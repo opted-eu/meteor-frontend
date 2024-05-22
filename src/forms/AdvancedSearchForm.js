@@ -262,6 +262,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
             case apiField['entries_included']:
                 initialEntriesIncluded += '&' + param[0] + '=' + param[1]
                 initialSearchEntriesIncluded[initialSearchEntriesIncluded.length] = {name: "Country"+initialSearchEntriesIncluded.length , uid: param[1]}
+                console.log(initialSearchEntriesIncluded)
                 break;
             case apiField['designed_for']:
                 initialDesignedFor += '&' + param[0] + '=' + param[1]
@@ -933,7 +934,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
                     true = API query returns a list of dictionaries
                     false = single dictionary returned
                 detailed:
-                    true: add '?detailed=true' to the API query. This returns a list of dictionaries instead of a list of key/vale pairs
+                    true: add '?detailed=true' to the API query. This returns a list of dictionaries instead of a list of key/value pairs
         */
         // construct API URL
         let fullURL = process.env.REACT_APP_API
@@ -2165,6 +2166,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
                 entries_included_details.push({name: n, uid: res.uid, type: d})
             }
         })
+        console.log(entries_included_details)
     }
 
     let designed_for_details = []
@@ -2775,6 +2777,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
                                     searchValues={searchDatePublishedOperator}
                                     multi={false}
                                     req={false}
+                                    special={true}
                                 />
                                 <div style={TextStyles}>
                                     <md-filled-text-field
