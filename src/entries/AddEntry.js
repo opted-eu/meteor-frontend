@@ -39,6 +39,10 @@ async function editRecord(uid, json_entry, token) {
         body: JSON.stringify(json_entry)
     })
         .then(data => data.json())
+        .catch((err) => {
+            console.log('EDIT ERROR:');
+            console.log(err);
+        });
 
 }
 
@@ -80,7 +84,7 @@ const AddEntry = () => {
     apiField['countries'] = 'countries'
     apiField['concept'] = 'concept_variables'
     apiField['modal'] = 'modalities'
-    apiField['subnational'] = 'subnational_scope'
+    apiField['subnational_scope'] = 'subnational_scope'
     apiField['materials'] = 'materials'
     apiField['tools'] = 'tools'
     apiField['references'] = 'references'
@@ -101,6 +105,25 @@ const AddEntry = () => {
     apiField['github'] = 'github'
     apiField['temporal_coverage_start'] = 'temporal_coverage_start'
     apiField['temporal_coverage_end'] = 'temporal_coverage_end'
+    apiField['initial_source'] = 'initial_source'
+    apiField['related_publications'] = 'related_publications'
+    apiField['entry_review_status'] = 'entry_review_status'
+    apiField['wikidata_id'] = 'wikidata_id'
+    apiField['country'] = 'country'
+    apiField['ownership'] = 'ownership_kind'
+    apiField['ngo'] = 'is_ngo'
+    apiField['publishes'] = 'publishes'
+    apiField['owns'] = 'owns'
+    apiField['subnational_async'] = 'subnational'
+    apiField['urls'] = 'urls'
+    apiField['method'] = 'methodologies'
+    apiField['dataset'] = 'datasets_used'
+    apiField['programming'] = 'programming_languages'
+    apiField['channels'] = 'channels'
+    apiField['name_abbrev'] = 'name_abbrev'
+    apiField['color_hex'] = 'color_hex'
+    apiField['parlgov_id'] = 'parlgov_id'
+    apiField['partyfacts_id'] = 'partyfacts_id'
 
     // set initial json for adding a new record
     let initialJSON = () => {
@@ -154,6 +177,24 @@ const AddEntry = () => {
     // learning materials
     const [materialsDetails, setMaterialsDetails] = useState([])
     const [searchMaterials, setSearchMaterials] = useState();
+    // initial source
+    const [initialSourceDetails, setInitialSourceDetails] = useState([])
+    const [searchInitialSource, setSearchInitialSource] = useState();
+    // related publications
+    const [relatedPublicationsDetails, setRelatedPublicationsDetails] = useState([])
+    const [searchRelatedPublications, setSearchRelatedPublications] = useState();
+    // publishes
+    const [publishesDetails, setPublishesDetails] = useState([])
+    const [searchPublishes, setSearchPublishes] = useState();
+    // owns
+    const [ownsDetails, setOwnsDetails] = useState([])
+    const [searchOwns, setSearchOwns] = useState();
+    // subnational_async
+    const [subnationalAsyncDetails, setSubnationalAsyncDetails] = useState([])
+    const [searchSubnationalAsync, setSearchSubnationalAsync] = useState();
+    // dataset
+    const [datasetDetails, setDatasetDetails] = useState([])
+    const [searchDataset, setSearchDataset] = useState();
 
     // List (B2)
     // languages
@@ -168,9 +209,9 @@ const AddEntry = () => {
     // modalities
     const [modalList, setModalList] = useState([])
     const [searchModal, setSearchModal] = useState();
-    // subnational
-    const [subnationalList, setSubnationalList] = useState([])
-    const [searchSubnational, setSearchSubnational] = useState();
+    // subnational scope
+    const [subnationalScopeList, setSubnationalScopeList] = useState([])
+    const [searchSubnationalScope, setSearchSubnationalScope] = useState();
     // text types
     const [textTypesList, setTextTypesList] = useState([])
     const [searchTextTypes, setSearchTextTypes] = useState();
@@ -183,18 +224,41 @@ const AddEntry = () => {
     // file formats
     const [fileFormatsList, setFileFormatsList] = useState([])
     const [searchFileFormats, setSearchFileFormats] = useState();
+    // country
+    const [countryList, setCountryList] = useState([])
+    const [searchCountry, setSearchCountry] = useState();
+    // method
+    const [methodList, setMethodList] = useState([])
+    const [searchMethod, setSearchMethod] = useState();
+    // programming
+    const [programmingList, setProgrammingList] = useState([])
+    const [searchProgramming, setSearchProgramming] = useState();
+    // channels
+    const [channelsList, setChannelsList] = useState([])
+    const [searchChannels, setSearchChannels] = useState();
 
     // Creatable (D2)
     // Alternates
     const [searchAlternates, setSearchAlternates] = useState();
+    // Urls
+    const [searchUrls, setSearchUrls] = useState();
 
     // Enum (E2)
     // Access
     const [accessList, setAccessList] = useState([['NA', 'NA / Unknown'], ['free', 'Free'], ['registration', 'Registration Required'], ['request', 'Upon Request'], ['purchase', 'Purchase']])
     const [searchAccess, setSearchAccess] = useState();
+
     // Geographic
     const [geographicList, setGeographicList] = useState([['multinational', 'Multinational'], ['national', 'National'], ['subnational', 'Subnational']])
     const [searchGeographic, setSearchGeographic] = useState();
+
+    // Geographic
+    const [entryReviewStatusList, setEntryReviewStatusList] = useState([['draft', 'Draft'], ['pending', 'Pending'], ['accepted', 'Accepted'], ['rejected', 'Rejected']])
+    const [searchEntryReviewStatus, setSearchEntryReviewStatus] = useState();
+
+    // Ownership
+    const [ownershipList, setOwnershipList] = useState([['NA', 'Don\'t know / NA'], ['private ownership', 'Mainly private Ownership'], ['public ownership', 'Mainly public ownership'], ['unknown', 'Unknown Ownership']])
+    const [searchOwnership, setSearchOwnership] = useState();
 
     // *************** Fetch Data ****************
 
@@ -222,7 +286,7 @@ const AddEntry = () => {
 
 
     // *********** helper fetch function ****************
-    const fetchData = (fetchURL, predicate, val, list, itemdata, detailed=false) => {
+    const fetchData = (fetchURL, predicate, val, list, itemdata, detailed=false, singleitem=false) => {
         /*
             Arguments:
                 fetchURL:
@@ -240,6 +304,8 @@ const AddEntry = () => {
                     item data
                 detailed:
                     true: add '?detailed=true' to the API query. This returns a list of dictionaries instead of a list of key/value pairs
+                singleitem:
+                    true: does not attempt to loop through itemdata
         */
         // construct API URL
         let fullURL = process.env.REACT_APP_API
@@ -265,7 +331,8 @@ const AddEntry = () => {
                         if (list) {
                             let a = 0
                             for (var d of data) {
-                                for (let param of itemdata[apiField[predicate]]) {
+                                if (singleitem){
+                                    let param = itemdata[apiField[predicate]]
                                     if (val === 1) {
                                         if (param.uid === d.uid) {
                                             s[s.length] = {value: d.uid, label: d.name};
@@ -278,6 +345,24 @@ const AddEntry = () => {
                                         } else {
                                             if (param.value === d.value) {
                                                 s[s.length] = {value: d.value, label: d.name};
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    for (let param of itemdata[apiField[predicate]]) {
+                                        if (val === 1) {
+                                            if (param.uid === d.uid) {
+                                                s[s.length] = {value: d.uid, label: d.name};
+                                            }
+                                        } else {
+                                            if (val === 0) {
+                                                if (param.name === d.name) {
+                                                    s[s.length] = {value: d.name, label: d.name};
+                                                }
+                                            } else {
+                                                if (param.value === d.value) {
+                                                    s[s.length] = {value: d.value, label: d.name};
+                                                }
                                             }
                                         }
                                     }
@@ -322,9 +407,9 @@ const AddEntry = () => {
                 setModalList(data);
                 setSearchModal(s);
                 break;
-            case 'subnational':
-                setSubnationalList(data);
-                setSearchSubnational(s);
+            case 'subnational_scope':
+                setSubnationalScopeList(data);
+                setSearchSubnationalScope(s);
                 break;
             case 'text_types':
                 setTextTypesList(data);
@@ -341,6 +426,22 @@ const AddEntry = () => {
             case 'file_formats':
                 setFileFormatsList(data);
                 setSearchFileFormats(s);
+                break;
+            case 'country':
+                setCountryList(data);
+                setSearchCountry(s);
+                break;
+            case 'method':
+                setMethodList(data);
+                setSearchMethod(s);
+                break;
+            case 'programming':
+                setProgrammingList(data);
+                setSearchProgramming(s);
+                break;
+            case 'channels':
+                setChannelsList(data);
+                setSearchChannels(s);
                 break;
             default:
                 break
@@ -368,8 +469,6 @@ const AddEntry = () => {
     // ************* Create select box details ***************** (A3)
 
     const createSearchDetails = (search, details, predicate) => {
-        //console.log(search)
-        //console.log(details)
         let ary = []
         search?.forEach(b => {
             const res = details?.find(c => c.uid === b.uid);
@@ -400,12 +499,36 @@ const AddEntry = () => {
         })
         return ary
     }
+
+    const createSearchDetailsSingle = (search, details) => {
+        if (search){
+            let d = null
+            if (search["dgraph.type"]) {
+                let dt = search["dgraph.type"]
+                for (var i = 0; i < dt.length; i++) {
+                    if (dt[i] !== 'Entry') {
+                        d = dt[i];
+                        break;
+                    }
+                }
+            }
+            return {name: search.name, uid: search.uid, type: d}
+        }
+
+    }
+
     let entries_included_details = createSearchDetails(searchEntriesIncluded, entriesIncludedDetails)
     let tools_details = createSearchDetails(searchTools, toolsDetails)
     let references_details = createSearchDetails(searchReferences, referencesDetails)
     let authors_details = createSearchDetails(searchAuthors, authorsDetails, 'Author')
     let sources_included_details = createSearchDetails(searchSourcesIncluded, sourcesIncludedDetails)
     let materials_details = createSearchDetails(searchMaterials, materialsDetails)
+    let initial_source_details = createSearchDetails(searchInitialSource, initialSourceDetails)
+    let related_publications_details = createSearchDetails(searchRelatedPublications, relatedPublicationsDetails)
+    let publishes_details = createSearchDetails(searchPublishes, publishesDetails)
+    let owns_details = createSearchDetails(searchOwns, ownsDetails)
+    let subnational_async_details = createSearchDetailsSingle(searchSubnationalAsync, subnationalAsyncDetails)
+    let dataset_details = createSearchDetails(searchDataset, datasetDetails)
 
     // ************** Handlers ***************
 
@@ -447,6 +570,45 @@ const AddEntry = () => {
         updateJSON('materials', sel[0])
     };
 
+    const handleChangeInitialSource = (selectedOption) => {
+        let sel = getSelectedOptionsAsync(selectedOption)
+        setSearchInitialSource(sel[1])
+        updateJSON('initial_source', sel[0])
+    };
+
+    const handleChangeRelatedPublications = (selectedOption) => {
+        let sel = getSelectedOptionsAsync(selectedOption)
+        setSearchRelatedPublications(sel[1])
+        updateJSON('related_publications', sel[0])
+    };
+
+    const handleChangePublishes = (selectedOption) => {
+        let sel = getSelectedOptionsAsync(selectedOption)
+        setSearchPublishes(sel[1])
+        updateJSON('publishes', sel[0])
+    };
+
+    const handleChangeOwns = (selectedOption) => {
+        let sel = getSelectedOptionsAsync(selectedOption)
+        setSearchOwns(sel[1])
+        updateJSON('owns', sel[0])
+    };
+
+    const handleChangeSubnationalAsync = (selectedOption) => {
+        let sel = getSelectedOptionsAsync(selectedOption)
+        let obj = {value: sel[1][0], label: sel[1][1]}
+        setSearchSubnationalAsync(obj)
+        let uidPos = sel[1]
+        uidPos = uidPos.length
+        updateJSON('subnational_async', sel[1][uidPos-1])
+    };
+
+    const handleChangeDataset = (selectedOption) => {
+        let sel = getSelectedOptionsAsync(selectedOption)
+        setSearchDataset(sel[1])
+        updateJSON('dataset', sel[0])
+    };
+
     // *** normal *** (B4)
 
     const handleChangeLanguages = (selectedOption) => {
@@ -473,10 +635,10 @@ const AddEntry = () => {
         updateJSON('modal', sel[0])
     };
 
-    const handleChangeSubnational = (selectedOption) => {
+    const handleChangeSubnationalScope = (selectedOption) => {
         let sel = getSelectedOptions(selectedOption)
-        setSearchSubnational(sel[1])
-        updateJSON('subnational', sel[0])
+        setSearchSubnationalScope(sel[1])
+        updateJSON('subnational_scope', sel[0])
     };
 
     const handleChangeTextTypes = (selectedOption) => {
@@ -503,12 +665,40 @@ const AddEntry = () => {
         updateJSON('file_formats', sel[0])
     };
 
+    const handleChangeCountry = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        let obj = {value: sel[1][0], label: sel[1][1]}
+        setSearchCountry(obj)
+        updateJSON('country', sel[1][0])
+    };
+    const handleChangeMethod = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchMethod(sel[1])
+        updateJSON('method', sel[0])
+    };
+    const handleChangeProgramming = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchProgramming(sel[1])
+        updateJSON('programming', sel[0])
+    };
+    const handleChangeChannels = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchChannels(sel[1])
+        updateJSON('channels', sel[0])
+    };
+
     // *** creatable *** (D3)
 
     const handleChangeAlternates = (selectedOption) => {
         let sel = getSelectedOptions(selectedOption)
         setSearchAlternates(sel[1])
         updateJSON('alternates', sel[0])
+    };
+
+    const handleChangeUrls = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchUrls(sel[1])
+        updateJSON('urls', sel[0])
     };
 
     // *** enums *** (E3)
@@ -525,6 +715,18 @@ const AddEntry = () => {
         updateJSON('geographic', sel[0])
     };
 
+    const handleChangeEntryReviewStatus = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchEntryReviewStatus({'value': sel[0], 'label': sel[1]})
+        updateJSON('entry_review_status', sel[0])
+    };
+
+    const handleChangeOwnership = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchOwnership({'value': sel[0], 'label': sel[1]})
+        updateJSON('ownership', sel[0])
+    };
+
     // *** checkboxes *** (F2)
 
     const handleClickFulltext = (event) => {
@@ -534,7 +736,14 @@ const AddEntry = () => {
         } else {
             updateJSON('fulltext', true)
         }
-
+    };
+    const handleClickNgo = (event) => {
+        let chk = event.target.checked
+        if(chk) {
+            updateJSON('ngo', false)
+        } else {
+            updateJSON('ngo', true)
+        }
     };
 
     // ************** Submit ****************
@@ -545,6 +754,9 @@ const AddEntry = () => {
             let resp = null
             if (uid) {
                 //edit
+                console.log('Editing record')
+                console.log(uid)
+                console.log(json)
                 resp = await editRecord(
                     uid,
                     json,
@@ -552,6 +764,8 @@ const AddEntry = () => {
                 );
             } else {
                 //add
+                console.log('Adding record')
+                console.log(json)
                 resp = await addRecord(
                     entity,
                     json,
@@ -561,9 +775,15 @@ const AddEntry = () => {
             if (resp.status === 200) {
                 setAddResponse(resp);
                 setError(null)
-                //navigate('/detail/' + resp.uid)
+                navigate('/detail/' + resp.uid)
             } else {
-                setError(resp.message)
+                if (resp.status === 'success') {
+                    setAddResponse(resp);
+                    setError(null)
+                    //navigate('/detail/' + resp.uid)
+                } else {
+                    setError(resp.message)
+                }
             }
         } else {
             setAddResponse(json)
@@ -588,37 +808,67 @@ const AddEntry = () => {
     let tools_types = ['Tool']
     let references_types = ['ScientificPublication']
     let authors_types = ['Author']
-    let sources_included_types = ['NewsSource', 'Government', 'Parliament' , 'PoliticalParty', 'Organization']
+    let sources_included_types = []
+    if (entity === 'JournalisticBrand'){
+        sources_included_types.push('NewsSource')
+    } else {
+        sources_included_types = ['NewsSource', 'Government', 'Parliament', 'PoliticalParty', 'Organization']
+    }
     let materials_types = ['LearningMaterial']
+    let initial_source_types = ['Dataset']
+    let related_publications_types = ['ScientificPublication']
+    let publishes_types = ['NewsSource']
+    let owns_types = ['Organization']
+    let subnational_async_types = ['Subnational']
+    let dataset_types = ['Dataset']
 
     // *** all *** (A6, B5, C1, T2, D4, E4, F3)
-    const show_alternates = ["Collection", "Archive", "Dataset"]
-    const show_description = ["Collection", "Archive", "Dataset"]
+    const show_alternates = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool"]
+    const show_description = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "ScientificPublication"]
     const show_references = ["Collection"]
     const show_entries_included = ["Collection"]
-    const show_languages = ["Collection", "Archive", "Dataset"]
-    const show_countries = ["Collection", "Archive", "Dataset"]
-    const show_concept = ["Collection", "Archive", "Dataset"]
-    const show_modal = ["Collection", "Archive", "Dataset"]
-    const show_subnational = ["Collection"]
-    const show_materials = ["Collection"]
-    const show_tools = ["Collection"]
-    const show_authors = ["Archive", "Dataset"]
-    const show_url = ["Archive", "Dataset"]
-    const show_doi = ["Archive", "Dataset"]
-    const show_arxiv = ["Archive", "Dataset"]
-    const show_access = ["Archive", "Dataset"]
-    const show_text_types = ["Archive", "Dataset"]
-    const show_sources_included = ["Archive", "Dataset"]
-    const show_geographic = ["Archive", "Dataset"]
+    const show_languages = ["Collection", "Archive", "Dataset", "Parliament", "Government", "LearningMaterial", "Tool", "ScientificPublication"]
+    const show_countries = ["Collection", "Archive", "Dataset", "JournalisticBrand", "ScientificPublication"]
+    const show_country = ["Parliament", "Organization", "Government", "PoliticalParty"]
+    const show_concept = ["Collection", "Archive", "Dataset", "LearningMaterial", "Tool", "ScientificPublication"]
+    const show_modal = ["Collection", "Archive", "Dataset", "LearningMaterial", "Tool", "ScientificPublication"]
+    const show_subnational_scope = ["Collection", "JournalisticBrand"]
+    const show_materials = ["Collection", "Tool"]
+    const show_tools = ["Collection", "LearningMaterial", "ScientificPublication"]
+    const show_authors = ["Archive", "Dataset", "LearningMaterial", "Tool", "ScientificPublication"]
+    const show_url = ["Archive", "Dataset", "Parliament", "Government", "PoliticalParty", "Tool", "ScientificPublication"]
+    const show_doi = ["Archive", "Dataset", "Tool", "ScientificPublication"]
+    const show_arxiv = ["Archive", "Dataset", "Tool", "ScientificPublication"]
+    const show_access = ["Archive", "Dataset", "Tool"]
+    const show_text_types = ["Archive", "Dataset", "LearningMaterial", "ScientificPublication"]
+    const show_sources_included = ["Archive", "Dataset", "JournalisticBrand", "ScientificPublication"]
+    const show_geographic = ["Archive", "Dataset", "Parliament", "Government", "ScientificPublication"]
     const show_fulltext = ["Archive", "Dataset"]
-    const show_text_units = ["Archive", "Dataset"]
+    const show_text_units = ["Archive", "Dataset", "ScientificPublication"]
     const show_meta_variables = ["Archive", "Dataset"]
-    const show_file_formats = ["Archive", "Dataset"]
-    const show_date_published = ["Dataset"]
-    const show_github = ["Dataset"]
+    const show_file_formats = ["Archive", "Dataset", "Tool"]
+    const show_date_published = ["Dataset", "Tool", "ScientificPublication"]
+    const show_github = ["Dataset", "Tool"]
     const show_temporal_coverage_start = ["Dataset"]
     const show_temporal_coverage_end = ["Dataset"]
+    const show_initial_source = ["Dataset"]
+    const show_related_publications = ["Dataset"]
+    const show_entry_review_status = ["Dataset"]
+    const show_wikidata_id = ["Dataset", "LearningMaterial", "PoliticalParty"]
+    const show_ownership = ["Organization"]
+    const show_ngo = ["Organization"]
+    const show_publishes = ["Organization", "PoliticalParty"]
+    const show_owns = ["Organization"]
+    const show_subnational_async = ["Government"]
+    const show_urls = ["LearningMaterial"]
+    const show_method = ["LearningMaterial", "ScientificPublication"]
+    const show_dataset = ["LearningMaterial", "ScientificPublication"]
+    const show_programming = ["LearningMaterial"]
+    const show_channels = ["LearningMaterial", "ScientificPublication"]
+    const show_name_abbrev = ["PoliticalParty"]
+    const show_color_hex = ["PoliticalParty"]
+    const show_parlgov_id = ["PoliticalParty"]
+    const show_partyfacts_id = ["PoliticalParty"]
 
     // ************** Setup Select boxes & initial JSON ****************
 
@@ -657,8 +907,8 @@ const AddEntry = () => {
         // modal
         fetchData('schema/predicate/', 'modal', 1, true, i, true)
 
-        // subnational
-        fetchData('schema/predicate/counts/', 'subnational', 1, true, i)
+        // subnational scope
+        fetchData('schema/predicate/counts/', 'subnational_scope', 1, true, i)
 
         // text types
         fetchData('schema/predicate/counts/', 'text_types', 1, true, i)
@@ -671,6 +921,18 @@ const AddEntry = () => {
 
         // file formats
         fetchData('schema/predicate/', 'file_formats', 1, true, i, true)
+
+        // country
+        fetchData('schema/predicate/counts/', 'country', 1, true, i, false, true)
+
+        // method
+        fetchData('schema/predicate/', 'method', 1, true, i, true)
+
+        // programming
+        fetchData('schema/predicate/', 'programming', 1, true, i, true)
+
+        // channels
+        fetchData('schema/predicate/', 'channels', 1, true, i, true)
 
         if (i) {
             //console.log(i)
@@ -689,28 +951,45 @@ const AddEntry = () => {
             // *** Text *** (T3)
 
             // description
-            j[apiField['desc']] = i[apiField['desc']]
+            checkTextField(i,j,'desc')
 
             // doi
-            j[apiField['doi']] = i[apiField['doi']]
+            checkTextField(i,j,'doi')
 
             // arxiv
-            j[apiField['arxiv']] = i[apiField['arxiv']]
+            checkTextField(i,j,'arxiv')
 
             // url
-            j[apiField['url']] = i[apiField['url']]
+            checkTextField(i,j,'url')
 
             // github
-            j[apiField['github']] = i[apiField['github']]
+            checkTextField(i,j,'github')
 
             // date_published
-            j[apiField['date_published']] = retDateYear(i[apiField['date_published']], true)
+            if (i[apiField['date_published']]) {
+                j[apiField['date_published']] = retDateYear(i[apiField['date_published']], true)
+            }
 
             // temporal_coverage_start
-            j[apiField['temporal_coverage_start']] = i[apiField['temporal_coverage_start']]
+            checkTextField(i,j,'temporal_coverage_start')
 
             // temporal_coverage_end
-            j[apiField['temporal_coverage_end']] = i[apiField['temporal_coverage_end']]
+            checkTextField(i,j,'temporal_coverage_end')
+
+            // wikidata_id
+            checkTextField(i,j,'wikidata_id')
+
+            // name_abbrev
+            checkTextField(i,j,'name_abbrev')
+
+            // color_hex
+            checkTextField(i,j,'color_hex')
+
+            // parlgov_id
+            checkTextField(i,j,'parlgov_id')
+
+            // partyfacts_id
+            checkTextField(i,j,'partyfacts_id')
 
             // *** Async *** (A7)
 
@@ -744,6 +1023,38 @@ const AddEntry = () => {
             setSearchMaterials(i[apiField['materials']])
             setMaterialsDetails(i[apiField['materials']])
 
+            // initial source
+            setupSelectVars(i, j, 'initial_source')
+            setSearchInitialSource(i[apiField['initial_source']])
+            setInitialSourceDetails(i[apiField['initial_source']])
+
+            // related publication
+            setupSelectVars(i, j, 'related_publication')
+            setSearchRelatedPublications(i[apiField['related_publication']])
+            setRelatedPublicationsDetails(i[apiField['related_publication']])
+
+            // publishes
+            setupSelectVars(i, j, 'publishes')
+            setSearchPublishes(i[apiField['publishes']])
+            setPublishesDetails(i[apiField['publishes']])
+
+            // owns
+            setupSelectVars(i, j, 'owns')
+            setSearchOwns(i[apiField['owns']])
+            setOwnsDetails(i[apiField['owns']])
+
+            // subnational async
+            if (i[apiField['subnational_async']]) {
+                j[apiField['subnational_async']] = i[apiField['subnational_async']]['uid']
+            }
+            setSearchSubnationalAsync(i[apiField['subnational_async']])
+            setSubnationalAsyncDetails(i[apiField['subnational_async']])
+
+            // dataset
+            setupSelectVars(i, j, 'dataset')
+            setSearchDataset(i[apiField['dataset']])
+            setDatasetDetails(i[apiField['dataset']])
+
             // *** List *** (B7)
 
             // languages
@@ -758,8 +1069,8 @@ const AddEntry = () => {
             // modal
             setupSelectVars(i, j, 'modal')
 
-            // subnational
-            setupSelectVars(i, j, 'subnational')
+            // subnational scope
+            setupSelectVars(i, j, 'subnational_scope')
 
             // text types
             setupSelectVars(i, j, 'text_types')
@@ -773,37 +1084,82 @@ const AddEntry = () => {
             // file formats
             setupSelectVars(i, j, 'file_formats')
 
+            // country
+            if (i[apiField['country']]) {
+                j[apiField['country']] = i[apiField['country']]['uid']
+            }
+
+            // method
+            setupSelectVars(i, j, 'method')
+
+            // programming
+            setupSelectVars(i, j, 'programming')
+
+            // channels
+            setupSelectVars(i, j, 'channels')
+
             // *** Creatable *** (D5)
 
             // alternates
             setupSelectVars(i, j, 'alternates', true)
             setSearchAlternates(setCreatable(i, 'alternates'))
 
+            // urls
+            setupSelectVars(i, j, 'urls', true)
+            setSearchUrls(setCreatable(i, 'urls'))
+
             // *** Enums *** (E5)
 
             // access
-            j[apiField['access']] = i[apiField['access']]
-            let access_lab = ''
-            for (var a of accessList){
-                if (a[0] === i[apiField['access']]){
-                    access_lab = a[1];
+            if (i[apiField['access']]) {
+                j[apiField['access']] = i[apiField['access']]
+                let access_lab = ''
+                for (var a of accessList) {
+                    if (a[0] === i[apiField['access']]) {
+                        access_lab = a[1];
+                    }
                 }
+                setSearchAccess({'value': i[apiField['access']], 'label': access_lab})
             }
-            setSearchAccess({'value': i[apiField['access']], 'label': access_lab})
 
             // geographic
-            j[apiField['geographic']] = i[apiField['geographic']]
-            let geographic_lab = ''
-            for (var a of geographicList){
-                if (a[0] === i[apiField['geographic']]){
-                    geographic_lab = a[1];
+            if (i[apiField['geographic']]) {
+                j[apiField['geographic']] = i[apiField['geographic']]
+                let geographic_lab = ''
+                for (var b of geographicList) {
+                    if (b[0] === i[apiField['geographic']]) {
+                        geographic_lab = b[1];
+                    }
+                }
+                setSearchGeographic({'value': i[apiField['geographic']], 'label': geographic_lab})
+            }
+
+            // entry review status
+            j[apiField['entry_review_status']] = i[apiField['entry_review_status']]
+            let entry_review_status_lab = ''
+            for (var c of entryReviewStatusList){
+                if (c[0] === i[apiField['entry_review_status']]){
+                    entry_review_status_lab = c[1];
                 }
             }
-            setSearchGeographic({'value': i[apiField['geographic']], 'label': geographic_lab})
+            setSearchEntryReviewStatus({'value': i[apiField['entry_review_status']], 'label': entry_review_status_lab})
+
+            // ownership
+            if (i[apiField['ownership']]) {
+                j[apiField['ownership']] = i[apiField['ownership']]
+                let ownership_lab = ''
+                for (var b of ownershipList) {
+                    if (b[0] === i[apiField['ownership']]) {
+                        ownership_lab = b[1];
+                    }
+                }
+                setSearchOwnership({'value': i[apiField['ownership']], 'label': ownership_lab})
+            }
 
             // *** Checkboxes *** (F4)
-            //console.log(i[apiField['fulltext']])
-            j[apiField['fulltext']] = i[apiField['fulltext']]
+            checkTextField(i,j, 'fulltext')
+
+            checkTextField(i,j, 'ngo')
 
             // add top key and update
             let d = {'data': j}
@@ -837,6 +1193,17 @@ const AddEntry = () => {
         }
     ];
 
+    const country_options = [
+        {
+            label: "Multinational",
+            options: multinational_options
+        },
+        {
+            label: "Country",
+            options: individual_countries_options
+        }
+    ];
+
     // *** normals ***
 
     let languages_options = languagesList.map(function (p) {
@@ -849,7 +1216,7 @@ const AddEntry = () => {
     let modal_options = modalList.map(function (p) {
         return {value: p.uid, label: p.name};
     })
-    let subnational_options = subnationalList.map(function (p) {
+    let subnational_scope_options = subnationalScopeList.map(function (p) {
         return {value: p.uid, label: p.name};
     })
     let text_types_options = textTypesList.map(function (p) {
@@ -871,6 +1238,15 @@ const AddEntry = () => {
     } finally {
 
     }
+    let method_options = methodList.map(function (p) {
+        return {value: p.uid, label: p.name};
+    })
+    let programming_options = programmingList.map(function (p) {
+        return {value: p.uid, label: p.name};
+    })
+    let channels_options = channelsList.map(function (p) {
+        return {value: p.uid, label: p.name};
+    })
 
     // *** enums ***
 
@@ -878,6 +1254,12 @@ const AddEntry = () => {
         return {value: p[0], label: p[1]};
     })
     let geographic_options = geographicList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let entry_review_status_options = entryReviewStatusList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let ownership_options = ownershipList.map(function (p) {
         return {value: p[0], label: p[1]};
     })
 
@@ -899,12 +1281,11 @@ const AddEntry = () => {
         // add key and update
         let d = json
         key = apiField[key]
-        if (val){
+        if (val || val === false){
             d['data'][key] = val
         } else {
             delete d['data'][key]
         }
-
         console.log(d)
         setJson(d)
     }
@@ -955,6 +1336,21 @@ const AddEntry = () => {
         }
     }
 
+    const checkTextField = (i, j, predicate) => {
+        if (i[apiField[predicate]]) {
+            j[apiField[predicate]] = i[apiField[predicate]]
+        }
+    }
+
+    const createAltText = (str1, str2) => {
+        if (str2){
+            return str1 + entity + str2
+        } else {
+            return str1 + entity + '?'
+        }
+    }
+
+
     // *************** RENDER ************** (A8, B9, T4, D6, E7)
 
     return (
@@ -1001,6 +1397,136 @@ const AddEntry = () => {
                             </div>
                         }
 
+                        {checkDisplay(show_doi) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['doi']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'doi'}
+                                    fieldValue={item?.doi}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_name_abbrev) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['name_abbrev']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'name_abbrev'}
+                                    fieldValue={item?.name_abbrev}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_parlgov_id) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['parlgov_id']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'parlgov_id'}
+                                    fieldValue={item?.parlgov_id}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_partyfacts_id) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['partyfacts_id']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'partyfacts_id'}
+                                    fieldValue={item?.partyfacts_id}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_color_hex) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['color_hex']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'color_hex'}
+                                    fieldValue={item?.color_hex}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_urls) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['urls']}/></h4>
+                                <CreatableSelectBox
+                                    handleChangeEntity={handleChangeUrls}
+                                    searchValues={searchUrls}
+                                    req={false}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_ownership) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['ownership']} altText={createAltText('Is the ', ' mainly privately owned or publicly owned')} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeOwnership}
+                                    searchOptions={ownership_options}
+                                    searchValues={searchOwnership}
+                                    multi={false}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_country) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['country']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeCountry}
+                                    searchOptions={country_options}
+                                    searchValues={searchCountry}
+                                    multi={false}
+                                    req={true}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_publishes) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['publishes']}/></h4>
+                                <SearchAsyncSelectBox
+                                    handleChangeEntity={handleChangePublishes}
+                                    searchValues={publishes_details}
+                                    types={publishes_types}
+                                    width='100%'
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_owns) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['owns']}/></h4>
+                                <SearchAsyncSelectBox
+                                    handleChangeEntity={handleChangeOwns}
+                                    searchValues={owns_details}
+                                    types={owns_types}
+                                    width='100%'
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_ngo) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['ngo']}/></h4>
+                                <SearchCheckbox
+                                    handleClick={handleClickNgo}
+                                    name={'ngo'}
+                                    val={true}
+                                    chk={item?.is_ngo}
+                                />
+                            </div>
+                        }
+
                         {checkDisplay(show_date_published) &&
                             <div className='add_entry'>
                                 <h4><TypeDescription dgraphType={entity} fieldName={apiField['date_published']}/></h4>
@@ -1024,7 +1550,6 @@ const AddEntry = () => {
                                     fieldName={'url'}
                                     fieldValue={item?.url}
                                     type="url"
-                                    req={true}
                                 />
                             </div>
                         }
@@ -1078,7 +1603,7 @@ const AddEntry = () => {
 
                         {checkDisplay(show_access) &&
                             <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['access']} altText='How can the user access the '/></h4>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['access']} altText={createAltText('How can the user access the ')}/></h4>
                                 <SearchSelectBox
                                     handleChangeEntity={handleChangeAccess}
                                     searchOptions={access_options}
@@ -1104,7 +1629,7 @@ const AddEntry = () => {
 
                         {checkDisplay(show_geographic) &&
                             <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['geographic']} altText='What is the geographic scope of the '/></h4>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['geographic']} altText={createAltText('What is the geographic scope of the ')}/></h4>
                                 <SearchSelectBox
                                     handleChangeEntity={handleChangeGeographic}
                                     searchOptions={geographic_options}
@@ -1112,6 +1637,31 @@ const AddEntry = () => {
                                     multi={false}
                                     req={true}
                                     width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_subnational_async) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['subnational_async']}/></h4>
+                                <SearchAsyncSelectBox
+                                    handleChangeEntity={handleChangeSubnationalAsync}
+                                    searchValues={subnational_async_details}
+                                    types={subnational_async_types}
+                                    width='100%'
+                                    single={true}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_initial_source) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['initial_source']}/></h4>
+                                <SearchAsyncSelectBox
+                                    handleChangeEntity={handleChangeInitialSource}
+                                    searchValues={initial_source_details}
+                                    types={initial_source_types}
+                                    width='100%'
                                 />
                             </div>
                         }
@@ -1147,6 +1697,20 @@ const AddEntry = () => {
                                     handleChangeEntity={handleChangeLanguages}
                                     searchOptions={languages_options}
                                     searchValues={searchLanguages}
+                                    multi={true}
+                                    req={false}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_programming) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['programming']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeProgramming}
+                                    searchOptions={programming_options}
+                                    searchValues={searchProgramming}
                                     multi={true}
                                     req={false}
                                     width="100%"
@@ -1204,6 +1768,20 @@ const AddEntry = () => {
                             </div>
                         }
 
+                        {checkDisplay(show_channels) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['channels']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeChannels}
+                                    searchOptions={channels_options}
+                                    searchValues={searchChannels}
+                                    multi={true}
+                                    req={false}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
                         {checkDisplay(show_text_units) &&
                             <div className='add_entry'>
                                 <h4><TypeDescription dgraphType={entity} fieldName={apiField['text_units']}/></h4>
@@ -1218,13 +1796,13 @@ const AddEntry = () => {
                             </div>
                         }
 
-                        {checkDisplay(show_subnational) &&
+                        {checkDisplay(show_subnational_scope) &&
                             <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['subnational']}/></h4>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['subnational_scope']}/></h4>
                                 <SearchSelectBox
-                                    handleChangeEntity={handleChangeSubnational}
-                                    searchOptions={subnational_options}
-                                    searchValues={searchSubnational}
+                                    handleChangeEntity={handleChangeSubnationalScope}
+                                    searchOptions={subnational_scope_options}
+                                    searchValues={searchSubnationalScope}
                                     multi={true}
                                     req={false}
                                     width="100%"
@@ -1256,6 +1834,18 @@ const AddEntry = () => {
                             </div>
                         }
 
+                        {checkDisplay(show_dataset) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['dataset']}/></h4>
+                                <SearchAsyncSelectBox
+                                    handleChangeEntity={handleChangeDataset}
+                                    searchValues={dataset_details}
+                                    types={dataset_types}
+                                    width='100%'
+                                />
+                            </div>
+                        }
+
                         {checkDisplay(show_materials) &&
                             <div className='add_entry'>
                                 <h4><TypeDescription dgraphType={entity} fieldName={apiField['materials']}/></h4>
@@ -1275,6 +1865,20 @@ const AddEntry = () => {
                                     handleChangeEntity={handleChangeConcept}
                                     searchOptions={concept_options}
                                     searchValues={searchConcept}
+                                    multi={true}
+                                    req={false}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_method) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['method']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeMethod}
+                                    searchOptions={method_options}
+                                    searchValues={searchMethod}
                                     multi={true}
                                     req={false}
                                     width="100%"
@@ -1324,6 +1928,42 @@ const AddEntry = () => {
                             </div>
                         }
 
+                        {checkDisplay(show_related_publications) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['related_publications']}/></h4>
+                                <SearchAsyncSelectBox
+                                    handleChangeEntity={handleChangeRelatedPublications}
+                                    searchValues={related_publications_details}
+                                    types={related_publications_types}
+                                    width='100%'
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_entry_review_status) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['entry_review_status']} altText={createAltText('Entry Review Status for the ')}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeEntryReviewStatus}
+                                    searchOptions={entry_review_status_options}
+                                    searchValues={searchEntryReviewStatus}
+                                    multi={false}
+                                    req={true}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_wikidata_id) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['wikidata_id']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'wikidata_id'}
+                                    fieldValue={item?.wikidata_id}
+                                />
+                            </div>
+                        }
 
                         <div style={{clear:"both", "marginTop":10}}>
                             <md-filled-button id="submitForm" type="submit">{uid ? 'Edit' : 'Add'}&nbsp;{entity}</md-filled-button>&nbsp;

@@ -47,7 +47,7 @@ const TypeDescription = ({ dgraphType, fieldName, altText }) => {
     if (typeof(fieldName) != 'undefined'){
         let ret = ''
         if (altText){
-            ret = altText + dgraphType + '?'
+            ret = altText
         } else {
             //console.log(fieldName)
             if (!schema || !schema['properties'] || !schema['properties'][fieldName] || !schema['properties'][fieldName]['description']) {

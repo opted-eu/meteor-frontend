@@ -262,7 +262,6 @@ const AdvancedSearchForm = ({ searchParams }) => {
             case apiField['entries_included']:
                 initialEntriesIncluded += '&' + param[0] + '=' + param[1]
                 initialSearchEntriesIncluded[initialSearchEntriesIncluded.length] = {name: "Country"+initialSearchEntriesIncluded.length , uid: param[1]}
-                console.log(initialSearchEntriesIncluded)
                 break;
             case apiField['designed_for']:
                 initialDesignedFor += '&' + param[0] + '=' + param[1]
@@ -1522,7 +1521,6 @@ const AdvancedSearchForm = ({ searchParams }) => {
     const handleChangePublicationKind = (selectedOption) => {
         let sel = getSelectedOptions(selectedOption, 'publication_kind')
         setPublicationKind(sel[0]);
-        console.log(sel[1])
         setSearchPublicationKind(sel[1])
     };
     const handleChangePaymentModel = (selectedOption) => {
@@ -2166,7 +2164,6 @@ const AdvancedSearchForm = ({ searchParams }) => {
                 entries_included_details.push({name: n, uid: res.uid, type: d})
             }
         })
-        console.log(entries_included_details)
     }
 
     let designed_for_details = []
