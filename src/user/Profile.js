@@ -40,7 +40,7 @@ const Profile = () => {
         return fetch(process.env.REACT_APP_API + 'user/profile/delete', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + token,
+                'Authorization': 'Bearer ' + token?.access_token,
             }
         })
             .then(data => data.json())
@@ -173,24 +173,24 @@ const Profile = () => {
 
                 {/* Raw Data */}
                 {process.env.NODE_ENV === "development" && 
-                <div className="divTable">
-                    <DetailHeader
-                        t="Raw Data"
-                        m={JSON.stringify(profile, null, 4)}
-                        p="true"
-                    />
-                </div>
+                    <div className="divTable">
+                        <DetailHeader
+                            t="Raw Data"
+                            m={JSON.stringify(profile, null, 4)}
+                            p="true"
+                        />
+                    </div>
                 }
 
                 {/* Login Data */}
                 {process.env.NODE_ENV === "development" && 
-                <div className="divTable">
-                    <DetailHeader
-                        t="Login Data"
-                        m={JSON.stringify(loggedIn, null, 4)}
-                        p="true"
-                    />
-                </div>
+                    <div className="divTable">
+                        <DetailHeader
+                            t="Login Data"
+                            m={JSON.stringify(loggedIn, null, 4)}
+                            p="true"
+                        />
+                    </div>
                 }
 
             </div>

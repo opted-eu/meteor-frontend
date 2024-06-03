@@ -309,6 +309,9 @@ const AddEntry = () => {
     // Documentation
     const [searchDoc, setSearchDoc] = useState()
 
+    // Extras - Documentation Kind
+    const [searchDockind, setSearchDockind] = useState()
+
     // Enum (E2)
     // Access
     const [accessList, setAccessList] = useState([['NA', 'NA / Unknown'], ['free', 'Free'], ['registration', 'Registration Required'], ['request', 'Upon Request'], ['purchase', 'Purchase']])
@@ -1197,7 +1200,7 @@ const AddEntry = () => {
                 if (resp.status === 'success') {
                     setAddResponse(resp);
                     setError(null)
-                    //navigate('/detail/' + resp.uid)
+                    navigate('/detail/' + resp.uid)
                 } else {
                     setError(resp.message)
                 }
@@ -1699,9 +1702,13 @@ const AddEntry = () => {
 
             // documentation kind
             if (i[apiField['dockind']]) {
-                j[apiField['dockind']] = i[apiField['dockind']]
+                if (dockindUpdate === 'multi') {
+                    j[apiField['dockind']] = i[apiField['dockind']]
+                } else {
+                    j[apiField['dockind']] = i[apiField['dockind']][0]
+                }
+                setSearchDockind(i[apiField['dockind']])
             }
-            //setSearchDockind(setCreatable(i, 'doc'))
 
             // *** Enums *** (E5)
 
@@ -2016,7 +2023,13 @@ const AddEntry = () => {
     }
 
     const getDockindFieldValue = (d) => {
-        return ''
+        let p = 0
+        for (var r of doc) {
+            if (d === r){
+                return item[apiField['dockind']][p]
+            }
+            p++;
+        }
     }
 
     // *************** RENDER ************** (A8, B9, T4, D6, E7, F5)
@@ -3124,7 +3137,8 @@ const AddEntry = () => {
                                         fieldName={getDockindFieldName(d)}
                                         fieldValue={getDockindFieldValue(d)}
                                         rows='0'
-                                        width={'300'}
+                                        width={'400px'}
+                                        label={'e.g. FAQ, Manual, Tutorial, Website, etc'}
                                     />
                                      &nbsp;: {d}
                                 </h5>
@@ -3149,19 +3163,20 @@ const AddEntry = () => {
 
                     </form>
 
-                    <br />
+                    {error &&
+                        <p className={'message'}>{error}</p>
+                    }
 
-                    <h4>Add JSON</h4>
-                    <pre>{JSON.stringify(json, null, 4)}</pre>
-
-                    <br /><br />
-                    <h4>Add Response</h4>
-
-                    <pre>{JSON.stringify(addResponse, null, 4)}</pre>
-
-                    <br /><br />
-                    <h4>Other Messages</h4>
-                    {error}
+                    {process.env.NODE_ENV === "development" &&
+                        <>
+                            <br/>
+                            <h4>JSON</h4>
+                            <pre>{JSON.stringify(json, null, 4)}</pre>
+                            <br /><br />
+                            <h4>Response</h4>
+                            <pre>{JSON.stringify(addResponse, null, 4)}</pre>
+                        </>
+                    }
 
                 </>
             )}

@@ -86,6 +86,7 @@ const UpdateUser = () => {
                                     handleChangeEntity={handleChangeOption}
                                     searchOptions={options}
                                     multi={false}
+                                    req={true}
                                 />
                             </div>
 

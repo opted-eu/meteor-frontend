@@ -68,7 +68,13 @@ const Home = () => {
             <div className="home-text">
 
                 {logout &&
-                    <p><strong>You are logged out!</strong></p>
+                    <>
+                        <p style={{borderBottom:'1px solid grey', paddingBottom:'10px'}}>
+                            <span className='message'>You are logged out!</span>
+                            <br />
+                            <strong>Hint:</strong> Try ticking the 'Remember Me' box when logging in to stay logged in for longer!
+                        </p>
+                    </>
                 }
 
                 <p>Quickly and easily query our database of political text resources. Our database is a collection of data, tools and more that have been curated for the political text community.</p>

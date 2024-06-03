@@ -32,11 +32,11 @@ const ChangePassword = () => {
     }, [])
 
     async function resetPwd(credentials) {
-        console.log(credentials)
+        console.log(token)
         return fetch(process.env.REACT_APP_API + 'user/password/change', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + token,
+                'Authorization': 'Bearer ' + token?.access_token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(credentials)
