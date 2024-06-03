@@ -5,6 +5,10 @@ body{
     color: white !important;
 }
 
+h4{
+    color: #cccccc;
+}
+
 #root{
     height: 100%;
 }
@@ -253,8 +257,14 @@ h2{
 .add_entry{
     margin-top:20px;
 }
-.add_entry_grey{
-    color:#cccccc;
+.add_entry_opt{
+    color:lightskyblue;
+    font-size:medium;
+}
+
+.add_entry_req{
+    color: lightskyblue;
+    font-size:xx-large;
 }
 
 

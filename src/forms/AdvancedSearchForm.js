@@ -2849,6 +2849,7 @@ const AdvancedSearchForm = ({ searchParams }) => {
                                     searchValues={searchAudienceSizeCountOperator}
                                     multi={false}
                                     req={false}
+                                    special={true}
                                 />
                                 <div style={TextStyles}>
                                     <md-filled-text-field

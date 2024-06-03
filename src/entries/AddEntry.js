@@ -67,10 +67,12 @@ const AddEntry = () => {
         To add more 'enum' selects
             Follow the Es
 
-           To add more checkboxes
+        To add more checkboxes
             follow the Fs
     */
 
+    //let dockindUpdate = 'multi'
+    let dockindUpdate = 'single'
     let { uid } = useParams();
     const [searchParams] = useSearchParams();
     const openApi = useOpenAPI();
@@ -124,6 +126,43 @@ const AddEntry = () => {
     apiField['color_hex'] = 'color_hex'
     apiField['parlgov_id'] = 'parlgov_id'
     apiField['partyfacts_id'] = 'partyfacts_id'
+    apiField['title'] = 'title'
+    apiField['openalex'] = 'openalex'
+    apiField['paperkind'] = 'paper_kind'
+    apiField['venue'] = 'venue'
+    apiField['version'] = 'version'
+    apiField['cran'] = 'cran'
+    apiField['pypi'] = 'pypi'
+    apiField['platforms'] = 'platforms'
+    apiField['used_for'] = 'used_for'
+    apiField['open_source'] = 'open_source'
+    apiField['license'] = 'license'
+    apiField['gui'] = 'graphical_user_interface'
+    apiField['designed_for'] = 'designed_for'
+    apiField['language_independent'] = 'language_independent'
+    apiField['iff'] = 'input_file_format'
+    apiField['off'] = 'output_file_format'
+    apiField['author_validated'] = 'author_validated'
+    apiField['defunct'] = 'defunct'
+    apiField['validation_dataset'] = 'validation_dataset'
+    apiField['transcript'] = 'transcript_kind'
+    apiField['channel'] = 'channel'
+    apiField['website_allows_comments'] = 'website_allows_comments'
+    apiField['website_comments_reg'] = 'website_comments_registration_required'
+    apiField['date_founded'] = 'date_founded'
+    apiField['pubkind'] = 'publication_kind'
+    apiField['special_interest'] = 'special_interest'
+    apiField['topical'] = 'topical_focus'
+    apiField['pubcycle'] = 'publication_cycle'
+    apiField['pubcycleweekly'] = 'publication_cycle_weekday'
+    apiField['paymod'] = 'payment_model'
+    apiField['ads'] = 'contains_ads'
+    apiField['audsizerecent'] = 'audience_size_recent'
+    apiField['epaper'] = 'channel_epaper'
+    apiField['party'] = 'party_affiliated'
+    apiField['relatedns'] = 'related_news_sources'
+    apiField['doc'] = 'documentation'
+    apiField['dockind'] = 'documentation|kind'
 
     // set initial json for adding a new record
     let initialJSON = () => {
@@ -157,6 +196,10 @@ const AddEntry = () => {
     const [addResponse, setAddResponse] = useState(null);
     const [item, setItem] = useState(null);
     const [profile, setProfile] = useContext(ProfileContext);
+    const [schema, setSchema] = useState(null);
+    const [doc, setDoc] = useState();
+    const [dockind, setDockind] = useState();
+
 
     // Async (A2)
     // entries included
@@ -195,6 +238,12 @@ const AddEntry = () => {
     // dataset
     const [datasetDetails, setDatasetDetails] = useState([])
     const [searchDataset, setSearchDataset] = useState();
+    // designed for
+    const [designedForDetails, setDesignedForDetails] = useState([])
+    const [searchDesignedFor, setSearchDesignedFor] = useState();
+    // related news sources
+    const [relatednsDetails, setRelatednsDetails] = useState([])
+    const [searchRelatedns, setSearchRelatedns] = useState();
 
     // List (B2)
     // languages
@@ -236,12 +285,29 @@ const AddEntry = () => {
     // channels
     const [channelsList, setChannelsList] = useState([])
     const [searchChannels, setSearchChannels] = useState();
+    // used for
+    const [usedForList, setUsedForList] = useState([])
+    const [searchUsedFor, setSearchUsedFor] = useState();
+    // input ff
+    const [iffList, setIffList] = useState([])
+    const [searchIff, setSearchIff] = useState();
+    // output ff
+    const [offList, setOffList] = useState([])
+    const [searchOff, setSearchOff] = useState();
+    // validation_dataset
+    const [validationDatasetList, setValidationDatasetList] = useState([])
+    const [searchValidationDataset, setSearchValidationDataset] = useState();
+    // channel
+    const [channelList, setChannelList] = useState([])
+    const [searchChannel, setSearchChannel] = useState();
 
     // Creatable (D2)
     // Alternates
     const [searchAlternates, setSearchAlternates] = useState();
     // Urls
     const [searchUrls, setSearchUrls] = useState();
+    // Documentation
+    const [searchDoc, setSearchDoc] = useState()
 
     // Enum (E2)
     // Access
@@ -252,13 +318,144 @@ const AddEntry = () => {
     const [geographicList, setGeographicList] = useState([['multinational', 'Multinational'], ['national', 'National'], ['subnational', 'Subnational']])
     const [searchGeographic, setSearchGeographic] = useState();
 
-    // Geographic
+    // Entry Review Status
     const [entryReviewStatusList, setEntryReviewStatusList] = useState([['draft', 'Draft'], ['pending', 'Pending'], ['accepted', 'Accepted'], ['rejected', 'Rejected']])
     const [searchEntryReviewStatus, setSearchEntryReviewStatus] = useState();
 
     // Ownership
     const [ownershipList, setOwnershipList] = useState([['NA', 'Don\'t know / NA'], ['private ownership', 'Mainly private Ownership'], ['public ownership', 'Mainly public ownership'], ['unknown', 'Unknown Ownership']])
     const [searchOwnership, setSearchOwnership] = useState();
+
+    // Paper kind
+    const [paperkindList, setPaperkindList] = useState([
+        ['journal-article', 'Journal Article'],
+        ['book', 'Book'],
+        ['dataset', 'Dataset'],
+        ['book-chapter', 'Book Chapter'],
+        ['book-part', 'Part'],
+        ['book-section', 'Book Section'],
+        ['book-series', 'Book Series'],
+        ['book-set', 'Book Set'],
+        ['book-track', 'Book Track'],
+        ['component', 'Component'],
+        ['database', 'Database'],
+        ['dissertation', 'Dissertation'],
+        ['edited-book', 'Edited Book'],
+        ['grant', 'Grant'],
+        ['journal', 'Journal'],
+        ['journal-issue', 'Journal Issue'],
+        ['journal-volume', 'Journal Volume'],
+        ['monograph', 'Monograph'],
+        ['peer-review', 'Peer Review'],
+        [' posted-content', 'Posted Content'],
+        ['proceedings', 'Proceedings'],
+        ['proceedings-article', 'Proceedings Article'],
+        ['proceedings-series', 'Proceedings Series'],
+        ['reference-book', 'Reference Book'],
+        ['reference-entry', 'Reference Entry'],
+        ['report', 'Report'],
+        ['report-component', 'Report Component'],
+        ['report-series', 'Report Series'],
+        ['standard', 'Standard'],
+        ['other', 'Other'],
+    ])
+    const [searchPaperkind, setSearchPaperkind] = useState();
+
+    // platforms
+    const [platformsList, setPlatformsList] = useState([['windows', 'Windows'], ['linux', 'Linux'], ['macos', 'macOS']])
+    const [searchPlatforms, setSearchPlatforms] = useState();
+
+    // Open Source
+    const [openSourceList, setOpenSourceList] = useState([['NA', 'NA / Unknown'], ['yes', 'Yes'], ['no', 'No']])
+    const [searchOpenSource, setSearchOpenSource] = useState();
+
+    // Author validated
+    const [authorValidatedList, setAuthorValidatedList] = useState([['NA', 'NA / Unknown'], ['yes', 'Yes'], ['no', 'No, not reported']])
+    const [searchAuthorValidated, setSearchAuthorValidated] = useState();
+
+    // Transcript Kind
+    const [transcriptList, setTranscriptList] = useState([['tv', 'TV (broadcast, cable, satellite, etc'], ['radio', 'Radio'], ['podcast', 'Podcast']])
+    const [searchTranscript, setSearchTranscript] = useState();
+
+    // Website Allows Comments
+    const [websiteAllowsCommentsList, setWebsiteAllowsCommentsList] = useState([['NA', 'NA / Unknown'], ['yes', 'Yes'], ['no', 'No']])
+    const [searchWebsiteAllowsComments, setSearchWebsiteAllowsComments] = useState();
+
+    // Website Comments Reg Req
+    const [websiteCommentsRegList, setWebsiteCommentsRegList] = useState([['NA', 'NA / Unknown'], ['yes', 'Yes'], ['no', 'No']])
+    const [searchWebsiteCommentsReg, setSearchWebsiteCommentsReg] = useState();
+
+    // Paper kind
+    const [pubkindList, setPubkindList] = useState([
+        ['newspaper', 'Newspaper'],
+        ['news site', 'News Site'],
+        ['news agency', 'News Agency'],
+        ['magazine', 'Magazine'],
+        ['tv show', 'TV Show / TV Channel'],
+        ['radio show', 'Radio Show / Radio Channel'],
+        ['podcast', 'Podcast'],
+        ['news blog', 'News Blog'],
+        ['alternative media', 'Alternative Media'],
+        ['organizational communication', 'Organizational Communication'],
+    ])
+    const [searchPubkind, setSearchPubkind] = useState();
+
+    // Topical Focus
+    const [topicalList, setTopicalList] = useState([
+        ['economy', 'Business, Economy, Finance & Stocks'],
+        ['education', 'Education'],
+        ['environment', 'Environment'],
+        ['health', 'Health'],
+        ['media', 'Media'],
+        ['politics', 'Politics'],
+        ['religion', 'Religion'],
+        ['society', 'Society & Panorama'],
+        ['science', 'Science & Technology'],
+        ['youth', 'Youth'],
+    ])
+    const [searchTopical, setSearchTopical] = useState();
+
+    // Publication cycle
+    const [pubcycleList, setPubcycleList] = useState([
+        ['continuous', 'Continuous'],
+        ['daily', 'Daily (7 times a week)'],
+        ['multiple times per week', 'Multiple times per week'],
+        ['weekly', 'Weekly'],
+        ['twice a month', 'Twice a month'],
+        ['monthly', 'Monthly'],
+        ['less than monthly', 'Less frequent than monthly'],
+        ['NA', 'Don\'t Know / NA'],
+    ])
+    const [searchPubcycle, setSearchPubcycle] = useState();
+
+    // Publication cycle
+    const [pubcycleweeklyList, setPubcycleweeklyList] = useState([
+        ['1', 'Monday'],
+        ['2', 'Tuesday'],
+        ['3', 'Wednesday'],
+        ['4', 'Thursday'],
+        ['5', 'Friday'],
+        ['6', 'Saturday'],
+        ['7', 'Sunday'],
+    ])
+    const [searchPubcycleweekly, setSearchPubcycleweekly] = useState();
+
+    // Payment Model
+    const [paymodList, setPaymodList] = useState([['free', 'All content is free of charge'], ['partly free', 'Some content is free of charge'], ['not free', 'Paid content only'], ['NA', 'Don\'t know / NA']])
+    const [searchPaymod, setSearchPaymod] = useState();
+
+    // Contains Ads
+    const [adsList, setAdsList] = useState([['yes', 'Yes'], ['no', 'No'], ['non subscribers', 'Only for non-subscribers'], ['NA', 'Don\'t know / NA']])
+    const [searchAds, setSearchAds] = useState();
+
+    // Channel ePaper
+    const [epaperList, setEpaperList] = useState([['yes', 'Yes'], ['no', 'No'], ['NA', 'Don\'t know / NA']])
+    const [searchEpaper, setSearchEpaper] = useState();
+
+    // Party Affiliated
+    const [partyList, setPartyList] = useState([['NA', 'Don\'t know / NA'], ['yes', 'Yes'], ['no', 'No']])
+    const [searchParty, setSearchParty] = useState();
+
 
     // *************** Fetch Data ****************
 
@@ -443,6 +640,26 @@ const AddEntry = () => {
                 setChannelsList(data);
                 setSearchChannels(s);
                 break;
+            case 'used_for':
+                setUsedForList(data);
+                setSearchUsedFor(s);
+                break;
+            case 'iff':
+                setIffList(data);
+                setSearchIff(s);
+                break;
+            case 'off':
+                setOffList(data);
+                setSearchOff(s);
+                break;
+            case 'validation_dataset':
+                setValidationDatasetList(data);
+                setSearchValidationDataset(s);
+                break;
+            case 'channel':
+                setChannelList(data);
+                setSearchChannel(s);
+                break;
             default:
                 break
         }
@@ -456,6 +673,20 @@ const AddEntry = () => {
         getProfile(setProfile)
     }
 
+
+    const fetchSchemaData = async () => {
+        try {
+            const data = await openApi.getData();
+            setSchema(data.components.schemas[entity]);
+        } catch (error) {
+            console.error('Error fetching API Schema data:', error);
+        } finally {
+        }
+    };
+    if (entity && !schema){
+        fetchSchemaData()
+    }
+
     useEffect(() => {
         getData()
         if (uid){
@@ -464,7 +695,6 @@ const AddEntry = () => {
             updateInitialJSON(null)
         }
     }, [token])
-
 
     // ************* Create select box details ***************** (A3)
 
@@ -529,6 +759,8 @@ const AddEntry = () => {
     let owns_details = createSearchDetails(searchOwns, ownsDetails)
     let subnational_async_details = createSearchDetailsSingle(searchSubnationalAsync, subnationalAsyncDetails)
     let dataset_details = createSearchDetails(searchDataset, datasetDetails)
+    let designed_for_details = createSearchDetails(searchDesignedFor, designedForDetails)
+    let relatedns_details = createSearchDetails(searchRelatedns, relatednsDetails)
 
     // ************** Handlers ***************
 
@@ -609,6 +841,18 @@ const AddEntry = () => {
         updateJSON('dataset', sel[0])
     };
 
+    const handleChangeDesignedFor = (selectedOption) => {
+        let sel = getSelectedOptionsAsync(selectedOption)
+        setSearchDesignedFor(sel[1])
+        updateJSON('designed_for', sel[0])
+    };
+
+    const handleChangeRelatedns = (selectedOption) => {
+        let sel = getSelectedOptionsAsync(selectedOption)
+        setSearchRelatedns(sel[1])
+        updateJSON('relatedns', sel[0])
+    };
+
     // *** normal *** (B4)
 
     const handleChangeLanguages = (selectedOption) => {
@@ -686,6 +930,33 @@ const AddEntry = () => {
         setSearchChannels(sel[1])
         updateJSON('channels', sel[0])
     };
+    const handleChangeUsedFor = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchUsedFor(sel[1])
+        updateJSON('used_for', sel[0])
+    };
+    const handleChangeIff = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchIff(sel[1])
+        updateJSON('iff', sel[0])
+    };
+    const handleChangeOff = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchOff(sel[1])
+        updateJSON('off', sel[0])
+    };
+    const handleChangeValidationDataset = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchValidationDataset(sel[1])
+        updateJSON('validation_dataset', sel[0])
+    };
+    const handleChangeChannel = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        let obj = {value: sel[1][0], label: sel[1][1]}
+        setSearchChannel(obj)
+        updateJSON('channel', sel[1][0])
+    };
+
 
     // *** creatable *** (D3)
 
@@ -699,6 +970,38 @@ const AddEntry = () => {
         let sel = getSelectedOptions(selectedOption)
         setSearchUrls(sel[1])
         updateJSON('urls', sel[0])
+    };
+
+    const handleChangeDoc = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchDoc(sel[1])
+        setDoc(sel[0])
+        updateJSON('doc', sel[0])
+    };
+
+    // *** Extra Handler for Documentation|kind ***
+
+    const handleChangeDockind = (fieldName, value) => {
+        let dict = dockind
+        if (!dict){
+            dict = new Object()
+        }
+        dict[fieldName.substring(8)] = value
+        setDockind(dict)
+        //console.log(dict)
+
+        if (dockindUpdate === 'multi') {
+            // update JSON (dictionary approach)
+            let dict_json = new Object()
+            let i = 0
+            for (const [key, value] of Object.entries(dict)) {
+                dict_json[i] = value;
+                i++;
+            }
+            updateJSON('dockind', dict_json)
+        } else {
+            updateJSON('dockind', value)
+        }
     };
 
     // *** enums *** (E3)
@@ -727,6 +1030,87 @@ const AddEntry = () => {
         updateJSON('ownership', sel[0])
     };
 
+    const handleChangePaperkind = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchPaperkind({'value': sel[0], 'label': sel[1]})
+        updateJSON('paperkind', sel[0])
+    };
+
+    const handleChangePlatforms = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchPlatforms(sel[1])
+        updateJSON('platforms', sel[0])
+    };
+
+    const handleChangeOpenSource = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchOpenSource({'value': sel[0], 'label': sel[1]})
+        updateJSON('open_source', sel[0])
+    };
+
+    const handleChangeAuthorValidated = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchAuthorValidated({'value': sel[0], 'label': sel[1]})
+        updateJSON('author_validated', sel[0])
+    };
+
+    const handleChangeTranscript = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchTranscript({'value': sel[0], 'label': sel[1]})
+        updateJSON('transcript', sel[0])
+    };
+    const handleChangeWebsiteAllowsComments = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchWebsiteAllowsComments({'value': sel[0], 'label': sel[1]})
+        updateJSON('website_allows_comments', sel[0])
+    };
+    const handleChangeWebsiteCommentsReg = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchWebsiteCommentsReg({'value': sel[0], 'label': sel[1]})
+        updateJSON('website_comments_reg', sel[0])
+    };
+    const handleChangePubkind = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchPubkind(sel[1])
+        updateJSON('pubkind', sel[0])
+    };
+    const handleChangeTopical = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchTopical(sel[1])
+        updateJSON('topical', sel[0])
+    };
+    const handleChangePubcycle = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchPubcycle({'value': sel[0], 'label': sel[1]})
+        updateJSON('pubcycle', sel[0])
+    };
+    const handleChangePubcycleweekly = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)
+        setSearchPubcycleweekly(sel[1])
+        updateJSON('pubcycleweekly', sel[0])
+    };
+    const handleChangePaymod = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchPaymod({'value': sel[0], 'label': sel[1]})
+        updateJSON('paymod', sel[0])
+    };
+    const handleChangeAds = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchAds({'value': sel[0], 'label': sel[1]})
+        updateJSON('ads', sel[0])
+    };
+    const handleChangeEpaper = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchEpaper({'value': sel[0], 'label': sel[1]})
+        updateJSON('epaper', sel[0])
+    };
+
+    const handleChangeParty = (selectedOption) => {
+        let sel = getSelectedOptions(selectedOption)[1]
+        setSearchParty({'value': sel[0], 'label': sel[1]})
+        updateJSON('party', sel[0])
+    };
+
     // *** checkboxes *** (F2)
 
     const handleClickFulltext = (event) => {
@@ -745,6 +1129,40 @@ const AddEntry = () => {
             updateJSON('ngo', true)
         }
     };
+    const handleClickGui = (event) => {
+        let chk = event.target.checked
+        if(chk) {
+            updateJSON('gui', false)
+        } else {
+            updateJSON('gui', true)
+        }
+    };
+    const handleClickLanguageIndependent = (event) => {
+        let chk = event.target.checked
+        if(chk) {
+            updateJSON('language_independent', false)
+        } else {
+            updateJSON('language_independent', true)
+        }
+    };
+
+    const handleClickDefunct = (event) => {
+        let chk = event.target.checked
+        if(chk) {
+            updateJSON('defunct', false)
+        } else {
+            updateJSON('defunct', true)
+        }
+    };
+
+    const handleClickSpecialInterest = (event) => {
+        let chk = event.target.checked
+        if(chk) {
+            updateJSON('special_interest', false)
+        } else {
+            updateJSON('special_interest', true)
+        }
+    };
 
     // ************** Submit ****************
 
@@ -755,7 +1173,6 @@ const AddEntry = () => {
             if (uid) {
                 //edit
                 console.log('Editing record')
-                console.log(uid)
                 console.log(json)
                 resp = await editRecord(
                     uid,
@@ -812,7 +1229,11 @@ const AddEntry = () => {
     if (entity === 'JournalisticBrand'){
         sources_included_types.push('NewsSource')
     } else {
-        sources_included_types = ['NewsSource', 'Government', 'Parliament', 'PoliticalParty', 'Organization']
+        if (entity === 'Archive') {
+            sources_included_types = ['NewsSource', 'Government', 'Parliament', 'PoliticalParty', 'Organization']
+        } else {
+            sources_included_types = ['NewsSource', 'Government', 'Parliament', 'PoliticalParty', 'Organization', 'Person']
+        }
     }
     let materials_types = ['LearningMaterial']
     let initial_source_types = ['Dataset']
@@ -821,32 +1242,35 @@ const AddEntry = () => {
     let owns_types = ['Organization']
     let subnational_async_types = ['Subnational']
     let dataset_types = ['Dataset']
+    let designed_for_types = ['Channel', 'PoliticalParty', 'Organization', 'Government', 'Parliament', 'Person']
+    let relatedns_types = ['NewsSource']
 
     // *** all *** (A6, B5, C1, T2, D4, E4, F3)
-    const show_alternates = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool"]
-    const show_description = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "ScientificPublication"]
+    const show_name = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "NewsSource"]
+    const show_alternates = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "NewsSource"]
+    const show_description = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "ScientificPublication", "NewsSource"]
     const show_references = ["Collection"]
     const show_entries_included = ["Collection"]
-    const show_languages = ["Collection", "Archive", "Dataset", "Parliament", "Government", "LearningMaterial", "Tool", "ScientificPublication"]
-    const show_countries = ["Collection", "Archive", "Dataset", "JournalisticBrand", "ScientificPublication"]
+    const show_languages = ["Collection", "Archive", "Dataset", "Parliament", "Government", "LearningMaterial", "Tool", "ScientificPublication", "NewsSource"]
+    const show_countries = ["Collection", "Archive", "Dataset", "JournalisticBrand", "ScientificPublication", "NewsSource"]
     const show_country = ["Parliament", "Organization", "Government", "PoliticalParty"]
     const show_concept = ["Collection", "Archive", "Dataset", "LearningMaterial", "Tool", "ScientificPublication"]
     const show_modal = ["Collection", "Archive", "Dataset", "LearningMaterial", "Tool", "ScientificPublication"]
-    const show_subnational_scope = ["Collection", "JournalisticBrand"]
-    const show_materials = ["Collection", "Tool"]
+    const show_subnational_scope = ["Collection", "JournalisticBrand", "NewsSource"]
+    const show_materials = ["Collection"]
     const show_tools = ["Collection", "LearningMaterial", "ScientificPublication"]
     const show_authors = ["Archive", "Dataset", "LearningMaterial", "Tool", "ScientificPublication"]
-    const show_url = ["Archive", "Dataset", "Parliament", "Government", "PoliticalParty", "Tool", "ScientificPublication"]
+    const show_url = ["Archive", "Dataset", "Parliament", "Government", "PoliticalParty", "Tool", "ScientificPublication", "NewsSource"]
     const show_doi = ["Archive", "Dataset", "Tool", "ScientificPublication"]
     const show_arxiv = ["Archive", "Dataset", "Tool", "ScientificPublication"]
     const show_access = ["Archive", "Dataset", "Tool"]
     const show_text_types = ["Archive", "Dataset", "LearningMaterial", "ScientificPublication"]
     const show_sources_included = ["Archive", "Dataset", "JournalisticBrand", "ScientificPublication"]
-    const show_geographic = ["Archive", "Dataset", "Parliament", "Government", "ScientificPublication"]
+    const show_geographic = ["Archive", "Dataset", "Parliament", "Government", "ScientificPublication", "NewsSource"]
     const show_fulltext = ["Archive", "Dataset"]
     const show_text_units = ["Archive", "Dataset", "ScientificPublication"]
     const show_meta_variables = ["Archive", "Dataset"]
-    const show_file_formats = ["Archive", "Dataset", "Tool"]
+    const show_file_formats = ["Archive", "Dataset"]
     const show_date_published = ["Dataset", "Tool", "ScientificPublication"]
     const show_github = ["Dataset", "Tool"]
     const show_temporal_coverage_start = ["Dataset"]
@@ -854,7 +1278,7 @@ const AddEntry = () => {
     const show_initial_source = ["Dataset"]
     const show_related_publications = ["Dataset"]
     const show_entry_review_status = ["Dataset"]
-    const show_wikidata_id = ["Dataset", "LearningMaterial", "PoliticalParty"]
+    const show_wikidata_id = ["Dataset", "LearningMaterial", "PoliticalParty", "Tool", "NewsSource"]
     const show_ownership = ["Organization"]
     const show_ngo = ["Organization"]
     const show_publishes = ["Organization", "PoliticalParty"]
@@ -869,15 +1293,56 @@ const AddEntry = () => {
     const show_color_hex = ["PoliticalParty"]
     const show_parlgov_id = ["PoliticalParty"]
     const show_partyfacts_id = ["PoliticalParty"]
+    const show_title = ["ScientificPublication"]
+    const show_openalex = ["ScientificPublication"]
+    const show_paperkind = ["ScientificPublication"]
+    const show_venue = ["ScientificPublication"]
+    const show_version = ["Tool"]
+    const show_cran = ["Tool"]
+    const show_pypi = ["Tool"]
+    const show_platforms = ["Tool"]
+    const show_used_for = ["Tool"]
+    const show_open_source = ["Tool"]
+    const show_license = ["Tool"]
+    const show_gui = ["Tool"]
+    const show_designed_for = ["Tool"]
+    const show_language_independent = ["Tool"]
+    const show_iff = ["Tool"]
+    const show_off = ["Tool"]
+    const show_author_validated = ["Tool"]
+    const show_defunct = ["Tool", "NewsSource"]
+    const show_validation_dataset = ["Tool"]
+    const show_transcript = ["NewsSource"]
+    const show_channel = ["NewsSource"]
+    const show_website_allows_comments = ["NewsSource"]
+    const show_website_comments_reg = ["NewsSource"]
+    const show_date_founded = ["NewsSource"]
+    const show_pubkind = ["NewsSource"]
+    const show_special_interest = ["NewsSource"]
+    const show_topical = ["NewsSource"]
+    const show_pubcycle = ["NewsSource"]
+    const show_pubcycleweekly = ["NewsSource"]
+    const show_paymod = ["NewsSource"]
+    const show_ads = ["NewsSource"]
+    const show_audsizerecent = ["NewsSource"]
+    const show_epaper = ["NewsSource"]
+    const show_party = ["NewsSource"]
+    const show_relatedns = ["NewsSource"]
+    const show_doc = ["Dataset", "Tool"]
+
 
     // ************** Setup Select boxes & initial JSON ****************
 
-    let setupSelectVars = (i, j, predicate, empty=false) => {
+    let setupSelectVars = (i, j, predicate, empty=false, toStr=false, setFunc = null) => {
         predicate = apiField[predicate]
         let ary = []
         if (empty){
             i[predicate]?.forEach(e => {
-                ary.push(e)
+                if (toStr){
+                    ary.push(e.toString())
+                } else {
+                    ary.push(e)
+                }
             })
         } else {
             i[predicate]?.forEach(e => {
@@ -886,11 +1351,57 @@ const AddEntry = () => {
         }
         if (ary.length > 0) {
             j[predicate] = ary
+            if (setFunc){
+                setFunc(ary)
+            }
         }
     }
 
+    //console.log(doc)
+
 
     // ************* Update Initial JSON ****************
+
+    const setSearchEnum = (i, j, predicate, enumList, setSearchEnum) => {
+        if (i[apiField[predicate]]) {
+            j[apiField[predicate]] = i[apiField[predicate]]
+            let lab = ''
+            for (var b of enumList) {
+                if (b[0] === i[apiField[predicate]]) {
+                    lab = b[1];
+                }
+            }
+            setSearchEnum({'value': i[apiField[predicate]], 'label': lab})
+        }
+    }
+
+    const setSearchEnumMulti = (i, j, predicate, setSearchEnum, enumList, toStr = false) => {
+        /*
+
+        arguments
+            toStr (boolean)
+                set to true if values stored in db as integers
+        */
+
+        if (i[apiField[predicate]]) {
+            let opts = []
+            for (var b of enumList) {
+                for (var c of i[apiField[predicate]]) {
+                    if (toStr) {
+                        if (b[0] === c.toString()) {
+                            opts.push({value: b[0], label: b[1]})
+                        }
+                    } else {
+                        if (b[0] === c) {
+                            opts.push({value: b[0], label: b[1]})
+                        }
+                    }
+                }
+            }
+            setSearchEnum(opts)
+        }
+        setupSelectVars(i, j, predicate, true, toStr)
+    }
 
     let updateInitialJSON = (i) => {
 
@@ -933,6 +1444,22 @@ const AddEntry = () => {
 
         // channels
         fetchData('schema/predicate/', 'channels', 1, true, i, true)
+
+        // Used for
+        fetchData('schema/predicate/', 'used_for', 1, true, i, true)
+
+        // Input ff
+        fetchData('schema/predicate/', 'iff', 1, true, i, true)
+
+        // Ouput ff
+        fetchData('schema/predicate/', 'off', 1, true, i, true)
+
+        // validation_dataset
+        fetchData('schema/predicate/', 'validation_dataset', 1, true, i, true)
+
+        // channel
+        fetchData('schema/predicate/counts/', 'channel', 1, true, i, false, true)
+
 
         if (i) {
             //console.log(i)
@@ -990,6 +1517,35 @@ const AddEntry = () => {
 
             // partyfacts_id
             checkTextField(i,j,'partyfacts_id')
+
+            // title
+            checkTextField(i,j,'title')
+
+            // openalex
+            checkTextField(i,j,'openalex')
+
+            // venue
+            checkTextField(i,j,'venue')
+
+            // version
+            checkTextField(i,j,'version')
+
+            // cran
+            checkTextField(i,j,'cran')
+
+            // pypi
+            checkTextField(i,j,'pypi')
+
+            // license
+            checkTextField(i,j,'license')
+
+            // date_founded
+            if (i[apiField['date_founded']]) {
+                j[apiField['date_founded']] = retDateYear(i[apiField['date_founded']], true)
+            }
+
+            // audience size recent
+            checkTextField(i,j,'audsizerecent')
 
             // *** Async *** (A7)
 
@@ -1055,6 +1611,17 @@ const AddEntry = () => {
             setSearchDataset(i[apiField['dataset']])
             setDatasetDetails(i[apiField['dataset']])
 
+            // designed for
+            setupSelectVars(i, j, 'designed_for')
+            setSearchDesignedFor(i[apiField['designed_for']])
+            setDesignedForDetails(i[apiField['designed_for']])
+
+            // related news sources
+            setupSelectVars(i, j, 'relatedns')
+            setSearchRelatedns(i[apiField['relatedns']])
+            setRelatednsDetails(i[apiField['relatedns']])
+
+
             // *** List *** (B7)
 
             // languages
@@ -1098,6 +1665,24 @@ const AddEntry = () => {
             // channels
             setupSelectVars(i, j, 'channels')
 
+            // used for
+            setupSelectVars(i, j, 'used_for')
+
+            // input ff
+            setupSelectVars(i, j, 'iff')
+
+            // output ff
+            setupSelectVars(i, j, 'off')
+
+            // validation_dataset
+            setupSelectVars(i, j, 'validation_dataset')
+
+            // channel
+            if (i[apiField['channel']]) {
+                j[apiField['channel']] = i[apiField['channel']]['uid']
+            }
+
+
             // *** Creatable *** (D5)
 
             // alternates
@@ -1108,58 +1693,72 @@ const AddEntry = () => {
             setupSelectVars(i, j, 'urls', true)
             setSearchUrls(setCreatable(i, 'urls'))
 
+            // documentation
+            setupSelectVars(i, j, 'doc', true, false, setDoc)
+            setSearchDoc(setCreatable(i, 'doc'))
+
+            // documentation kind
+            if (i[apiField['dockind']]) {
+                j[apiField['dockind']] = i[apiField['dockind']]
+            }
+            //setSearchDockind(setCreatable(i, 'doc'))
+
             // *** Enums *** (E5)
 
-            // access
-            if (i[apiField['access']]) {
-                j[apiField['access']] = i[apiField['access']]
-                let access_lab = ''
-                for (var a of accessList) {
-                    if (a[0] === i[apiField['access']]) {
-                        access_lab = a[1];
-                    }
-                }
-                setSearchAccess({'value': i[apiField['access']], 'label': access_lab})
-            }
+            setSearchEnum(i, j, 'access', accessList, setSearchAccess)
 
-            // geographic
-            if (i[apiField['geographic']]) {
-                j[apiField['geographic']] = i[apiField['geographic']]
-                let geographic_lab = ''
-                for (var b of geographicList) {
-                    if (b[0] === i[apiField['geographic']]) {
-                        geographic_lab = b[1];
-                    }
-                }
-                setSearchGeographic({'value': i[apiField['geographic']], 'label': geographic_lab})
-            }
+            setSearchEnum(i, j, 'geographic', geographicList, setSearchGeographic)
 
-            // entry review status
-            j[apiField['entry_review_status']] = i[apiField['entry_review_status']]
-            let entry_review_status_lab = ''
-            for (var c of entryReviewStatusList){
-                if (c[0] === i[apiField['entry_review_status']]){
-                    entry_review_status_lab = c[1];
-                }
-            }
-            setSearchEntryReviewStatus({'value': i[apiField['entry_review_status']], 'label': entry_review_status_lab})
+            setSearchEnum(i, j, 'entry_review_status', entryReviewStatusList, setSearchEntryReviewStatus)
 
-            // ownership
-            if (i[apiField['ownership']]) {
-                j[apiField['ownership']] = i[apiField['ownership']]
-                let ownership_lab = ''
-                for (var b of ownershipList) {
-                    if (b[0] === i[apiField['ownership']]) {
-                        ownership_lab = b[1];
-                    }
-                }
-                setSearchOwnership({'value': i[apiField['ownership']], 'label': ownership_lab})
-            }
+            setSearchEnum(i, j, 'ownership', ownershipList, setSearchOwnership)
+
+            setSearchEnum(i, j, 'paperkind', paperkindList, setSearchPaperkind)
+
+            setSearchEnum(i, j, 'open_source', openSourceList, setSearchOpenSource)
+
+            setSearchEnum(i, j, 'author_validated', authorValidatedList, setSearchAuthorValidated)
+
+            // platforms (multi)
+            setSearchEnumMulti(i, j, 'platforms', setSearchPlatforms, platformsList)
+
+            setSearchEnum(i, j, 'transcript', transcriptList, setSearchTranscript)
+
+            setSearchEnum(i, j, 'website_allows_comments', websiteAllowsCommentsList, setSearchWebsiteAllowsComments)
+
+            setSearchEnum(i, j, 'website_comments_reg', websiteCommentsRegList, setSearchWebsiteCommentsReg)
+
+            // Publication Kind (multi)
+            setSearchEnumMulti(i, j, 'pubkind', setSearchPubkind, pubkindList)
+
+            // Topical Focus (multi)
+            setSearchEnumMulti(i, j, 'topical', setSearchTopical, topicalList)
+
+            setSearchEnum(i, j, 'pubcycle', pubcycleList, setSearchPubcycle)
+
+            setSearchEnumMulti(i, j, 'pubcycleweekly', setSearchPubcycleweekly, pubcycleweeklyList, true)
+
+            setSearchEnum(i, j, 'paymod', paymodList, setSearchPaymod)
+
+            setSearchEnum(i, j, 'ads', adsList, setSearchAds)
+
+            setSearchEnum(i, j, 'epaper', epaperList, setSearchEpaper)
+
+            setSearchEnum(i, j, 'party', partyList, setSearchParty)
+
 
             // *** Checkboxes *** (F4)
             checkTextField(i,j, 'fulltext')
 
             checkTextField(i,j, 'ngo')
+
+            checkTextField(i,j, 'gui')
+
+            checkTextField(i,j, 'language_independent')
+
+            checkTextField(i,j, 'defunct')
+
+            checkTextField(i,j, 'special_interest')
 
             // add top key and update
             let d = {'data': j}
@@ -1247,6 +1846,22 @@ const AddEntry = () => {
     let channels_options = channelsList.map(function (p) {
         return {value: p.uid, label: p.name};
     })
+    let used_for_options = usedForList.map(function (p) {
+        return {value: p.uid, label: p.name};
+    })
+    let iff_options = iffList.map(function (p) {
+        return {value: p.uid, label: p.name};
+    })
+    let off_options = offList.map(function (p) {
+        return {value: p.uid, label: p.name};
+    })
+    let validation_dataset_options = validationDatasetList.map(function (p) {
+        return {value: p.uid, label: p.name};
+    })
+    let channel_options = channelsList.map(function (p) {
+        return {value: p.uid, label: p.name};
+    })
+
 
     // *** enums ***
 
@@ -1262,7 +1877,51 @@ const AddEntry = () => {
     let ownership_options = ownershipList.map(function (p) {
         return {value: p[0], label: p[1]};
     })
-
+    let paperkind_options = paperkindList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let platforms_options = platformsList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let open_source_options = openSourceList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let author_validated_options = authorValidatedList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let transcript_options = transcriptList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let website_allows_comments_options = websiteAllowsCommentsList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let website_comments_reg_options = websiteCommentsRegList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let pubkind_options = pubkindList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let topical_options = topicalList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let pubcycle_options = pubcycleList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let pubcycleweekly_options = pubcycleweeklyList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let paymod_options = paymodList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let ads_options = adsList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let epaper_options = epaperList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
+    let party_options = partyList.map(function (p) {
+        return {value: p[0], label: p[1]};
+    })
 
     // ************** Generic Helper Functions ****************
 
@@ -1278,13 +1937,14 @@ const AddEntry = () => {
     }
 
     let updateJSON = (key, val) => {
+        //console.log(val)
         // add key and update
         let d = json
         key = apiField[key]
         if (val || val === false){
             d['data'][key] = val
         } else {
-            delete d['data'][key]
+            d['data'][key] = null
         }
         console.log(d)
         setJson(d)
@@ -1342,16 +2002,24 @@ const AddEntry = () => {
         }
     }
 
-    const createAltText = (str1, str2) => {
-        if (str2){
-            return str1 + entity + str2
-        } else {
-            return str1 + entity + '?'
+    const getReq = (predicate) => {
+
+        let req = false
+        if (schema && schema.required && schema.required.includes(predicate)){
+            req = true
         }
+        return req
     }
 
+    const getDockindFieldName = (d) => {
+        return 'dockind_' + d
+    }
 
-    // *************** RENDER ************** (A8, B9, T4, D6, E7)
+    const getDockindFieldValue = (d) => {
+        return ''
+    }
+
+    // *************** RENDER ************** (A8, B9, T4, D6, E7, F5)
 
     return (
         <>
@@ -1361,6 +2029,7 @@ const AddEntry = () => {
 
                     <form id="addEntry" onSubmit={handleSubmitAE}>
 
+                        {checkDisplay(show_name) &&
                         <div className='add_entry'>
                             <h4><TypeDescription dgraphType={entity} fieldName={apiField['name']}/></h4>
                             <SearchTextField
@@ -1368,9 +2037,36 @@ const AddEntry = () => {
                                 fieldName={'name'}
                                 fieldValue={entryName}
                                 rows='0'
-                                req={true}
+                                req={getReq(apiField['name'])}
                             />
                         </div>
+                        }
+
+                        {checkDisplay(show_channel) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['channel']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeChannel}
+                                    searchOptions={channel_options}
+                                    searchValues={searchChannel}
+                                    multi={false}
+                                    req={getReq(apiField['channel'])}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_title) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['title']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'title'}
+                                    fieldValue={item?.title}
+                                    req={getReq(apiField['title'])}
+                                />
+                            </div>
+                        }
 
                         {checkDisplay(show_alternates) &&
                             <div className='add_entry'>
@@ -1378,7 +2074,7 @@ const AddEntry = () => {
                                 <CreatableSelectBox
                                     handleChangeEntity={handleChangeAlternates}
                                     searchValues={searchAlternates}
-                                    req={false}
+                                    req={getReq(apiField['alternates'])}
                                     width="100%"
                                 />
                             </div>
@@ -1392,18 +2088,49 @@ const AddEntry = () => {
                                     fieldName={'desc'}
                                     fieldValue={item?.description}
                                     rows="3"
-                                    req={false}
+                                    req={getReq(apiField['desc'])}
                                 />
                             </div>
                         }
 
-                        {checkDisplay(show_doi) &&
+                        {checkDisplay(show_transcript) &&
                             <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['doi']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'doi'}
-                                    fieldValue={item?.doi}
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['transcript']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeTranscript}
+                                    searchOptions={transcript_options}
+                                    searchValues={searchTranscript}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['transcript'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_website_allows_comments) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['website_allows_comments']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeWebsiteAllowsComments}
+                                    searchOptions={website_allows_comments_options}
+                                    searchValues={searchWebsiteAllowsComments}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['website_allows_comments'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_website_comments_reg) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['website_comments_reg']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeWebsiteCommentsReg}
+                                    searchOptions={website_comments_reg_options}
+                                    searchValues={searchWebsiteCommentsReg}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['website_comments_reg'])}
                                 />
                             </div>
                         }
@@ -1415,6 +2142,7 @@ const AddEntry = () => {
                                     onBlurEvent={updateJSON}
                                     fieldName={'name_abbrev'}
                                     fieldValue={item?.name_abbrev}
+                                    req={getReq(apiField['name_abbrev'])}
                                 />
                             </div>
                         }
@@ -1426,6 +2154,7 @@ const AddEntry = () => {
                                     onBlurEvent={updateJSON}
                                     fieldName={'parlgov_id'}
                                     fieldValue={item?.parlgov_id}
+                                    req={getReq(apiField['parlgov_id'])}
                                 />
                             </div>
                         }
@@ -1437,6 +2166,7 @@ const AddEntry = () => {
                                     onBlurEvent={updateJSON}
                                     fieldName={'partyfacts_id'}
                                     fieldValue={item?.partyfacts_id}
+                                    req={getReq(apiField['partyfacts_id'])}
                                 />
                             </div>
                         }
@@ -1448,6 +2178,7 @@ const AddEntry = () => {
                                     onBlurEvent={updateJSON}
                                     fieldName={'color_hex'}
                                     fieldValue={item?.color_hex}
+                                    req={getReq(apiField['color_hex'])}
                                 />
                             </div>
                         }
@@ -1458,7 +2189,7 @@ const AddEntry = () => {
                                 <CreatableSelectBox
                                     handleChangeEntity={handleChangeUrls}
                                     searchValues={searchUrls}
-                                    req={false}
+                                    req={getReq(apiField['urls'])}
                                     width="100%"
                                 />
                             </div>
@@ -1466,13 +2197,14 @@ const AddEntry = () => {
 
                         {checkDisplay(show_ownership) &&
                             <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['ownership']} altText={createAltText('Is the ', ' mainly privately owned or publicly owned')} /></h4>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['ownership']} /></h4>
                                 <SearchSelectBox
                                     handleChangeEntity={handleChangeOwnership}
                                     searchOptions={ownership_options}
                                     searchValues={searchOwnership}
                                     multi={false}
                                     width="100%"
+                                    req={getReq(apiField['ownership'])}
                                 />
                             </div>
                         }
@@ -1485,7 +2217,7 @@ const AddEntry = () => {
                                     searchOptions={country_options}
                                     searchValues={searchCountry}
                                     multi={false}
-                                    req={true}
+                                    req={getReq(apiField['country'])}
                                     width="100%"
                                 />
                             </div>
@@ -1499,6 +2231,7 @@ const AddEntry = () => {
                                     searchValues={publishes_details}
                                     types={publishes_types}
                                     width='100%'
+                                    req={getReq(apiField['publishes'])}
                                 />
                             </div>
                         }
@@ -1511,6 +2244,7 @@ const AddEntry = () => {
                                     searchValues={owns_details}
                                     types={owns_types}
                                     width='100%'
+                                    req={getReq(apiField['owns'])}
                                 />
                             </div>
                         }
@@ -1523,6 +2257,7 @@ const AddEntry = () => {
                                     name={'ngo'}
                                     val={true}
                                     chk={item?.is_ngo}
+                                    req={getReq(apiField['ngo'])}
                                 />
                             </div>
                         }
@@ -1534,10 +2269,64 @@ const AddEntry = () => {
                                     onBlurEvent={updateJSON}
                                     fieldName={'date_published'}
                                     fieldValue={retDateYear(item?.date_published)}
-                                    req={false}
+                                    req={getReq(apiField['date_published'])}
                                     type="number"
                                     min="1500"
                                     max="2100"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_date_founded) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['date_founded']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'date_founded'}
+                                    fieldValue={retDateYear(item?.date_founded)}
+                                    req={getReq(apiField['date_founded'])}
+                                    type="number"
+                                    min="1500"
+                                    max="2100"
+                                />
+                            </div>
+                        }
+
+
+                        {checkDisplay(show_version) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['version']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'version'}
+                                    fieldValue={item?.version}
+                                    req={getReq(apiField['version'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_paperkind) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['paperkind']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangePaperkind}
+                                    searchOptions={paperkind_options}
+                                    searchValues={searchPaperkind}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['paperkind'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_venue) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['venue']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'venue'}
+                                    fieldValue={item?.venue}
+                                    req={getReq(apiField['venue'])}
                                 />
                             </div>
                         }
@@ -1549,7 +2338,8 @@ const AddEntry = () => {
                                     onBlurEvent={updateJSON}
                                     fieldName={'url'}
                                     fieldValue={item?.url}
-                                    type="url"
+                                    //type="url"
+                                    req={getReq(apiField['url'])}
                                 />
                             </div>
                         }
@@ -1562,7 +2352,7 @@ const AddEntry = () => {
                                     searchValues={authors_details}
                                     types={authors_types}
                                     width='100%'
-                                    req={true}
+                                    req={getReq(apiField['authors'])}
                                 />
                             </div>
                         }
@@ -1574,6 +2364,19 @@ const AddEntry = () => {
                                     onBlurEvent={updateJSON}
                                     fieldName={'doi'}
                                     fieldValue={item?.doi}
+                                    req={getReq(apiField['doi'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_openalex) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['openalex']}  /></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'openalex'}
+                                    fieldValue={item?.openalex}
+                                    req={getReq(apiField['openalex'])}
                                 />
                             </div>
                         }
@@ -1585,6 +2388,31 @@ const AddEntry = () => {
                                     onBlurEvent={updateJSON}
                                     fieldName={'arxiv'}
                                     fieldValue={item?.arxiv}
+                                    req={getReq(apiField['arxiv'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_cran) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['cran']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'cran'}
+                                    fieldValue={item?.cran}
+                                    req={getReq(apiField['cran'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_pypi) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['pypi']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'pypi'}
+                                    fieldValue={item?.pypi}
+                                    req={getReq(apiField['pypi'])}
                                 />
                             </div>
                         }
@@ -1597,19 +2425,208 @@ const AddEntry = () => {
                                     fieldName={'github'}
                                     fieldValue={item?.github}
                                     label="If the dataset has a repository on Github you can add it here."
+                                    req={getReq(apiField['github'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_platforms) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['platforms']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangePlatforms}
+                                    searchOptions={platforms_options}
+                                    searchValues={searchPlatforms}
+                                    req={getReq(apiField['platforms'])}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_pubkind) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['pubkind']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangePubkind}
+                                    searchOptions={pubkind_options}
+                                    searchValues={searchPubkind}
+                                    req={getReq(apiField['pubkind'])}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_special_interest) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['special_interest']}/></h4>
+                                <SearchCheckbox
+                                    handleClick={handleClickSpecialInterest}
+                                    name={'special_interest'}
+                                    val={true}
+                                    chk={item?.special_interest}
+                                    req={getReq(apiField['special_interest'])}
+                                />
+                            </div>
+                        }
+
+
+                        {checkDisplay(show_topical) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['topical']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeTopical}
+                                    searchOptions={topical_options}
+                                    searchValues={searchTopical}
+                                    req={getReq(apiField['topical'])}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_pubcycle) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['pubcycle']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangePubcycle}
+                                    searchOptions={pubcycle_options}
+                                    searchValues={searchPubcycle}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['pubcycle'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_pubcycleweekly) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['pubcycleweekly']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangePubcycleweekly}
+                                    searchOptions={pubcycleweekly_options}
+                                    searchValues={searchPubcycleweekly}
+                                    width="100%"
+                                    req={getReq(apiField['pubcycleweekly'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_paymod) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['paymod']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangePaymod}
+                                    searchOptions={paymod_options}
+                                    searchValues={searchPaymod}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['paymod'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_ads) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['ads']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeAds}
+                                    searchOptions={ads_options}
+                                    searchValues={searchAds}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['ads'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_audsizerecent) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['audsizerecent']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'audsizerecent'}
+                                    fieldValue={item?.audience_size_recent}
+                                    req={getReq(apiField['audsizerecent'])}
+                                    type="number"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_epaper) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['epaper']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeEpaper}
+                                    searchOptions={epaper_options}
+                                    searchValues={searchEpaper}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['epaper'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_party) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['party']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeParty}
+                                    searchOptions={party_options}
+                                    searchValues={searchParty}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['party'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_open_source) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['open_source']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeOpenSource}
+                                    searchOptions={open_source_options}
+                                    searchValues={searchOpenSource}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['handleChangeOpenSource'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_license) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['license']}/></h4>
+                                <SearchTextField
+                                    onBlurEvent={updateJSON}
+                                    fieldName={'license'}
+                                    fieldValue={item?.license}
+                                    req={getReq(apiField['license'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_used_for) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['used_for']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeUsedFor}
+                                    searchOptions={used_for_options}
+                                    searchValues={searchUsedFor}
+                                    req={getReq(apiField['used_for'])}
+                                    width="100%"
                                 />
                             </div>
                         }
 
                         {checkDisplay(show_access) &&
                             <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['access']} altText={createAltText('How can the user access the ')}/></h4>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['access']}/></h4>
                                 <SearchSelectBox
                                     handleChangeEntity={handleChangeAccess}
                                     searchOptions={access_options}
                                     searchValues={searchAccess}
                                     multi={false}
-                                    req={false}
+                                    req={getReq(apiField['access'])}
                                     width="100%"
                                 />
                             </div>
@@ -1623,19 +2640,20 @@ const AddEntry = () => {
                                     searchValues={sources_included_details}
                                     types={sources_included_types}
                                     width='100%'
+                                    req={getReq(apiField['sources_included'])}
                                 />
                             </div>
                         }
 
                         {checkDisplay(show_geographic) &&
                             <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['geographic']} altText={createAltText('What is the geographic scope of the ')}/></h4>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['geographic']} /></h4>
                                 <SearchSelectBox
                                     handleChangeEntity={handleChangeGeographic}
                                     searchOptions={geographic_options}
                                     searchValues={searchGeographic}
                                     multi={false}
-                                    req={true}
+                                    req={getReq(apiField['geographic'])}
                                     width="100%"
                                 />
                             </div>
@@ -1650,6 +2668,7 @@ const AddEntry = () => {
                                     types={subnational_async_types}
                                     width='100%'
                                     single={true}
+                                    req={getReq(apiField['subnational_async'])}
                                 />
                             </div>
                         }
@@ -1662,6 +2681,7 @@ const AddEntry = () => {
                                     searchValues={initial_source_details}
                                     types={initial_source_types}
                                     width='100%'
+                                    req={getReq(apiField['initial_source'])}
                                 />
                             </div>
                         }
@@ -1674,6 +2694,7 @@ const AddEntry = () => {
                                     name={'fulltext_available'}
                                     val={true}
                                     chk={item?.fulltext_available}
+                                    req={getReq(apiField['fulltext'])}
                                 />
                             </div>
                         }
@@ -1686,6 +2707,7 @@ const AddEntry = () => {
                                     searchValues={entries_included_details}
                                     types={entries_included_types}
                                     width='100%'
+                                    req={getReq(apiField['entries_included'])}
                                 />
                             </div>
                         }
@@ -1698,7 +2720,7 @@ const AddEntry = () => {
                                     searchOptions={languages_options}
                                     searchValues={searchLanguages}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['languages'])}
                                     width="100%"
                                 />
                             </div>
@@ -1712,7 +2734,7 @@ const AddEntry = () => {
                                     searchOptions={programming_options}
                                     searchValues={searchProgramming}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['programming'])}
                                     width="100%"
                                 />
                             </div>
@@ -1726,7 +2748,7 @@ const AddEntry = () => {
                                     searchOptions={countries_options}
                                     searchValues={searchCountries}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['countries'])}
                                     width="100%"
                                 />
                             </div>
@@ -1739,6 +2761,7 @@ const AddEntry = () => {
                                     onChangeEvent={updateJSON}
                                     fieldName={'temporal_coverage_start'}
                                     fieldValue={item?.temporal_coverage_start}
+                                    req={getReq(apiField['temporal_coverage_start'])}
                                 />
                             </div>
                         }
@@ -1750,6 +2773,7 @@ const AddEntry = () => {
                                     onChangeEvent={updateJSON}
                                     fieldName={'temporal_coverage_end'}
                                     fieldValue={item?.temporal_coverage_end}
+                                    req={getReq(apiField['temporal_coverage_end'])}
                                 />
                             </div>
                         }
@@ -1762,7 +2786,7 @@ const AddEntry = () => {
                                     searchOptions={text_types_options}
                                     searchValues={searchTextTypes}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['text_types'])}
                                     width="100%"
                                 />
                             </div>
@@ -1776,7 +2800,7 @@ const AddEntry = () => {
                                     searchOptions={channels_options}
                                     searchValues={searchChannels}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['channels'])}
                                     width="100%"
                                 />
                             </div>
@@ -1790,7 +2814,7 @@ const AddEntry = () => {
                                     searchOptions={text_units_options}
                                     searchValues={searchTextUnits}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['text_units'])}
                                     width="100%"
                                 />
                             </div>
@@ -1804,7 +2828,7 @@ const AddEntry = () => {
                                     searchOptions={subnational_scope_options}
                                     searchValues={searchSubnationalScope}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['subnational_scope'])}
                                     width="100%"
                                 />
                             </div>
@@ -1818,6 +2842,7 @@ const AddEntry = () => {
                                     searchValues={tools_details}
                                     types={tools_types}
                                     width='100%'
+                                    req={getReq(apiField['tools'])}
                                 />
                             </div>
                         }
@@ -1830,6 +2855,7 @@ const AddEntry = () => {
                                     searchValues={references_details}
                                     types={references_types}
                                     width='100%'
+                                    req={getReq(apiField['references'])}
                                 />
                             </div>
                         }
@@ -1842,6 +2868,7 @@ const AddEntry = () => {
                                     searchValues={dataset_details}
                                     types={dataset_types}
                                     width='100%'
+                                    req={getReq(apiField['dataset'])}
                                 />
                             </div>
                         }
@@ -1854,6 +2881,7 @@ const AddEntry = () => {
                                     searchValues={materials_details}
                                     types={materials_types}
                                     width='100%'
+                                    req={getReq(apiField['materials'])}
                                 />
                             </div>
                         }
@@ -1866,7 +2894,7 @@ const AddEntry = () => {
                                     searchOptions={concept_options}
                                     searchValues={searchConcept}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['concept'])}
                                     width="100%"
                                 />
                             </div>
@@ -1880,7 +2908,7 @@ const AddEntry = () => {
                                     searchOptions={method_options}
                                     searchValues={searchMethod}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['method'])}
                                     width="100%"
                                 />
                             </div>
@@ -1894,8 +2922,21 @@ const AddEntry = () => {
                                     searchOptions={modal_options}
                                     searchValues={searchModal}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['modal'])}
                                     width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_gui) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['gui']}/></h4>
+                                <SearchCheckbox
+                                    handleClick={handleClickGui}
+                                    name={'gui'}
+                                    val={true}
+                                    chk={item?.graphical_user_interface}
+                                    req={getReq(apiField['gui'])}
                                 />
                             </div>
                         }
@@ -1908,7 +2949,7 @@ const AddEntry = () => {
                                     searchOptions={meta_variables_options}
                                     searchValues={searchMetaVariables}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['meta_variables'])}
                                     width="100%"
                                 />
                             </div>
@@ -1922,7 +2963,7 @@ const AddEntry = () => {
                                     searchOptions={file_formats_options}
                                     searchValues={searchFileFormats}
                                     multi={true}
-                                    req={false}
+                                    req={getReq(apiField['file_formats'])}
                                     width="100%"
                                 />
                             </div>
@@ -1936,23 +2977,159 @@ const AddEntry = () => {
                                     searchValues={related_publications_details}
                                     types={related_publications_types}
                                     width='100%'
+                                    req={getReq(apiField['related_publications'])}
                                 />
                             </div>
                         }
 
                         {checkDisplay(show_entry_review_status) &&
                             <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['entry_review_status']} altText={createAltText('Entry Review Status for the ')}/></h4>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['entry_review_status']} /></h4>
                                 <SearchSelectBox
                                     handleChangeEntity={handleChangeEntryReviewStatus}
                                     searchOptions={entry_review_status_options}
                                     searchValues={searchEntryReviewStatus}
                                     multi={false}
-                                    req={true}
+                                    req={getReq(apiField['entry_review_status'])}
                                     width="100%"
                                 />
                             </div>
                         }
+
+                        {checkDisplay(show_designed_for) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['designed_for']}/></h4>
+                                <SearchAsyncSelectBox
+                                    handleChangeEntity={handleChangeDesignedFor}
+                                    searchValues={designed_for_details}
+                                    types={designed_for_types}
+                                    width='100%'
+                                    req={getReq(apiField['designed_for'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_language_independent) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['language_independent']}/></h4>
+                                <SearchCheckbox
+                                    handleClick={handleClickLanguageIndependent}
+                                    name={'language_independent'}
+                                    val={true}
+                                    chk={item?.language_independent}
+                                    req={getReq(apiField['language_independent'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_iff) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['iff']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeIff}
+                                    searchOptions={iff_options}
+                                    searchValues={searchIff}
+                                    req={getReq(apiField['iff'])}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_off) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['off']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeOff}
+                                    searchOptions={off_options}
+                                    searchValues={searchOff}
+                                    req={getReq(apiField['off'])}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_author_validated) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['author_validated']} /></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeAuthorValidated}
+                                    searchOptions={author_validated_options}
+                                    searchValues={searchAuthorValidated}
+                                    multi={false}
+                                    width="100%"
+                                    req={getReq(apiField['author_validated'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_validation_dataset) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['validation_dataset']}/></h4>
+                                <SearchSelectBox
+                                    handleChangeEntity={handleChangeValidationDataset}
+                                    searchOptions={validation_dataset_options}
+                                    searchValues={searchValidationDataset}
+                                    req={getReq(apiField['validation_dataset'])}
+                                    width="100%"
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_defunct) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['defunct']}/></h4>
+                                <SearchCheckbox
+                                    handleClick={handleClickDefunct}
+                                    name={'defunct'}
+                                    val={true}
+                                    chk={item?.defunct}
+                                    req={getReq(apiField['defunct'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_relatedns) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['relatedns']}/></h4>
+                                <SearchAsyncSelectBox
+                                    handleChangeEntity={handleChangeRelatedns}
+                                    searchValues={relatedns_details}
+                                    types={relatedns_types}
+                                    width='100%'
+                                    req={getReq(apiField['relatedns'])}
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_doc) &&
+                            <div className='add_entry'>
+                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['doc']}/></h4>
+                                <CreatableSelectBox
+                                    handleChangeEntity={handleChangeDoc}
+                                    searchValues={searchDoc}
+                                    req={getReq(apiField['doc'])}
+                                    width="100%"
+                                    label="Please paste the URLs to the documentation here..."
+
+                                />
+                            </div>
+                        }
+
+                        {checkDisplay(show_doc) && doc?.map(d => (
+                            <div className='add_entry'>
+                                <h5>
+                                    Please specify what kind of resource it is:&nbsp;&nbsp;
+                                    <SearchTextField
+                                        onBlurEvent={handleChangeDockind}
+                                        fieldName={getDockindFieldName(d)}
+                                        fieldValue={getDockindFieldValue(d)}
+                                        rows='0'
+                                        width={'300'}
+                                    />
+                                     &nbsp;: {d}
+                                </h5>
+                            </div>
+                        ))}
 
                         {checkDisplay(show_wikidata_id) &&
                             <div className='add_entry'>
@@ -1961,6 +3138,7 @@ const AddEntry = () => {
                                     onBlurEvent={updateJSON}
                                     fieldName={'wikidata_id'}
                                     fieldValue={item?.wikidata_id}
+                                    req={getReq(apiField['wikidata_id'])}
                                 />
                             </div>
                         }

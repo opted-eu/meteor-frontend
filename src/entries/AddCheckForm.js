@@ -101,7 +101,7 @@ const AddCheckForm = () => {
         'NewsSource',
         'PoliticalParty',
         'Parliament',
-        'Person',
+        //'Person',
         'Organization'
     ]
     let linking_entities = [
@@ -161,6 +161,7 @@ const AddCheckForm = () => {
             label: "Actors & Institutions",
             options: actors_options
         },
+        /*
         {
             label: "Linking Entities",
             options: linking_entities_options
@@ -169,6 +170,7 @@ const AddCheckForm = () => {
             label: "Others",
             options: other_options
         }
+        */
     ]
 
     return (

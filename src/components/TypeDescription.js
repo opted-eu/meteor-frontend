@@ -3,17 +3,17 @@ import { useOpenAPI } from "./APISpecs";
 
 const Required = () => {
     return (
-        <span> *</span>
+        <span className='add_entry_req'> *</span>
     )
 }
 
 const Optional = () => {
     return (
-        <span className="add_entry_grey"> (optional)</span>
+        <span className="add_entry_opt"> (optional)</span>
     )
 }
 
-const TypeDescription = ({ dgraphType, fieldName, altText }) => {
+const TypeDescription = ({ dgraphType, fieldName }) => {
     const openApi = useOpenAPI();
     const [loading, setLoading] = useState(true);
     const [schema, setSchema] = useState(null);
@@ -40,21 +40,23 @@ const TypeDescription = ({ dgraphType, fieldName, altText }) => {
 
     function capitalizeFirstLetter(string) {
         let str = string.charAt(0).toUpperCase() + string.slice(1);
-        str = str.replace("_", " ");
+        str = str.replaceAll("_", " ");
         return str;
     }
 
     if (typeof(fieldName) != 'undefined'){
         let ret = ''
-        if (altText){
-            ret = altText
+        //console.log(fieldName)
+        if (!schema || !schema['properties'] || !schema['properties'][fieldName] || !schema['properties'][fieldName]['description']) {
+            ret = capitalizeFirstLetter(fieldName)
         } else {
-            //console.log(fieldName)
-            if (!schema || !schema['properties'] || !schema['properties'][fieldName] || !schema['properties'][fieldName]['description']) {
-                ret = capitalizeFirstLetter(fieldName)
-            } else {
-                ret = capitalizeFirstLetter(schema['properties'][fieldName]['description'])
-            }
+            ret = capitalizeFirstLetter(schema['properties'][fieldName]['description'])
+        }
+        if (ret.indexOf("Allowed choices:") > -1){
+            ret = ret.substring(0, ret.indexOf("Allowed choices:"))
+        }
+        if (ret === '') {
+            ret = capitalizeFirstLetter(fieldName)
         }
         let req = false
         if (schema && schema.required && schema.required.includes(fieldName)){

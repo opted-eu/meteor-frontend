@@ -2,7 +2,7 @@ import React from 'react';
 import Select from "react-select";
 import CreatableSelect from 'react-select/creatable';
 
-const CreateableSelectBox = ({ handleChangeEntity, searchValues, req=true, width=300 }) => {
+const CreateableSelectBox = ({ handleChangeEntity, searchValues, req=true, width=300, label = "Please type..." }) => {
 
     // apply styles to select boxes
     const SelectStyles = {
@@ -26,7 +26,7 @@ const CreateableSelectBox = ({ handleChangeEntity, searchValues, req=true, width
                     styles={SelectStyles}
                     clearable={true}
                     closeMenuOnSelect={false}
-                    placeholder={"Please type..."}
+                    placeholder={label}
                     value={searchValues}
                     isMulti
                     required
@@ -38,7 +38,7 @@ const CreateableSelectBox = ({ handleChangeEntity, searchValues, req=true, width
                     styles={SelectStyles}
                     clearable={true}
                     closeMenuOnSelect={true}
-                    placeholder={"Please type..."}
+                    placeholder={label}
                     value={searchValues}
                     isMulti
                 />

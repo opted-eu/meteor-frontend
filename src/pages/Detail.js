@@ -366,6 +366,12 @@ const Detail = () => {
         reviewEntry(res)
     }
 
+    const getDocKind = (i) => {
+        if (item["documentation|kind"]) {
+            return item["documentation|kind"][i]
+        }
+    }
+
     return (
         <>
             <md-dialog id="dialog_reject" type="alert">
@@ -1245,13 +1251,12 @@ const Detail = () => {
                             {item.documentation && (item.documentation).map((d, i) => (
                                 <DetailExtLink
                                     d={d}
-                                    s={item["documentation|kind"][i]}
+                                    s={getDocKind(i)}
                                     u=""
                                 />
                             ))}
                         </div>
                     }
-
 
                     {/* Research  */}
                    
