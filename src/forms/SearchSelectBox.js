@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from "react-select";
 
-const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, multi=true, req=false, width=300, special=false }) => {
+const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, multi=true, req=false, width=300, special=false, isDisabled=false }) => {
 
     // apply styles to select boxes
     const SelectStyles = {
@@ -28,10 +28,9 @@ const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, mult
         })
     };
 
-
     return (
         <>
-            {multi && !req && !special &&
+            {multi && !req && !special && !isDisabled &&
                 <Select
                     onChange={handleChangeEntity}
                     styles={SelectStyles}
@@ -43,7 +42,7 @@ const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, mult
                     isMulti
                 />
             }
-            {multi && req && !special &&
+            {multi && req && !special && !isDisabled &&
                 <Select
                     onChange={handleChangeEntity}
                     styles={SelectStyles}
@@ -56,7 +55,7 @@ const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, mult
                     required
                 />
             }
-            {!multi && !req && !special &&
+            {!multi && !req && !special && !isDisabled &&
                 <Select
                     onChange={handleChangeEntity}
                     styles={SelectStyles}
@@ -67,7 +66,7 @@ const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, mult
                     value={searchValues}
                 />
             }
-            {!multi && req && !special &&
+            {!multi && req && !special && !isDisabled &&
                 <Select
                     onChange={handleChangeEntity}
                     styles={SelectStyles}
@@ -87,6 +86,18 @@ const SearchSelectBox = ({ handleChangeEntity, searchOptions, searchValues, mult
                     closeMenuOnSelect={true}
                     value={searchValues}
                     placeholder={""}
+                />
+            }
+            {isDisabled &&
+                <Select
+                    onChange={handleChangeEntity}
+                    styles={SelectStyles}
+                    options={searchOptions}
+                    clearable={true}
+                    closeMenuOnSelect={false}
+                    placeholder={"Please choose..."}
+                    value={searchValues}
+                    isDisabled={true}
                 />
             }
         </>

@@ -3,6 +3,10 @@
 :root {
     --md-sys-color-primary: black;
 
+    /* Circular Progress */
+    --md-circular-progress-active-indicator-color: white;
+    --md-circular-progress-size: 32px;
+
     /* Outlined Button */
     --md-outlined-button-container-shape: 5px;
     --md-outlined-button-label-text-font: system-ui;

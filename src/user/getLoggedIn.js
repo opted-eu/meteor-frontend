@@ -9,6 +9,7 @@ async function refreshUser(token) {
 }
 
 async function getLoggedIn(token, setLoggedIn, setToken, navigate) {
+    //console.log('Checking Login')
 
     // check access_token expiry
     let d = new Date()
@@ -22,7 +23,9 @@ async function getLoggedIn(token, setLoggedIn, setToken, navigate) {
         }).then(response => response.json())
             .then(async data => {
                 if (data.status === 200) {
+                    //console.log('Checked Login1')
                     setLoggedIn(data);
+                    return token
                 } else {
                     setLoggedIn(null);
                     if (navigate) {
@@ -57,7 +60,9 @@ async function getLoggedIn(token, setLoggedIn, setToken, navigate) {
                 }).then(response => response.json())
                     .then(async data => {
                         if (data.status === 200) {
+                            //console.log('Checked Login2')
                             setLoggedIn(data);
+                            return refreshed_token
                         } else {
                             setLoggedIn(null);
                             if (navigate) {

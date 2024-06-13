@@ -49,7 +49,7 @@ const SearchTextField = ({ onBlurEvent, fieldName, fieldValue, rows="0", req=fal
                     type={type}
                     min={min}
                     max={max}
-                    label={label}
+                    placeholder={label}
                 />
             }
             {!req && rows !== "0" &&

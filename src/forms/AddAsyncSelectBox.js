@@ -2,11 +2,16 @@ import React, {useEffect, useState} from "react";
 import AsyncSelect from 'react-select/async';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types, width=300, req=false, single=false, predicate=null }) => {
+const AddAsyncSelectBox = ({ handleChangeEntity, searchValues, types, width=300, req=false, single=false, predicate=null }) => {
 
-    //console.log(searchValues)
+    //console.log(predicate, searchValues)
 
     const [inputValue, setValue] = useState('');
+    const [values, setValues] = useState(searchValues);
+
+    useEffect(() => {
+        setValues(searchValues)
+    }, [searchValues])
 
     // handle input change event
     const handleInputChange = value => {
@@ -16,14 +21,57 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types, width=3
     // load options using API call
     const loadOptions = (inputValue) => {
         if (inputValue.length >= 3) {
-            let api = process.env.REACT_APP_API + "lookup?predicate=name&query=" + inputValue
-            //api = api + '&dgraph_types=Organization&dgraph_types=PoliticalParty&dgraph_types=NewsSource&dgraph_types=Person'
-            for (var t in types){
+            console.log('predicate', predicate)
+            let api = process.env.REACT_APP_API + "lookup?predicate=name&query=" + encodeURIComponent(inputValue)
+            // add &dgraph_types=Author, etc
+            for (var t in types) {
                 api += '&dgraph_types=' + types[t]
-                //console.log(iv)
+                //console.log(api)
             }
-            //console.log(api)
-            return fetch(api).then(res => res.json());
+            if (predicate === 'authors') {
+                //const openalex_url = 'https://api.openalex.org/autocomplete/authors?q=' + encodeURIComponent(inputValue) + '&author_hint=institution&mailto=info@opted.eu'
+                const openalex_url = 'https://api.openalex.org/authors?filter=display_name.search:' + encodeURIComponent(inputValue)
+                return Promise.all([
+                    fetch(api)
+                        .then(response => response.json())
+                        .then(function(results) {
+                            let newArray = new Array
+                            results.forEach((e) => {
+                                newArray.push(e)
+                            })
+                            return newArray
+                        }),
+                    fetch(openalex_url).then(response => response.json())
+                        .then(j => j.results)
+                        .then(function (results) {
+                            let newArray = []
+                            results.forEach((e) => {
+                                e.name = e.display_name
+                                e.openalex = e.id
+                                e.uid = e.id.replace("https://openalex.org/", "")
+                                e.affiliations = [e.hint]
+                                if (e.external_id) {
+                                    e.affiliations.push(e.external_id.replace('https://orcid.org/', ' (ORCID: ') + ')')
+                                }
+                                e.type = "Openalex"
+                                newArray.push(e)
+                            })
+                            if (types.includes('Author')) {
+                                return newArray
+                            } else {
+                                return null
+                            }
+                        })
+                ])
+                    .then((arrayOfArrays) => {
+                        return [].concat.apply([], arrayOfArrays);
+                    })
+            } else {
+                //console.log(api)
+                return fetch(api)
+                    .then(res => res.json())
+                    //.then(json => console.log(json));
+            }
         }
     };
 
@@ -119,7 +167,7 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types, width=3
                     getOptionLabel={e => optionLabel(e)}
                     //getOptionLabel={e => e.name}
                     getOptionValue={e => e.uid}
-                    defaultValue={searchValues}
+                    value={values}
                     loadOptions={loadOptions}
                     onInputChange={handleInputChange}
                     onChange={handleChangeEntity}
@@ -136,7 +184,7 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types, width=3
                     getOptionLabel={e => optionLabel(e)}
                     //getOptionLabel={e => e.name}
                     getOptionValue={e => e.uid}
-                    defaultValue={searchValues}
+                    value={values}
                     loadOptions={loadOptions}
                     onInputChange={handleInputChange}
                     onChange={handleChangeEntity}
@@ -152,7 +200,7 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types, width=3
                     getOptionLabel={e => optionLabel(e)}
                     //getOptionLabel={e => e.name}
                     getOptionValue={e => e.uid}
-                    defaultValue={searchValues}
+                    value={values}
                     loadOptions={loadOptions}
                     onInputChange={handleInputChange}
                     onChange={handleChangeEntity}
@@ -168,7 +216,7 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types, width=3
                     getOptionLabel={e => optionLabel(e)}
                     //getOptionLabel={e => e.name}
                     getOptionValue={e => e.uid}
-                    defaultValue={searchValues}
+                    value={values}
                     loadOptions={loadOptions}
                     onInputChange={handleInputChange}
                     onChange={handleChangeEntity}
@@ -180,4 +228,4 @@ const SearchAsyncSelectBox = ({ handleChangeEntity, searchValues, types, width=3
     )
 }
 
-export default SearchAsyncSelectBox;
+export default AddAsyncSelectBox;

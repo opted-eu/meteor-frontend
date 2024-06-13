@@ -7,6 +7,7 @@ import getLoggedIn from "../user/getLoggedIn"
 import DetailHeader from "../components/DetailHeader";
 import SearchForm from "../forms/SearchForm";
 import ReviewFilterForm from "./ReviewFilterForm";
+import DataTable from 'datatables.net-dt';
 
 const Review = () => {
 
@@ -46,6 +47,8 @@ const Review = () => {
                 return response.json()
             })
             .then(data => {
+                data.sort((b, a) => a['_added_by']['_added_by|timestamp'].localeCompare(b['_added_by']['_added_by|timestamp']));
+                //console.log(data)
                 setItems(data);
             })
             .catch((err) => {
@@ -154,7 +157,7 @@ const Review = () => {
                                                     <>
                                                         {c.name}<br />
                                                     </>
-                                                    ))}
+                                                ))}
                                             </div>
                                             <div className="divTableCell">{retDate(item._added_by)}</div>
                                             <div className="divTableCell">{item._added_by.display_name}</div>
@@ -172,7 +175,7 @@ const Review = () => {
             </div>
 
             {/* Raw Data */}
-            {process.env.NODE_ENV === "development" && items && 1 === 2 &&
+            {process.env.NODE_ENV === "development" && items && 1 === 1 &&
                 <div className="divTable">
                     <DetailHeader
                         t="Raw Data"

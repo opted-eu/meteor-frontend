@@ -5,6 +5,29 @@ body{
     color: white !important;
 }
 
+.addrow {
+    display: flex;
+}
+
+.addcol {
+    flex: 100%;
+}
+
+.addcol1 {
+    flex: 70%;
+}
+
+.addcol2 {
+    margin-left:20px;
+    flex: 30%;
+}
+
+.magic{
+    background-color: #333333;
+    border-radius: 10px;
+    padding:10px;
+}
+
 h4{
     color: #cccccc;
 }

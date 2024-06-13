@@ -69,11 +69,11 @@ const Home = () => {
 
                 {logout &&
                     <>
-                        <p style={{borderBottom:'1px solid grey', paddingBottom:'10px'}}>
+                        <div style={{borderRadius:'10px', backgroundColor:'#444444', padding:'10px', marginBottom:'10px'}}>
                             <span className='message'>You are logged out!</span>
                             <br />
                             <strong>Hint:</strong> Try ticking the 'Remember Me' box when logging in to stay logged in for longer!
-                        </p>
+                        </div>
                     </>
                 }
 

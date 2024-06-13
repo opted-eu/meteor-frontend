@@ -101,7 +101,7 @@ const AddCheckForm = () => {
         'NewsSource',
         'PoliticalParty',
         'Parliament',
-        //'Person',
+        'Person',
         'Organization'
     ]
     let linking_entities = [

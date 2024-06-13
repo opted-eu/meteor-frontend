@@ -4,7 +4,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "../user/UserContext";
 import getLoggedIn from "../user/getLoggedIn";
-import SearchAsyncSelectBox from "../forms/SearchAsyncSelectBox";
+import AddAsyncSelectBox from "../forms/AddAsyncSelectBox";
 import SearchTextField from "../forms/SearchTextField";
 import SearchSelectBox from "../forms/SearchSelectBox";
 import CreatableSelectBox from "../forms/CreatableSelectBox";
@@ -14,6 +14,7 @@ import SearchCheckbox from "../forms/SearchCheckbox";
 import getProfile from "../user/getProfile";
 import {ProfileContext} from "../user/ProfileContext";
 import DatePickerValue from "./DatePickerValue"
+import Magic from "./Magic"
 
 
 async function addRecord(dgraph_type, json_entry, token) {
@@ -80,7 +81,7 @@ const AddEntry = () => {
     // API field names lookup (A1, B1, D1, E1, F1, T1)
     let apiField = {}
     apiField['name'] = 'name'
-    apiField['desc'] = 'description'
+    apiField['description'] = 'description'
     apiField['entries_included'] = 'entries_included'
     apiField['languages'] = 'languages'
     apiField['countries'] = 'countries'
@@ -90,12 +91,12 @@ const AddEntry = () => {
     apiField['materials'] = 'materials'
     apiField['tools'] = 'tools'
     apiField['references'] = 'references'
-    apiField['alternates'] = 'alternate_names'
+    apiField['alternate_names'] = 'alternate_names'
     apiField['url'] = 'url'
     apiField['authors'] = 'authors'
     apiField['doi'] = 'doi'
     apiField['arxiv'] = 'arxiv'
-    apiField['access'] = 'conditions_of_access'
+    apiField['conditions_of_access'] = 'conditions_of_access'
     apiField['text_types'] = 'text_types'
     apiField['sources_included'] = 'sources_included'
     apiField['geographic'] = 'geographic_scope'
@@ -120,7 +121,7 @@ const AddEntry = () => {
     apiField['urls'] = 'urls'
     apiField['method'] = 'methodologies'
     apiField['dataset'] = 'datasets_used'
-    apiField['programming'] = 'programming_languages'
+    apiField['programming_languages'] = 'programming_languages'
     apiField['channels'] = 'channels'
     apiField['name_abbrev'] = 'name_abbrev'
     apiField['color_hex'] = 'color_hex'
@@ -128,12 +129,12 @@ const AddEntry = () => {
     apiField['partyfacts_id'] = 'partyfacts_id'
     apiField['title'] = 'title'
     apiField['openalex'] = 'openalex'
-    apiField['paperkind'] = 'paper_kind'
+    apiField['paper_kind'] = 'paper_kind'
     apiField['venue'] = 'venue'
     apiField['version'] = 'version'
     apiField['cran'] = 'cran'
     apiField['pypi'] = 'pypi'
-    apiField['platforms'] = 'platforms'
+    apiField['platform'] = 'platforms'
     apiField['used_for'] = 'used_for'
     apiField['open_source'] = 'open_source'
     apiField['license'] = 'license'
@@ -157,12 +158,16 @@ const AddEntry = () => {
     apiField['pubcycleweekly'] = 'publication_cycle_weekday'
     apiField['paymod'] = 'payment_model'
     apiField['ads'] = 'contains_ads'
-    apiField['audsizerecent'] = 'audience_size_recent'
+    apiField['audience_size_recent'] = 'audience_size_recent'
+    apiField['audience_size'] = 'audience_size'
+    apiField['audience_size|count'] = 'audience_size|count'
+    apiField['audience_size|unit'] = 'audience_size|unit'
     apiField['epaper'] = 'channel_epaper'
     apiField['party'] = 'party_affiliated'
     apiField['relatedns'] = 'related_news_sources'
-    apiField['doc'] = 'documentation'
+    apiField['documentation'] = 'documentation'
     apiField['dockind'] = 'documentation|kind'
+    apiField['is_politician'] = 'is_politician'
 
     // set initial json for adding a new record
     let initialJSON = () => {
@@ -199,7 +204,6 @@ const AddEntry = () => {
     const [schema, setSchema] = useState(null);
     const [doc, setDoc] = useState();
     const [dockind, setDockind] = useState();
-
 
     // Async (A2)
     // entries included
@@ -388,7 +392,7 @@ const AddEntry = () => {
     const [websiteCommentsRegList, setWebsiteCommentsRegList] = useState([['NA', 'NA / Unknown'], ['yes', 'Yes'], ['no', 'No']])
     const [searchWebsiteCommentsReg, setSearchWebsiteCommentsReg] = useState();
 
-    // Paper kind
+    // Pub kind
     const [pubkindList, setPubkindList] = useState([
         ['newspaper', 'Newspaper'],
         ['news site', 'News Site'],
@@ -484,6 +488,66 @@ const AddEntry = () => {
 
     }
 
+    //**************** magic dictionaries **************
+
+    // Magic text fields (T2)
+    const [description, setDescription] = useState();
+    const [datePublished, setDatePublished] = useState();
+    const [doi, setDoi] = useState();
+    const [openalex, setOpenalex] = useState();
+    const [url, setUrl] = useState();
+    const [venue, setVenue] = useState();
+    const [title, setTitle] = useState();
+    const [arxiv, setArxiv] = useState();
+    const [github, setGithub] = useState();
+    const [cran, setCran] = useState();
+    const [pypi, setPypi] = useState();
+    const [license, setLicense] = useState();
+    const [version, setVersion] = useState();
+    const [audience_size_recent, setAudSizeRecent] = useState();
+    const [audience_size, setAudSize] = useState();
+    const [audience_size_count, setAudSizeCount] = useState();
+    const [audience_size_unit, setAudSizeUnit] = useState();
+
+    let magicText = {}
+    magicText['name'] = setEntryName
+    magicText['description'] = setDescription
+    magicText['date_published'] = setDatePublished
+    magicText['doi'] = setDoi
+    magicText['openalex'] = setOpenalex
+    magicText['url'] = setUrl
+    magicText['venue'] = setVenue
+    magicText['title'] = setTitle
+    magicText['arxiv'] = setArxiv
+    magicText['github'] = setGithub
+    magicText['cran'] = setCran
+    magicText['pypi'] = setPypi
+    magicText['license'] = setLicense
+    magicText['version'] = setVersion
+    magicText['audience_size_recent'] = setAudSizeRecent
+    magicText['audience_size'] = setAudSize
+    magicText['audience_size|count'] = setAudSizeCount
+    magicText['audience_size|unit'] = setAudSizeUnit
+
+    // Magic Enum fields - Single
+    let magicEnumSingle = {}
+    magicEnumSingle['paper_kind'] = [paperkindList, setSearchPaperkind]
+    magicEnumSingle['conditions_of_access'] = [accessList, setSearchAccess]
+    magicEnumSingle['open_source'] = [openSourceList, setSearchOpenSource]
+
+    // Magic Enum fields - Multiple
+    let magicEnumMultiple = {}
+    magicEnumMultiple['platform'] = [platformsList, setSearchPlatforms]
+
+    // Magic Select boxes - Multiple
+    let magicSelectMultiple = {}
+    magicSelectMultiple['authors'] = [setSearchAuthors]
+    magicSelectMultiple['programming_languages'] = [setSearchProgramming, programmingList]
+
+    // Magic Creatable Select boxes - Multiple
+    let magicCreatable = {}
+    magicCreatable['alternate_names'] = setSearchAlternates
+    magicCreatable['documentation'] = setSearchDoc
 
     // *********** helper fetch function ****************
     const fetchData = (fetchURL, predicate, val, list, itemdata, detailed=false, singleitem=false) => {
@@ -635,7 +699,7 @@ const AddEntry = () => {
                 setMethodList(data);
                 setSearchMethod(s);
                 break;
-            case 'programming':
+            case 'programming_languages':
                 setProgrammingList(data);
                 setSearchProgramming(s);
                 break;
@@ -704,32 +768,37 @@ const AddEntry = () => {
     const createSearchDetails = (search, details, predicate) => {
         let ary = []
         search?.forEach(b => {
-            const res = details?.find(c => c.uid === b.uid);
-            if (res) {
-                let d = ''
-                if (res["dgraph.type"]) {
-                    let dt = res["dgraph.type"]
-                    for (var i = 0; i < dt.length; i++) {
-                        if (dt[i] !== 'Entry') {
-                            d = dt[i];
-                            break;
+            if (b.name){  // search is a full dictionary
+                ary.push({name: b.name, uid: b.uid})
+            } else {
+                const res = details?.find(c => c.uid === b.uid);
+                if (res) {
+                    let d = ''
+                    if (res["dgraph.type"]) {
+                        let dt = res["dgraph.type"]
+                        for (var i = 0; i < dt.length; i++) {
+                            if (dt[i] !== 'Entry') {
+                                d = dt[i];
+                                break;
+                            }
+                        }
+                    } else {
+                        if (predicate) {
+                            d = predicate
                         }
                     }
-                } else {
-                    if (predicate){
-                        d = predicate
+                    let ch = res.channel
+                    let chan = ''
+                    if (ch) {
+                        chan = ch.name
                     }
+                    let n = chan + ' ' + res.name
+                    ary.push({name: n, uid: res.uid, type: d})
                 }
-                let ch = res.channel
-                let chan = ''
-                if (ch){
-                    chan = ch.name
-                }
-                let n = chan + ' ' + res.name
-                ary.push({name: n, uid: res.uid, type: d})
             }
-            //console.log(ary)
+
         })
+        //console.log(predicate, ary)
         return ary
     }
 
@@ -753,6 +822,7 @@ const AddEntry = () => {
     let entries_included_details = createSearchDetails(searchEntriesIncluded, entriesIncludedDetails)
     let tools_details = createSearchDetails(searchTools, toolsDetails)
     let references_details = createSearchDetails(searchReferences, referencesDetails)
+    //console.log('searchAuthors ae: ', searchAuthors)
     let authors_details = createSearchDetails(searchAuthors, authorsDetails, 'Author')
     let sources_included_details = createSearchDetails(searchSourcesIncluded, sourcesIncludedDetails)
     let materials_details = createSearchDetails(searchMaterials, materialsDetails)
@@ -790,6 +860,7 @@ const AddEntry = () => {
     const handleChangeAuthors = (selectedOption) => {
         let sel = getSelectedOptionsAsync(selectedOption)
         setSearchAuthors(sel[1])
+        //console.log('authors', sel[1])
         updateJSON('authors', sel[0])
     };
 
@@ -926,7 +997,7 @@ const AddEntry = () => {
     const handleChangeProgramming = (selectedOption) => {
         let sel = getSelectedOptions(selectedOption)
         setSearchProgramming(sel[1])
-        updateJSON('programming', sel[0])
+        updateJSON('programming_languages', sel[0])
     };
     const handleChangeChannels = (selectedOption) => {
         let sel = getSelectedOptions(selectedOption)
@@ -965,8 +1036,9 @@ const AddEntry = () => {
 
     const handleChangeAlternates = (selectedOption) => {
         let sel = getSelectedOptions(selectedOption)
+        console.log(sel)
         setSearchAlternates(sel[1])
-        updateJSON('alternates', sel[0])
+        updateJSON('alternate_names', sel[0])
     };
 
     const handleChangeUrls = (selectedOption) => {
@@ -979,7 +1051,7 @@ const AddEntry = () => {
         let sel = getSelectedOptions(selectedOption)
         setSearchDoc(sel[1])
         setDoc(sel[0])
-        updateJSON('doc', sel[0])
+        updateJSON('documentation', sel[0])
     };
 
     // *** Extra Handler for Documentation|kind ***
@@ -1012,7 +1084,7 @@ const AddEntry = () => {
     const handleChangeAccess = (selectedOption) => {
         let sel = getSelectedOptions(selectedOption)[1]
         setSearchAccess({'value': sel[0], 'label': sel[1]})
-        updateJSON('access', sel[0])
+        updateJSON('conditions_of_access', sel[0])
     };
 
     const handleChangeGeographic = (selectedOption) => {
@@ -1036,13 +1108,13 @@ const AddEntry = () => {
     const handleChangePaperkind = (selectedOption) => {
         let sel = getSelectedOptions(selectedOption)[1]
         setSearchPaperkind({'value': sel[0], 'label': sel[1]})
-        updateJSON('paperkind', sel[0])
+        updateJSON('paper_kind', sel[0])
     };
 
     const handleChangePlatforms = (selectedOption) => {
         let sel = getSelectedOptions(selectedOption)
         setSearchPlatforms(sel[1])
-        updateJSON('platforms', sel[0])
+        updateJSON('platform', sel[0])
     };
 
     const handleChangeOpenSource = (selectedOption) => {
@@ -1167,12 +1239,32 @@ const AddEntry = () => {
         }
     };
 
+    const handleClickIsPolitician = (event) => {
+        let chk = event.target.checked
+        if(chk) {
+            updateJSON('is_politician', false)
+        } else {
+            updateJSON('is_politician', true)
+        }
+    };
+
     // ************** Submit ****************
 
     const handleSubmitAE = async e => {
         e.preventDefault();
         if (1===1) {
             let resp = null
+            //let token2 = {"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxODI4NjQwMCwianRpIjoiZTgyYTMwYzgtODA1My00OGQ4LWE3MDgtNjJiYmU2YTIyNGYwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjB4NjRkZWMxMSIsIm5iZiI6MTcxODI4NjQwMCwiY3NyZiI6IjFhMWI3OWEzLTNiMjgtNDUwOS04ZGIxLTFiM2Q0ZDUwM2E1OSIsImV4cCI6MTcxODI4NzMwMH0.FxVwqHbaZzAP-NaBoz9RJxslUpH-ji0FqYrzNHyXZK8","access_token_valid_until":"2024-06-13T14:01:40.870910","status":200,"refreh_token_valid_until":"2024-07-07T16:04:10.582213","refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxNzc3NjI1MCwianRpIjoiNzA0MTU0NjktNmNkMy00MTAwLWJlOWUtMzQzMDQ4MTk5ZTUwIiwidHlwZSI6InJlZnJlc2giLCJzdWIiOiIweDY0ZGVjMTEiLCJuYmYiOjE3MTc3NzYyNTAsImNzcmYiOiI4OWNlYzRlNS04NjYwLTRkMzUtOGQ4My03ZDAwNjZkMTYyYzUiLCJleHAiOjE3MjAzNjgyNTB9.HPTvTXVo3YwF4Jaol76rs-TpVRK1FDFdcG8JK_j-OTQ"}
+
+            // Force the system into checking the token
+            // If the user has waited on the screen more than 15 minutes they will be logged out
+            // ... and the add/edit won't work
+            // So, run getLoggedIn again and update the token_checked varible
+
+            // check token
+            let checked_token = await getLoggedIn(token, setLoggedIn, setToken, navigate)
+            console.log('checked_token', checked_token)
+
             if (uid) {
                 //edit
                 console.log('Editing record')
@@ -1180,7 +1272,7 @@ const AddEntry = () => {
                 resp = await editRecord(
                     uid,
                     json,
-                    token
+                    checked_token
                 );
             } else {
                 //add
@@ -1189,7 +1281,7 @@ const AddEntry = () => {
                 resp = await addRecord(
                     entity,
                     json,
-                    token
+                    checked_token
                 );
             }
             if (resp.status === 200) {
@@ -1202,7 +1294,11 @@ const AddEntry = () => {
                     setError(null)
                     navigate('/detail/' + resp.uid)
                 } else {
-                    setError(resp.message)
+                    let msg = resp.message
+                    if (!msg){
+                        msg = resp.msg
+                    }
+                    setError(msg)
                 }
             }
         } else {
@@ -1248,22 +1344,22 @@ const AddEntry = () => {
     let designed_for_types = ['Channel', 'PoliticalParty', 'Organization', 'Government', 'Parliament', 'Person']
     let relatedns_types = ['NewsSource']
 
-    // *** all *** (A6, B5, C1, T2, D4, E4, F3)
-    const show_name = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "NewsSource"]
-    const show_alternates = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "NewsSource"]
-    const show_description = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "ScientificPublication", "NewsSource"]
+    // *** all *** (A6, B5, C1, T4, D4, E4, F3)
+    const show_name = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "NewsSource", "Person", "Author"]
+    const show_alternates = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "NewsSource", "Person"]
+    const show_description = ["Collection", "Archive", "Dataset", "JournalisticBrand", "Parliament", "Organization", "Government", "LearningMaterial", "PoliticalParty", "Tool", "ScientificPublication", "NewsSource", "Person"]
     const show_references = ["Collection"]
     const show_entries_included = ["Collection"]
     const show_languages = ["Collection", "Archive", "Dataset", "Parliament", "Government", "LearningMaterial", "Tool", "ScientificPublication", "NewsSource"]
     const show_countries = ["Collection", "Archive", "Dataset", "JournalisticBrand", "ScientificPublication", "NewsSource"]
-    const show_country = ["Parliament", "Organization", "Government", "PoliticalParty"]
+    const show_country = ["Parliament", "Organization", "Government", "PoliticalParty", "Person"]
     const show_concept = ["Collection", "Archive", "Dataset", "LearningMaterial", "Tool", "ScientificPublication"]
     const show_modal = ["Collection", "Archive", "Dataset", "LearningMaterial", "Tool", "ScientificPublication"]
     const show_subnational_scope = ["Collection", "JournalisticBrand", "NewsSource"]
     const show_materials = ["Collection"]
     const show_tools = ["Collection", "LearningMaterial", "ScientificPublication"]
     const show_authors = ["Archive", "Dataset", "LearningMaterial", "Tool", "ScientificPublication"]
-    const show_url = ["Archive", "Dataset", "Parliament", "Government", "PoliticalParty", "Tool", "ScientificPublication", "NewsSource"]
+    const show_url = ["Archive", "Dataset", "Parliament", "Government", "PoliticalParty", "Tool", "ScientificPublication", "NewsSource", "Person"]
     const show_doi = ["Archive", "Dataset", "Tool", "ScientificPublication"]
     const show_arxiv = ["Archive", "Dataset", "Tool", "ScientificPublication"]
     const show_access = ["Archive", "Dataset", "Tool"]
@@ -1280,24 +1376,24 @@ const AddEntry = () => {
     const show_temporal_coverage_end = ["Dataset"]
     const show_initial_source = ["Dataset"]
     const show_related_publications = ["Dataset"]
-    const show_entry_review_status = ["Dataset"]
+    const show_entry_review_status = []
     const show_wikidata_id = ["Dataset", "LearningMaterial", "PoliticalParty", "Tool", "NewsSource"]
     const show_ownership = ["Organization"]
     const show_ngo = ["Organization"]
-    const show_publishes = ["Organization", "PoliticalParty"]
+    const show_publishes = ["Organization", "PoliticalParty", "Person"]
     const show_owns = ["Organization"]
     const show_subnational_async = ["Government"]
     const show_urls = ["LearningMaterial"]
     const show_method = ["LearningMaterial", "ScientificPublication"]
     const show_dataset = ["LearningMaterial", "ScientificPublication"]
-    const show_programming = ["LearningMaterial"]
+    const show_programming = ["LearningMaterial", "Dataset"]
     const show_channels = ["LearningMaterial", "ScientificPublication"]
     const show_name_abbrev = ["PoliticalParty"]
     const show_color_hex = ["PoliticalParty"]
     const show_parlgov_id = ["PoliticalParty"]
     const show_partyfacts_id = ["PoliticalParty"]
     const show_title = ["ScientificPublication"]
-    const show_openalex = ["ScientificPublication"]
+    const show_openalex = ["ScientificPublication", "Author"]
     const show_paperkind = ["ScientificPublication"]
     const show_venue = ["ScientificPublication"]
     const show_version = ["Tool"]
@@ -1332,6 +1428,8 @@ const AddEntry = () => {
     const show_party = ["NewsSource"]
     const show_relatedns = ["NewsSource"]
     const show_doc = ["Dataset", "Tool"]
+    const show_is_politician = ["Person"]
+    const show_magic = ["Tool", "Dataset", "ScientificPublication", "NewsSource", "Organization"]
 
 
     // ************** Setup Select boxes & initial JSON ****************
@@ -1443,7 +1541,7 @@ const AddEntry = () => {
         fetchData('schema/predicate/', 'method', 1, true, i, true)
 
         // programming
-        fetchData('schema/predicate/', 'programming', 1, true, i, true)
+        fetchData('schema/predicate/', 'programming_languages', 1, true, i, true)
 
         // channels
         fetchData('schema/predicate/', 'channels', 1, true, i, true)
@@ -1481,23 +1579,25 @@ const AddEntry = () => {
             // *** Text *** (T3)
 
             // description
-            checkTextField(i,j,'desc')
+            checkTextField(i,j,'description', setDescription)
 
             // doi
-            checkTextField(i,j,'doi')
+            checkTextField(i,j,'doi', setDoi)
 
             // arxiv
-            checkTextField(i,j,'arxiv')
+            checkTextField(i,j,'arxiv', setArxiv)
 
             // url
-            checkTextField(i,j,'url')
+            checkTextField(i,j,'url', setUrl)
 
             // github
-            checkTextField(i,j,'github')
+            checkTextField(i,j,'github', setGithub)
 
             // date_published
             if (i[apiField['date_published']]) {
-                j[apiField['date_published']] = retDateYear(i[apiField['date_published']], true)
+                let d = retDateYear(i[apiField['date_published']], true)
+                j[apiField['date_published']] = d
+                setDatePublished(d)
             }
 
             // temporal_coverage_start
@@ -1522,25 +1622,25 @@ const AddEntry = () => {
             checkTextField(i,j,'partyfacts_id')
 
             // title
-            checkTextField(i,j,'title')
+            checkTextField(i,j,'title', setTitle)
 
             // openalex
-            checkTextField(i,j,'openalex')
+            checkTextField(i,j,'openalex', setOpenalex)
 
             // venue
-            checkTextField(i,j,'venue')
+            checkTextField(i,j,'venue', setVenue)
 
             // version
-            checkTextField(i,j,'version')
+            checkTextField(i,j,'version', setVersion)
 
             // cran
-            checkTextField(i,j,'cran')
+            checkTextField(i,j,'cran', setCran)
 
             // pypi
-            checkTextField(i,j,'pypi')
+            checkTextField(i,j,'pypi', setPypi)
 
             // license
-            checkTextField(i,j,'license')
+            checkTextField(i,j,'license', setLicense)
 
             // date_founded
             if (i[apiField['date_founded']]) {
@@ -1548,7 +1648,16 @@ const AddEntry = () => {
             }
 
             // audience size recent
-            checkTextField(i,j,'audsizerecent')
+            checkTextField(i,j,'audience_size_recent', setAudSizeRecent)
+
+            // audience size
+            checkTextField(i,j,'audience_size', setAudSize)
+
+            // audience size count
+            checkTextField(i,j,'audience_size_count', setAudSizeCount)
+
+            // audience size unit
+            checkTextField(i,j,'audience_size_unit', setAudSizeUnit)
 
             // *** Async *** (A7)
 
@@ -1663,7 +1772,7 @@ const AddEntry = () => {
             setupSelectVars(i, j, 'method')
 
             // programming
-            setupSelectVars(i, j, 'programming')
+            setupSelectVars(i, j, 'programming_languages')
 
             // channels
             setupSelectVars(i, j, 'channels')
@@ -1689,16 +1798,16 @@ const AddEntry = () => {
             // *** Creatable *** (D5)
 
             // alternates
-            setupSelectVars(i, j, 'alternates', true)
-            setSearchAlternates(setCreatable(i, 'alternates'))
+            setupSelectVars(i, j, 'alternate_names', true)
+            setSearchAlternates(setCreatable(i, 'alternate_names'))
 
             // urls
             setupSelectVars(i, j, 'urls', true)
             setSearchUrls(setCreatable(i, 'urls'))
 
             // documentation
-            setupSelectVars(i, j, 'doc', true, false, setDoc)
-            setSearchDoc(setCreatable(i, 'doc'))
+            setupSelectVars(i, j, 'documentation', true, false, setDoc)
+            setSearchDoc(setCreatable(i, 'documentation'))
 
             // documentation kind
             if (i[apiField['dockind']]) {
@@ -1712,7 +1821,7 @@ const AddEntry = () => {
 
             // *** Enums *** (E5)
 
-            setSearchEnum(i, j, 'access', accessList, setSearchAccess)
+            setSearchEnum(i, j, 'conditions_of_access', accessList, setSearchAccess)
 
             setSearchEnum(i, j, 'geographic', geographicList, setSearchGeographic)
 
@@ -1720,14 +1829,14 @@ const AddEntry = () => {
 
             setSearchEnum(i, j, 'ownership', ownershipList, setSearchOwnership)
 
-            setSearchEnum(i, j, 'paperkind', paperkindList, setSearchPaperkind)
+            setSearchEnum(i, j, 'paper_kind', paperkindList, setSearchPaperkind)
 
             setSearchEnum(i, j, 'open_source', openSourceList, setSearchOpenSource)
 
             setSearchEnum(i, j, 'author_validated', authorValidatedList, setSearchAuthorValidated)
 
             // platforms (multi)
-            setSearchEnumMulti(i, j, 'platforms', setSearchPlatforms, platformsList)
+            setSearchEnumMulti(i, j, 'platform', setSearchPlatforms, platformsList)
 
             setSearchEnum(i, j, 'transcript', transcriptList, setSearchTranscript)
 
@@ -1766,6 +1875,8 @@ const AddEntry = () => {
             checkTextField(i,j, 'defunct')
 
             checkTextField(i,j, 'special_interest')
+
+            checkTextField(i,j, 'is_politician')
 
             // add top key and update
             let d = {'data': j}
@@ -2003,9 +2114,12 @@ const AddEntry = () => {
         }
     }
 
-    const checkTextField = (i, j, predicate) => {
+    const checkTextField = (i, j, predicate, setFunc = null) => {
         if (i[apiField[predicate]]) {
             j[apiField[predicate]] = i[apiField[predicate]]
+            if (setFunc){
+                setFunc(i[apiField[predicate]])
+            }
         }
     }
 
@@ -2032,1151 +2146,1317 @@ const AddEntry = () => {
         }
     }
 
-    // *************** RENDER ************** (A8, B9, T4, D6, E7, F5)
+    const setMagicEnumSingle = (predicate, data) => {
+        if(data) {
+            let lab = ''
+            for (var b of magicEnumSingle[predicate][0]) {
+                //console.log(b, data)
+                if (Array.isArray(data)){
+                    if (b[0] === data[0]) {
+                        lab = b[1];
+                        //console.log(lab)
+                        updateJSON(predicate, data[0])
+                        magicEnumSingle[predicate][1]({'value': data[0], 'label': lab})
+                        break;
+                    }
+                } else {
+                    if (b[0] === data) {
+                        lab = b[1];
+                        //console.log(lab)
+                        updateJSON(predicate, data)
+                        magicEnumSingle[predicate][1]({'value': data, 'label': lab})
+                        break;
+                    }
+                }
+            }
+
+
+        }
+    }
+
+    const setMagicEnumMultiple = (predicate, data) => {
+        if(data) {
+            let sel = []
+            let j = []
+            for (var a of data) {
+                for (var b of magicEnumMultiple[predicate][0]) {
+                    //console.log(b)
+                    if (b[0] === a) {
+                        //console.log(lab)
+                        sel.push({'value': a, 'label': b[1]})
+                        j.push(a)
+                        break;
+                    }
+                }
+            }
+            magicEnumMultiple[predicate][1](sel)
+            updateJSON(predicate, j)
+        }
+    }
+
+    const setMagicSelectMultiple = (predicate, data) => {
+        if(data) {
+            let sel = []
+            let j = []
+            if (Array.isArray(data)) {
+                for (var a of data) {
+                    if (magicSelectMultiple[predicate][1]) {
+                        for (var b of magicSelectMultiple[predicate][1]) {
+                            if (b.uid === a) {
+                                sel.push({'value': b.uid, 'label': b.name})
+                                j.push(b.uid)
+                            } else {
+                                if ((b.name).toLowerCase() === a) {
+                                    sel.push({'value': b.uid, 'label': b.name})
+                                    j.push(b.uid)
+                                }
+                            }
+                        }
+                    } else {
+                        if (a.uid) {
+                            sel.push(a)
+                            j.push(a.uid)
+                        } else {
+                            if (predicate === 'authors' && a.openalex){
+                                sel.push({'uid': a.openalex[0], 'name': a.name})
+                                j.push(a.openalex[0])
+                            }
+                        }
+                    }
+                }
+                magicSelectMultiple[predicate][0](sel)
+                updateJSON(predicate, j)
+            }
+        }
+    }
+
+    const setMagicCreatable = (predicate, data) => {
+        if(data) {
+            let sel = []
+            let j = []
+            if (Array.isArray(data)){
+                for (var a of data) {
+                    //console.log(a)
+                    sel.push({ label: a, value: a})
+                    j.push(a)
+                }
+                magicCreatable[predicate](sel)
+            } else {
+                j.push(data)
+                magicCreatable[predicate]({ label: data, value: data})
+            }
+            updateJSON(predicate, j)
+        }
+    }
+
+    // magic form
+    const magicForm = (data) => {
+        let keys = Object.keys(data)
+        for (var predicate of keys){
+            console.log(predicate, ':', data[predicate])
+            if (magicText[predicate]){
+                if(data[predicate]) {
+                    let dat = null
+                    if (predicate === 'audience_size'){
+                       dat = retDateYear(data[predicate])
+                    } else {
+                        dat = data[predicate]
+                    }
+                    updateJSON(predicate, dat)
+                    magicText[predicate](dat)
+                }
+            }
+            if (magicEnumSingle[predicate]){
+                setMagicEnumSingle(predicate, data[predicate])
+            }
+            if (magicEnumMultiple[predicate]){
+                setMagicEnumMultiple(predicate, data[predicate])
+            }
+            if (magicSelectMultiple[predicate]){
+                setMagicSelectMultiple(predicate, data[predicate])
+            }
+            if (magicCreatable[predicate]){
+                setMagicCreatable(predicate, data[predicate])
+            }
+        }
+    }
+
+
+
+    // *************** RENDER ************** (A8, B9, T5, D6, E7, F5)
 
     return (
         <>
             {loggedIn && (
                 <>
                     <h1>{uid ? 'Edit' : 'Add'} {entity}</h1>
+                    <div className={'addrow'}>
+                        <div className={'addcol1'}>
 
-                    <form id="addEntry" onSubmit={handleSubmitAE}>
+                            <form id="addEntry" onSubmit={handleSubmitAE}>
 
-                        {checkDisplay(show_name) &&
-                        <div className='add_entry'>
-                            <h4><TypeDescription dgraphType={entity} fieldName={apiField['name']}/></h4>
-                            <SearchTextField
-                                onBlurEvent={updateJSON}
-                                fieldName={'name'}
-                                fieldValue={entryName}
-                                rows='0'
-                                req={getReq(apiField['name'])}
-                            />
-                        </div>
-                        }
-
-                        {checkDisplay(show_channel) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['channel']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeChannel}
-                                    searchOptions={channel_options}
-                                    searchValues={searchChannel}
-                                    multi={false}
-                                    req={getReq(apiField['channel'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_title) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['title']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'title'}
-                                    fieldValue={item?.title}
-                                    req={getReq(apiField['title'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_alternates) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['alternates']}/></h4>
-                                <CreatableSelectBox
-                                    handleChangeEntity={handleChangeAlternates}
-                                    searchValues={searchAlternates}
-                                    req={getReq(apiField['alternates'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_description) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['desc']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'desc'}
-                                    fieldValue={item?.description}
-                                    rows="3"
-                                    req={getReq(apiField['desc'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_transcript) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['transcript']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeTranscript}
-                                    searchOptions={transcript_options}
-                                    searchValues={searchTranscript}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['transcript'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_website_allows_comments) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['website_allows_comments']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeWebsiteAllowsComments}
-                                    searchOptions={website_allows_comments_options}
-                                    searchValues={searchWebsiteAllowsComments}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['website_allows_comments'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_website_comments_reg) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['website_comments_reg']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeWebsiteCommentsReg}
-                                    searchOptions={website_comments_reg_options}
-                                    searchValues={searchWebsiteCommentsReg}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['website_comments_reg'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_name_abbrev) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['name_abbrev']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'name_abbrev'}
-                                    fieldValue={item?.name_abbrev}
-                                    req={getReq(apiField['name_abbrev'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_parlgov_id) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['parlgov_id']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'parlgov_id'}
-                                    fieldValue={item?.parlgov_id}
-                                    req={getReq(apiField['parlgov_id'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_partyfacts_id) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['partyfacts_id']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'partyfacts_id'}
-                                    fieldValue={item?.partyfacts_id}
-                                    req={getReq(apiField['partyfacts_id'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_color_hex) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['color_hex']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'color_hex'}
-                                    fieldValue={item?.color_hex}
-                                    req={getReq(apiField['color_hex'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_urls) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['urls']}/></h4>
-                                <CreatableSelectBox
-                                    handleChangeEntity={handleChangeUrls}
-                                    searchValues={searchUrls}
-                                    req={getReq(apiField['urls'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_ownership) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['ownership']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeOwnership}
-                                    searchOptions={ownership_options}
-                                    searchValues={searchOwnership}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['ownership'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_country) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['country']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeCountry}
-                                    searchOptions={country_options}
-                                    searchValues={searchCountry}
-                                    multi={false}
-                                    req={getReq(apiField['country'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_publishes) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['publishes']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangePublishes}
-                                    searchValues={publishes_details}
-                                    types={publishes_types}
-                                    width='100%'
-                                    req={getReq(apiField['publishes'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_owns) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['owns']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeOwns}
-                                    searchValues={owns_details}
-                                    types={owns_types}
-                                    width='100%'
-                                    req={getReq(apiField['owns'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_ngo) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['ngo']}/></h4>
-                                <SearchCheckbox
-                                    handleClick={handleClickNgo}
-                                    name={'ngo'}
-                                    val={true}
-                                    chk={item?.is_ngo}
-                                    req={getReq(apiField['ngo'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_date_published) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['date_published']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'date_published'}
-                                    fieldValue={retDateYear(item?.date_published)}
-                                    req={getReq(apiField['date_published'])}
-                                    type="number"
-                                    min="1500"
-                                    max="2100"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_date_founded) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['date_founded']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'date_founded'}
-                                    fieldValue={retDateYear(item?.date_founded)}
-                                    req={getReq(apiField['date_founded'])}
-                                    type="number"
-                                    min="1500"
-                                    max="2100"
-                                />
-                            </div>
-                        }
-
-
-                        {checkDisplay(show_version) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['version']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'version'}
-                                    fieldValue={item?.version}
-                                    req={getReq(apiField['version'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_paperkind) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['paperkind']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangePaperkind}
-                                    searchOptions={paperkind_options}
-                                    searchValues={searchPaperkind}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['paperkind'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_venue) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['venue']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'venue'}
-                                    fieldValue={item?.venue}
-                                    req={getReq(apiField['venue'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_url) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['url']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'url'}
-                                    fieldValue={item?.url}
-                                    //type="url"
-                                    req={getReq(apiField['url'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_authors) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['authors']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeAuthors}
-                                    searchValues={authors_details}
-                                    types={authors_types}
-                                    width='100%'
-                                    req={getReq(apiField['authors'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_doi) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['doi']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'doi'}
-                                    fieldValue={item?.doi}
-                                    req={getReq(apiField['doi'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_openalex) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['openalex']}  /></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'openalex'}
-                                    fieldValue={item?.openalex}
-                                    req={getReq(apiField['openalex'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_arxiv) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['arxiv']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'arxiv'}
-                                    fieldValue={item?.arxiv}
-                                    req={getReq(apiField['arxiv'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_cran) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['cran']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'cran'}
-                                    fieldValue={item?.cran}
-                                    req={getReq(apiField['cran'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_pypi) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['pypi']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'pypi'}
-                                    fieldValue={item?.pypi}
-                                    req={getReq(apiField['pypi'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_github) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['github']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'github'}
-                                    fieldValue={item?.github}
-                                    label="If the dataset has a repository on Github you can add it here."
-                                    req={getReq(apiField['github'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_platforms) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['platforms']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangePlatforms}
-                                    searchOptions={platforms_options}
-                                    searchValues={searchPlatforms}
-                                    req={getReq(apiField['platforms'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_pubkind) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['pubkind']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangePubkind}
-                                    searchOptions={pubkind_options}
-                                    searchValues={searchPubkind}
-                                    req={getReq(apiField['pubkind'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_special_interest) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['special_interest']}/></h4>
-                                <SearchCheckbox
-                                    handleClick={handleClickSpecialInterest}
-                                    name={'special_interest'}
-                                    val={true}
-                                    chk={item?.special_interest}
-                                    req={getReq(apiField['special_interest'])}
-                                />
-                            </div>
-                        }
-
-
-                        {checkDisplay(show_topical) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['topical']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeTopical}
-                                    searchOptions={topical_options}
-                                    searchValues={searchTopical}
-                                    req={getReq(apiField['topical'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_pubcycle) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['pubcycle']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangePubcycle}
-                                    searchOptions={pubcycle_options}
-                                    searchValues={searchPubcycle}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['pubcycle'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_pubcycleweekly) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['pubcycleweekly']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangePubcycleweekly}
-                                    searchOptions={pubcycleweekly_options}
-                                    searchValues={searchPubcycleweekly}
-                                    width="100%"
-                                    req={getReq(apiField['pubcycleweekly'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_paymod) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['paymod']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangePaymod}
-                                    searchOptions={paymod_options}
-                                    searchValues={searchPaymod}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['paymod'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_ads) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['ads']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeAds}
-                                    searchOptions={ads_options}
-                                    searchValues={searchAds}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['ads'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_audsizerecent) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['audsizerecent']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'audsizerecent'}
-                                    fieldValue={item?.audience_size_recent}
-                                    req={getReq(apiField['audsizerecent'])}
-                                    type="number"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_epaper) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['epaper']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeEpaper}
-                                    searchOptions={epaper_options}
-                                    searchValues={searchEpaper}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['epaper'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_party) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['party']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeParty}
-                                    searchOptions={party_options}
-                                    searchValues={searchParty}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['party'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_open_source) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['open_source']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeOpenSource}
-                                    searchOptions={open_source_options}
-                                    searchValues={searchOpenSource}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['handleChangeOpenSource'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_license) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['license']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'license'}
-                                    fieldValue={item?.license}
-                                    req={getReq(apiField['license'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_used_for) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['used_for']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeUsedFor}
-                                    searchOptions={used_for_options}
-                                    searchValues={searchUsedFor}
-                                    req={getReq(apiField['used_for'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_access) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['access']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeAccess}
-                                    searchOptions={access_options}
-                                    searchValues={searchAccess}
-                                    multi={false}
-                                    req={getReq(apiField['access'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_sources_included) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['sources_included']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeSourcesIncluded}
-                                    searchValues={sources_included_details}
-                                    types={sources_included_types}
-                                    width='100%'
-                                    req={getReq(apiField['sources_included'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_geographic) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['geographic']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeGeographic}
-                                    searchOptions={geographic_options}
-                                    searchValues={searchGeographic}
-                                    multi={false}
-                                    req={getReq(apiField['geographic'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_subnational_async) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['subnational_async']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeSubnationalAsync}
-                                    searchValues={subnational_async_details}
-                                    types={subnational_async_types}
-                                    width='100%'
-                                    single={true}
-                                    req={getReq(apiField['subnational_async'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_initial_source) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['initial_source']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeInitialSource}
-                                    searchValues={initial_source_details}
-                                    types={initial_source_types}
-                                    width='100%'
-                                    req={getReq(apiField['initial_source'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_fulltext) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['fulltext']}/></h4>
-                                <SearchCheckbox
-                                    handleClick={handleClickFulltext}
-                                    name={'fulltext_available'}
-                                    val={true}
-                                    chk={item?.fulltext_available}
-                                    req={getReq(apiField['fulltext'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_entries_included) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['entries_included']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeEntriesIncluded}
-                                    searchValues={entries_included_details}
-                                    types={entries_included_types}
-                                    width='100%'
-                                    req={getReq(apiField['entries_included'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_languages) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['languages']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeLanguages}
-                                    searchOptions={languages_options}
-                                    searchValues={searchLanguages}
-                                    multi={true}
-                                    req={getReq(apiField['languages'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_programming) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['programming']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeProgramming}
-                                    searchOptions={programming_options}
-                                    searchValues={searchProgramming}
-                                    multi={true}
-                                    req={getReq(apiField['programming'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_countries) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['countries']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeCountries}
-                                    searchOptions={countries_options}
-                                    searchValues={searchCountries}
-                                    multi={true}
-                                    req={getReq(apiField['countries'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_temporal_coverage_start) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['temporal_coverage_start']}/></h4>
-                                <DatePickerValue
-                                    onChangeEvent={updateJSON}
-                                    fieldName={'temporal_coverage_start'}
-                                    fieldValue={item?.temporal_coverage_start}
-                                    req={getReq(apiField['temporal_coverage_start'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_temporal_coverage_end) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['temporal_coverage_end']}/></h4>
-                                <DatePickerValue
-                                    onChangeEvent={updateJSON}
-                                    fieldName={'temporal_coverage_end'}
-                                    fieldValue={item?.temporal_coverage_end}
-                                    req={getReq(apiField['temporal_coverage_end'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_text_types) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['text_types']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeTextTypes}
-                                    searchOptions={text_types_options}
-                                    searchValues={searchTextTypes}
-                                    multi={true}
-                                    req={getReq(apiField['text_types'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_channels) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['channels']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeChannels}
-                                    searchOptions={channels_options}
-                                    searchValues={searchChannels}
-                                    multi={true}
-                                    req={getReq(apiField['channels'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_text_units) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['text_units']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeTextUnits}
-                                    searchOptions={text_units_options}
-                                    searchValues={searchTextUnits}
-                                    multi={true}
-                                    req={getReq(apiField['text_units'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_subnational_scope) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['subnational_scope']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeSubnationalScope}
-                                    searchOptions={subnational_scope_options}
-                                    searchValues={searchSubnationalScope}
-                                    multi={true}
-                                    req={getReq(apiField['subnational_scope'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_tools) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['tools']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeTools}
-                                    searchValues={tools_details}
-                                    types={tools_types}
-                                    width='100%'
-                                    req={getReq(apiField['tools'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_references) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['references']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeReferences}
-                                    searchValues={references_details}
-                                    types={references_types}
-                                    width='100%'
-                                    req={getReq(apiField['references'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_dataset) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['dataset']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeDataset}
-                                    searchValues={dataset_details}
-                                    types={dataset_types}
-                                    width='100%'
-                                    req={getReq(apiField['dataset'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_materials) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['materials']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeMaterials}
-                                    searchValues={materials_details}
-                                    types={materials_types}
-                                    width='100%'
-                                    req={getReq(apiField['materials'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_concept) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['concept']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeConcept}
-                                    searchOptions={concept_options}
-                                    searchValues={searchConcept}
-                                    multi={true}
-                                    req={getReq(apiField['concept'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_method) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['method']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeMethod}
-                                    searchOptions={method_options}
-                                    searchValues={searchMethod}
-                                    multi={true}
-                                    req={getReq(apiField['method'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_modal) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['modal']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeModal}
-                                    searchOptions={modal_options}
-                                    searchValues={searchModal}
-                                    multi={true}
-                                    req={getReq(apiField['modal'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_gui) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['gui']}/></h4>
-                                <SearchCheckbox
-                                    handleClick={handleClickGui}
-                                    name={'gui'}
-                                    val={true}
-                                    chk={item?.graphical_user_interface}
-                                    req={getReq(apiField['gui'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_meta_variables) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['meta_variables']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeMetaVariables}
-                                    searchOptions={meta_variables_options}
-                                    searchValues={searchMetaVariables}
-                                    multi={true}
-                                    req={getReq(apiField['meta_variables'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_file_formats) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['file_formats']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeFileFormats}
-                                    searchOptions={file_formats_options}
-                                    searchValues={searchFileFormats}
-                                    multi={true}
-                                    req={getReq(apiField['file_formats'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_related_publications) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['related_publications']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeRelatedPublications}
-                                    searchValues={related_publications_details}
-                                    types={related_publications_types}
-                                    width='100%'
-                                    req={getReq(apiField['related_publications'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_entry_review_status) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['entry_review_status']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeEntryReviewStatus}
-                                    searchOptions={entry_review_status_options}
-                                    searchValues={searchEntryReviewStatus}
-                                    multi={false}
-                                    req={getReq(apiField['entry_review_status'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_designed_for) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['designed_for']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeDesignedFor}
-                                    searchValues={designed_for_details}
-                                    types={designed_for_types}
-                                    width='100%'
-                                    req={getReq(apiField['designed_for'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_language_independent) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['language_independent']}/></h4>
-                                <SearchCheckbox
-                                    handleClick={handleClickLanguageIndependent}
-                                    name={'language_independent'}
-                                    val={true}
-                                    chk={item?.language_independent}
-                                    req={getReq(apiField['language_independent'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_iff) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['iff']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeIff}
-                                    searchOptions={iff_options}
-                                    searchValues={searchIff}
-                                    req={getReq(apiField['iff'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_off) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['off']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeOff}
-                                    searchOptions={off_options}
-                                    searchValues={searchOff}
-                                    req={getReq(apiField['off'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_author_validated) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['author_validated']} /></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeAuthorValidated}
-                                    searchOptions={author_validated_options}
-                                    searchValues={searchAuthorValidated}
-                                    multi={false}
-                                    width="100%"
-                                    req={getReq(apiField['author_validated'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_validation_dataset) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['validation_dataset']}/></h4>
-                                <SearchSelectBox
-                                    handleChangeEntity={handleChangeValidationDataset}
-                                    searchOptions={validation_dataset_options}
-                                    searchValues={searchValidationDataset}
-                                    req={getReq(apiField['validation_dataset'])}
-                                    width="100%"
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_defunct) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['defunct']}/></h4>
-                                <SearchCheckbox
-                                    handleClick={handleClickDefunct}
-                                    name={'defunct'}
-                                    val={true}
-                                    chk={item?.defunct}
-                                    req={getReq(apiField['defunct'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_relatedns) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['relatedns']}/></h4>
-                                <SearchAsyncSelectBox
-                                    handleChangeEntity={handleChangeRelatedns}
-                                    searchValues={relatedns_details}
-                                    types={relatedns_types}
-                                    width='100%'
-                                    req={getReq(apiField['relatedns'])}
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_doc) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['doc']}/></h4>
-                                <CreatableSelectBox
-                                    handleChangeEntity={handleChangeDoc}
-                                    searchValues={searchDoc}
-                                    req={getReq(apiField['doc'])}
-                                    width="100%"
-                                    label="Please paste the URLs to the documentation here..."
-
-                                />
-                            </div>
-                        }
-
-                        {checkDisplay(show_doc) && doc?.map(d => (
-                            <div className='add_entry'>
-                                <h5>
-                                    Please specify what kind of resource it is:&nbsp;&nbsp;
+                                {checkDisplay(show_name) &&
+                                <div className='add_entry'>
+                                    <h4><TypeDescription dgraphType={entity} fieldName={apiField['name']}/></h4>
                                     <SearchTextField
-                                        onBlurEvent={handleChangeDockind}
-                                        fieldName={getDockindFieldName(d)}
-                                        fieldValue={getDockindFieldValue(d)}
+                                        onBlurEvent={updateJSON}
+                                        fieldName={'name'}
+                                        fieldValue={entryName}
                                         rows='0'
-                                        width={'400px'}
-                                        label={'e.g. FAQ, Manual, Tutorial, Website, etc'}
+                                        req={getReq(apiField['name'])}
                                     />
-                                     &nbsp;: {d}
-                                </h5>
-                            </div>
-                        ))}
+                                </div>
+                                }
 
-                        {checkDisplay(show_wikidata_id) &&
-                            <div className='add_entry'>
-                                <h4><TypeDescription dgraphType={entity} fieldName={apiField['wikidata_id']}/></h4>
-                                <SearchTextField
-                                    onBlurEvent={updateJSON}
-                                    fieldName={'wikidata_id'}
-                                    fieldValue={item?.wikidata_id}
-                                    req={getReq(apiField['wikidata_id'])}
-                                />
-                            </div>
-                        }
+                                {checkDisplay(show_is_politician) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['is_politician']}/></h4>
+                                        <SearchCheckbox
+                                            handleClick={handleClickIsPolitician}
+                                            name={'is_politician'}
+                                            val={true}
+                                            chk={item?.is_politician}
+                                            req={getReq(apiField['is_politician'])}
+                                        />
+                                    </div>
+                                }
 
-                        <div style={{clear:"both", "marginTop":10}}>
-                            <md-filled-button id="submitForm" type="submit">{uid ? 'Edit' : 'Add'}&nbsp;{entity}</md-filled-button>&nbsp;
+                                {checkDisplay(show_channel) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['channel']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeChannel}
+                                            searchOptions={channel_options}
+                                            searchValues={searchChannel}
+                                            multi={false}
+                                            req={getReq(apiField['channel'])}
+                                            width="100%"
+                                            isDisabled={item ? true : false}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_title) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['title']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'title'}
+                                            fieldValue={title}
+                                            req={getReq(apiField['title'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_alternates) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['alternate_names']}/></h4>
+                                        <CreatableSelectBox
+                                            handleChangeEntity={handleChangeAlternates}
+                                            searchValues={searchAlternates}
+                                            req={getReq(apiField['alternate_names'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_description) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['description']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'description'}
+                                            fieldValue={description}
+                                            rows="3"
+                                            req={getReq(apiField['description'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_transcript) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['transcript']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeTranscript}
+                                            searchOptions={transcript_options}
+                                            searchValues={searchTranscript}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['transcript'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_website_allows_comments) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['website_allows_comments']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeWebsiteAllowsComments}
+                                            searchOptions={website_allows_comments_options}
+                                            searchValues={searchWebsiteAllowsComments}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['website_allows_comments'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_website_comments_reg) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['website_comments_reg']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeWebsiteCommentsReg}
+                                            searchOptions={website_comments_reg_options}
+                                            searchValues={searchWebsiteCommentsReg}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['website_comments_reg'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_name_abbrev) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['name_abbrev']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'name_abbrev'}
+                                            fieldValue={item?.name_abbrev}
+                                            req={getReq(apiField['name_abbrev'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_parlgov_id) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['parlgov_id']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'parlgov_id'}
+                                            fieldValue={item?.parlgov_id}
+                                            req={getReq(apiField['parlgov_id'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_partyfacts_id) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['partyfacts_id']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'partyfacts_id'}
+                                            fieldValue={item?.partyfacts_id}
+                                            req={getReq(apiField['partyfacts_id'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_color_hex) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['color_hex']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'color_hex'}
+                                            fieldValue={item?.color_hex}
+                                            req={getReq(apiField['color_hex'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_urls) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['urls']}/></h4>
+                                        <CreatableSelectBox
+                                            handleChangeEntity={handleChangeUrls}
+                                            searchValues={searchUrls}
+                                            req={getReq(apiField['urls'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_ownership) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['ownership']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeOwnership}
+                                            searchOptions={ownership_options}
+                                            searchValues={searchOwnership}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['ownership'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_country) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['country']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeCountry}
+                                            searchOptions={country_options}
+                                            searchValues={searchCountry}
+                                            multi={false}
+                                            req={getReq(apiField['country'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_publishes) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['publishes']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangePublishes}
+                                            searchValues={publishes_details}
+                                            types={publishes_types}
+                                            width='100%'
+                                            req={getReq(apiField['publishes'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_owns) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['owns']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeOwns}
+                                            searchValues={owns_details}
+                                            types={owns_types}
+                                            width='100%'
+                                            req={getReq(apiField['owns'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_ngo) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['ngo']}/></h4>
+                                        <SearchCheckbox
+                                            handleClick={handleClickNgo}
+                                            name={'ngo'}
+                                            val={true}
+                                            chk={item?.is_ngo}
+                                            req={getReq(apiField['ngo'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_date_published) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['date_published']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'date_published'}
+                                            fieldValue={datePublished}
+                                            req={getReq(apiField['date_published'])}
+                                            type="number"
+                                            min="1500"
+                                            max="2100"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_date_founded) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['date_founded']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'date_founded'}
+                                            fieldValue={retDateYear(item?.date_founded)}
+                                            req={getReq(apiField['date_founded'])}
+                                            type="number"
+                                            min="1500"
+                                            max="2100"
+                                        />
+                                    </div>
+                                }
+
+
+                                {checkDisplay(show_version) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['version']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'version'}
+                                            fieldValue={version}
+                                            req={getReq(apiField['version'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_paperkind) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['paper_kind']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangePaperkind}
+                                            searchOptions={paperkind_options}
+                                            searchValues={searchPaperkind}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['paper_kind'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_venue) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['venue']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'venue'}
+                                            fieldValue={venue}
+                                            req={getReq(apiField['venue'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_url) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['url']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'url'}
+                                            fieldValue={url}
+                                            //type="url"
+                                            req={getReq(apiField['url'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_authors) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['authors']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeAuthors}
+                                            searchValues={authors_details}
+                                            types={authors_types}
+                                            width='100%'
+                                            req={getReq(apiField['authors'])}
+                                            predicate='authors'
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_doi) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['doi']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'doi'}
+                                            fieldValue={doi}
+                                            req={getReq(apiField['doi'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_openalex) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['openalex']}  /></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'openalex'}
+                                            fieldValue={openalex}
+                                            req={getReq(apiField['openalex'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_arxiv) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['arxiv']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'arxiv'}
+                                            fieldValue={arxiv}
+                                            req={getReq(apiField['arxiv'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_cran) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['cran']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'cran'}
+                                            fieldValue={cran}
+                                            req={getReq(apiField['cran'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_pypi) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['pypi']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'pypi'}
+                                            fieldValue={pypi}
+                                            req={getReq(apiField['pypi'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_github) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['github']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'github'}
+                                            fieldValue={github}
+                                            label="If the dataset has a repository on Github you can add it here."
+                                            req={getReq(apiField['github'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_platforms) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['platform']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangePlatforms}
+                                            searchOptions={platforms_options}
+                                            searchValues={searchPlatforms}
+                                            req={getReq(apiField['platform'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_pubkind) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['pubkind']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangePubkind}
+                                            searchOptions={pubkind_options}
+                                            searchValues={searchPubkind}
+                                            req={getReq(apiField['pubkind'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_special_interest) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['special_interest']}/></h4>
+                                        <SearchCheckbox
+                                            handleClick={handleClickSpecialInterest}
+                                            name={'special_interest'}
+                                            val={true}
+                                            chk={item?.special_interest}
+                                            req={getReq(apiField['special_interest'])}
+                                        />
+                                    </div>
+                                }
+
+
+                                {checkDisplay(show_topical) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['topical']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeTopical}
+                                            searchOptions={topical_options}
+                                            searchValues={searchTopical}
+                                            req={getReq(apiField['topical'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_pubcycle) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['pubcycle']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangePubcycle}
+                                            searchOptions={pubcycle_options}
+                                            searchValues={searchPubcycle}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['pubcycle'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_pubcycleweekly) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['pubcycleweekly']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangePubcycleweekly}
+                                            searchOptions={pubcycleweekly_options}
+                                            searchValues={searchPubcycleweekly}
+                                            width="100%"
+                                            req={getReq(apiField['pubcycleweekly'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_paymod) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['paymod']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangePaymod}
+                                            searchOptions={paymod_options}
+                                            searchValues={searchPaymod}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['paymod'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_ads) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['ads']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeAds}
+                                            searchOptions={ads_options}
+                                            searchValues={searchAds}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['ads'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_audsizerecent) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['audience_size_recent']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'audience_size_recent'}
+                                            fieldValue={audience_size_recent}
+                                            req={getReq(apiField['audience_size_recent'])}
+                                            type="number"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_epaper) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['epaper']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeEpaper}
+                                            searchOptions={epaper_options}
+                                            searchValues={searchEpaper}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['epaper'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_party) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['party']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeParty}
+                                            searchOptions={party_options}
+                                            searchValues={searchParty}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['party'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_open_source) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['open_source']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeOpenSource}
+                                            searchOptions={open_source_options}
+                                            searchValues={searchOpenSource}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['handleChangeOpenSource'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_license) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['license']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'license'}
+                                            fieldValue={license}
+                                            req={getReq(apiField['license'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_used_for) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['used_for']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeUsedFor}
+                                            searchOptions={used_for_options}
+                                            searchValues={searchUsedFor}
+                                            req={getReq(apiField['used_for'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_access) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['conditions_of_access']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeAccess}
+                                            searchOptions={access_options}
+                                            searchValues={searchAccess}
+                                            multi={false}
+                                            req={getReq(apiField['conditions_of_access'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_sources_included) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['sources_included']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeSourcesIncluded}
+                                            searchValues={sources_included_details}
+                                            types={sources_included_types}
+                                            width='100%'
+                                            req={getReq(apiField['sources_included'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_geographic) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['geographic']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeGeographic}
+                                            searchOptions={geographic_options}
+                                            searchValues={searchGeographic}
+                                            multi={false}
+                                            req={getReq(apiField['geographic'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_subnational_async) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['subnational_async']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeSubnationalAsync}
+                                            searchValues={subnational_async_details}
+                                            types={subnational_async_types}
+                                            width='100%'
+                                            single={true}
+                                            req={getReq(apiField['subnational_async'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_initial_source) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['initial_source']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeInitialSource}
+                                            searchValues={initial_source_details}
+                                            types={initial_source_types}
+                                            width='100%'
+                                            req={getReq(apiField['initial_source'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_fulltext) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['fulltext']}/></h4>
+                                        <SearchCheckbox
+                                            handleClick={handleClickFulltext}
+                                            name={'fulltext_available'}
+                                            val={true}
+                                            chk={item?.fulltext_available}
+                                            req={getReq(apiField['fulltext'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_entries_included) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['entries_included']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeEntriesIncluded}
+                                            searchValues={entries_included_details}
+                                            types={entries_included_types}
+                                            width='100%'
+                                            req={getReq(apiField['entries_included'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_languages) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['languages']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeLanguages}
+                                            searchOptions={languages_options}
+                                            searchValues={searchLanguages}
+                                            multi={true}
+                                            req={getReq(apiField['languages'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_programming) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['programming_languages']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeProgramming}
+                                            searchOptions={programming_options}
+                                            searchValues={searchProgramming}
+                                            multi={true}
+                                            req={getReq(apiField['programming_languages'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_countries) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['countries']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeCountries}
+                                            searchOptions={countries_options}
+                                            searchValues={searchCountries}
+                                            multi={true}
+                                            req={getReq(apiField['countries'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_temporal_coverage_start) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['temporal_coverage_start']}/></h4>
+                                        <DatePickerValue
+                                            onChangeEvent={updateJSON}
+                                            fieldName={'temporal_coverage_start'}
+                                            fieldValue={item?.temporal_coverage_start}
+                                            req={getReq(apiField['temporal_coverage_start'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_temporal_coverage_end) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['temporal_coverage_end']}/></h4>
+                                        <DatePickerValue
+                                            onChangeEvent={updateJSON}
+                                            fieldName={'temporal_coverage_end'}
+                                            fieldValue={item?.temporal_coverage_end}
+                                            req={getReq(apiField['temporal_coverage_end'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_text_types) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['text_types']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeTextTypes}
+                                            searchOptions={text_types_options}
+                                            searchValues={searchTextTypes}
+                                            multi={true}
+                                            req={getReq(apiField['text_types'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_channels) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['channels']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeChannels}
+                                            searchOptions={channels_options}
+                                            searchValues={searchChannels}
+                                            multi={true}
+                                            req={getReq(apiField['channels'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_text_units) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['text_units']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeTextUnits}
+                                            searchOptions={text_units_options}
+                                            searchValues={searchTextUnits}
+                                            multi={true}
+                                            req={getReq(apiField['text_units'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_subnational_scope) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['subnational_scope']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeSubnationalScope}
+                                            searchOptions={subnational_scope_options}
+                                            searchValues={searchSubnationalScope}
+                                            multi={true}
+                                            req={getReq(apiField['subnational_scope'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_tools) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['tools']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeTools}
+                                            searchValues={tools_details}
+                                            types={tools_types}
+                                            width='100%'
+                                            req={getReq(apiField['tools'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_references) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['references']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeReferences}
+                                            searchValues={references_details}
+                                            types={references_types}
+                                            width='100%'
+                                            req={getReq(apiField['references'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_dataset) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['dataset']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeDataset}
+                                            searchValues={dataset_details}
+                                            types={dataset_types}
+                                            width='100%'
+                                            req={getReq(apiField['dataset'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_materials) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['materials']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeMaterials}
+                                            searchValues={materials_details}
+                                            types={materials_types}
+                                            width='100%'
+                                            req={getReq(apiField['materials'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_concept) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['concept']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeConcept}
+                                            searchOptions={concept_options}
+                                            searchValues={searchConcept}
+                                            multi={true}
+                                            req={getReq(apiField['concept'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_method) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['method']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeMethod}
+                                            searchOptions={method_options}
+                                            searchValues={searchMethod}
+                                            multi={true}
+                                            req={getReq(apiField['method'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_modal) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['modal']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeModal}
+                                            searchOptions={modal_options}
+                                            searchValues={searchModal}
+                                            multi={true}
+                                            req={getReq(apiField['modal'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_gui) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['gui']}/></h4>
+                                        <SearchCheckbox
+                                            handleClick={handleClickGui}
+                                            name={'gui'}
+                                            val={true}
+                                            chk={item?.graphical_user_interface}
+                                            req={getReq(apiField['gui'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_meta_variables) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['meta_variables']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeMetaVariables}
+                                            searchOptions={meta_variables_options}
+                                            searchValues={searchMetaVariables}
+                                            multi={true}
+                                            req={getReq(apiField['meta_variables'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_file_formats) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['file_formats']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeFileFormats}
+                                            searchOptions={file_formats_options}
+                                            searchValues={searchFileFormats}
+                                            multi={true}
+                                            req={getReq(apiField['file_formats'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_related_publications) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['related_publications']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeRelatedPublications}
+                                            searchValues={related_publications_details}
+                                            types={related_publications_types}
+                                            width='100%'
+                                            req={getReq(apiField['related_publications'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_entry_review_status) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['entry_review_status']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeEntryReviewStatus}
+                                            searchOptions={entry_review_status_options}
+                                            searchValues={searchEntryReviewStatus}
+                                            multi={false}
+                                            req={getReq(apiField['entry_review_status'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_designed_for) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['designed_for']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeDesignedFor}
+                                            searchValues={designed_for_details}
+                                            types={designed_for_types}
+                                            width='100%'
+                                            req={getReq(apiField['designed_for'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_language_independent) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['language_independent']}/></h4>
+                                        <SearchCheckbox
+                                            handleClick={handleClickLanguageIndependent}
+                                            name={'language_independent'}
+                                            val={true}
+                                            chk={item?.language_independent}
+                                            req={getReq(apiField['language_independent'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_iff) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['iff']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeIff}
+                                            searchOptions={iff_options}
+                                            searchValues={searchIff}
+                                            req={getReq(apiField['iff'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_off) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['off']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeOff}
+                                            searchOptions={off_options}
+                                            searchValues={searchOff}
+                                            req={getReq(apiField['off'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_author_validated) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['author_validated']} /></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeAuthorValidated}
+                                            searchOptions={author_validated_options}
+                                            searchValues={searchAuthorValidated}
+                                            multi={false}
+                                            width="100%"
+                                            req={getReq(apiField['author_validated'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_validation_dataset) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['validation_dataset']}/></h4>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeValidationDataset}
+                                            searchOptions={validation_dataset_options}
+                                            searchValues={searchValidationDataset}
+                                            req={getReq(apiField['validation_dataset'])}
+                                            width="100%"
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_defunct) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['defunct']}/></h4>
+                                        <SearchCheckbox
+                                            handleClick={handleClickDefunct}
+                                            name={'defunct'}
+                                            val={true}
+                                            chk={item?.defunct}
+                                            req={getReq(apiField['defunct'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_relatedns) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['relatedns']}/></h4>
+                                        <AddAsyncSelectBox
+                                            handleChangeEntity={handleChangeRelatedns}
+                                            searchValues={relatedns_details}
+                                            types={relatedns_types}
+                                            width='100%'
+                                            req={getReq(apiField['relatedns'])}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_doc) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['documentation']}/></h4>
+                                        <CreatableSelectBox
+                                            handleChangeEntity={handleChangeDoc}
+                                            searchValues={searchDoc}
+                                            req={getReq(apiField['documentation'])}
+                                            width="100%"
+                                            label="Please paste the URLs to the documentation here..."
+
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_doc) && doc?.map(d => (
+                                    <div className='add_entry'>
+                                        <h5>
+                                            Please specify what kind of resource it is:&nbsp;&nbsp;
+                                            <SearchTextField
+                                                onBlurEvent={handleChangeDockind}
+                                                fieldName={getDockindFieldName(d)}
+                                                fieldValue={getDockindFieldValue(d)}
+                                                rows='0'
+                                                width={'400px'}
+                                                label={'e.g. FAQ, Manual, Tutorial, Website, etc'}
+                                            />
+                                             &nbsp;: {d}
+                                        </h5>
+                                    </div>
+                                ))}
+
+                                {checkDisplay(show_wikidata_id) &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['wikidata_id']}/></h4>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'wikidata_id'}
+                                            fieldValue={item?.wikidata_id}
+                                            req={getReq(apiField['wikidata_id'])}
+                                        />
+                                    </div>
+                                }
+
+                                <div style={{clear:"both", "marginTop":10}}>
+                                    <md-filled-button id="submitForm" type="submit">{uid ? 'Edit' : 'Add'}&nbsp;{entity}</md-filled-button>&nbsp;
+                                </div>
+
+                            </form>
+
+                            {error &&
+                                <p className={'message'}>{error}</p>
+                            }
+
+                            {process.env.NODE_ENV === "development" &&
+                                <>
+                                    <br/>
+                                    <h4>JSON</h4>
+                                    <pre>{JSON.stringify(json, null, 4)}</pre>
+                                    <br /><br />
+                                    <h4>Response</h4>
+                                    <pre>{JSON.stringify(addResponse, null, 4)}</pre>
+                                </>
+                            }
+
                         </div>
 
-                    </form>
+                        <div className={'addcol2'}>
+                            {!uid && show_magic &&
+                                <Magic
+                                    fillForm={magicForm}
+                                />
+                            }
+                        </div>
 
-                    {error &&
-                        <p className={'message'}>{error}</p>
-                    }
-
-                    {process.env.NODE_ENV === "development" &&
-                        <>
-                            <br/>
-                            <h4>JSON</h4>
-                            <pre>{JSON.stringify(json, null, 4)}</pre>
-                            <br /><br />
-                            <h4>Response</h4>
-                            <pre>{JSON.stringify(addResponse, null, 4)}</pre>
-                        </>
-                    }
+                    </div>
 
                 </>
             )}
