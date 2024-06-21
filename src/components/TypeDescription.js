@@ -57,6 +57,7 @@ const TypeDescription = ({ dgraphType, fieldName }) => {
         }
         if (ret === '') {
             ret = capitalizeFirstLetter(fieldName)
+
         }
         let req = false
         if (schema && schema.required && schema.required.includes(fieldName)){
@@ -74,10 +75,7 @@ const TypeDescription = ({ dgraphType, fieldName }) => {
                 </>
             )
     } else {
-        if (!schema || !schema.description) {
-            return `No description available for ${dgraphType}`;
-        }
-        return schema.description;
+        return `No description available for ${fieldName}`;
     }
 
 };

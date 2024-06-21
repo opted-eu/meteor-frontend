@@ -625,12 +625,13 @@ const Detail = () => {
 
                     {/* Summary */}
                     {type === 'Subnational' && 
-                    <div className="divTable">
-                                <DisplayCountry
-                                    j={item.country}
-                                />
-                                </div>
-                            }
+                        <div className="divTable">
+                            <DisplayCountry
+                                j={item.country}
+                            />
+                        </div>
+                    }
+
                     {summary.includes(type) &&
                         <div className="divTable">
                             <DetailHeader
@@ -770,13 +771,17 @@ const Detail = () => {
                     
                     {/* Related Source */}
                     {related_sources.includes(type) &&
-                        <div className="divTable">
-                            <DetailListDictChannel
-                                d={item.related_news_sources}
-                                s="Related Source by Brand"
-                                h={true}
-                            />
-                        </div>
+                        <>
+                            {item.related_news_sources &&
+                                <div className="divTable">
+                                    <DetailListDictChannel
+                                        d={item.related_news_sources}
+                                        s="Related Source by Brand"
+                                        h={true}
+                                    />
+                                </div>
+                            }
+                        </>
                     }
 
                     {/* Routines */}
@@ -866,33 +871,19 @@ const Detail = () => {
 
                     {/* Audience */}
                     {audience.includes(type) &&
-                        <div className="divTable">
-                            <DetailHeader
-                                t="Audience"
-                                m=""
-                            />
-                            {/*
-                        {item["audience_size_recent|timestamp"] &&
-                            <>
-                                <div className="divTableRow">
-                                    <div className="divTableHead">Date:</div>
-                                    <div className="divTableCell">{retDate(item["audience_size_recent|timestamp"])}</div>
+                        <>
+                            {item["audience_size_recent|timestamp"] &&
+                                <div className="divTable">
+                                    <DetailHeader
+                                        t="Audience"
+                                        m=""
+                                    />
+                                    <DetailAudience
+                                        item={item}
+                                    />
                                 </div>
-                                <div className="divTableRow">
-                                    <div className="divTableHead">Data:</div>
-                                    <div className="divTableCell"><Link to={getLink(item["audience_size|data_from"]["0"])}>{item["audience_size|data_from"]["0"]}</Link></div>
-                                </div>
-                                <div className="divTableRow">
-                                    <div className="divTableHead">{formatText(item["audience_size|unit"]["0"])}:</div>
-                                    <div className="divTableCell">{item["audience_size|count"]["0"]}</div>
-                                </div>
-                            </>
-                        }
-                        */}
-                            <DetailAudience
-                                item={item}
-                            />
-                        </div>
+                            }
+                        </>
                     }
 
                     {/* Published By */}

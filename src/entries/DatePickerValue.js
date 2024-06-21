@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import 'dayjs/locale/de';
+import 'dayjs/locale/en-gb';
 
 const DatePickerValue = ({fieldValue, onChangeEvent, fieldName}) => {
 
@@ -40,13 +40,14 @@ const DatePickerValue = ({fieldValue, onChangeEvent, fieldName}) => {
     const formattedDate = dayjs(fieldValue);
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
             <DemoContainer components={['DatePicker', 'DatePicker']}>
                 <ThemeProvider theme={newTheme}>
                     {fieldValue &&
                         <DatePicker
                             value={formattedDate}
-                            onChange={(newVal) => onChangeEvent(fieldName, newVal['$d'])}
+                            name={fieldName}
+                            onChange={(newVal) => onChangeEvent(fieldName, newVal ? newVal['$d'] : null)}
                             slotProps={{
                                 textField: {
                                     sx: {

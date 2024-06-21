@@ -21,7 +21,7 @@ const AddAsyncSelectBox = ({ handleChangeEntity, searchValues, types, width=300,
     // load options using API call
     const loadOptions = (inputValue) => {
         if (inputValue.length >= 3) {
-            console.log('predicate', predicate)
+            //console.log('predicate', predicate)
             let api = process.env.REACT_APP_API + "lookup?predicate=name&query=" + encodeURIComponent(inputValue)
             // add &dgraph_types=Author, etc
             for (var t in types) {

@@ -41,7 +41,7 @@ async function editRecord(uid, json_entry, token) {
     })
         .then(data => data.json())
         .catch((err) => {
-            console.log('EDIT ERROR:');
+            //console.log('EDIT ERROR:');
             console.log(err);
         });
 
@@ -72,8 +72,8 @@ const AddEntry = () => {
             follow the Fs
     */
 
-    //let dockindUpdate = 'multi'
-    let dockindUpdate = 'single'
+    let dockindUpdate = 'multi'
+    //let dockindUpdate = 'single'
     let { uid } = useParams();
     const [searchParams] = useSearchParams();
     const openApi = useOpenAPI();
@@ -159,9 +159,13 @@ const AddEntry = () => {
     apiField['paymod'] = 'payment_model'
     apiField['ads'] = 'contains_ads'
     apiField['audience_size_recent'] = 'audience_size_recent'
+    apiField['audience_size_recent|timestamp'] = 'audience_size_recent|timestamp'
+    apiField['audience_size_recent|unit'] = 'audience_size_recent|unit'
+    apiField['audience_size_recent|data'] = 'audience_size_recent|data'
     apiField['audience_size'] = 'audience_size'
     apiField['audience_size|count'] = 'audience_size|count'
     apiField['audience_size|unit'] = 'audience_size|unit'
+    apiField['audience_size|data'] = 'audience_size|data'
     apiField['epaper'] = 'channel_epaper'
     apiField['party'] = 'party_affiliated'
     apiField['relatedns'] = 'related_news_sources'
@@ -505,9 +509,13 @@ const AddEntry = () => {
     const [license, setLicense] = useState();
     const [version, setVersion] = useState();
     const [audience_size_recent, setAudSizeRecent] = useState();
+    const [audience_size_recent_count, setAudSizeRecentCount] = useState();
+    const [audience_size_recent_unit, setAudSizeRecentUnit] = useState();
+    const [audience_size_recent_data, setAudSizeRecentData] = useState();
     const [audience_size, setAudSize] = useState();
     const [audience_size_count, setAudSizeCount] = useState();
     const [audience_size_unit, setAudSizeUnit] = useState();
+    const [audience_size_data, setAudSizeData] = useState();
 
     let magicText = {}
     magicText['name'] = setEntryName
@@ -525,9 +533,13 @@ const AddEntry = () => {
     magicText['license'] = setLicense
     magicText['version'] = setVersion
     magicText['audience_size_recent'] = setAudSizeRecent
+    magicText['audience_size_recent|count'] = setAudSizeRecentCount
+    magicText['audience_size_recent|unit'] = setAudSizeRecentUnit
+    magicText['audience_size_recent|data'] = setAudSizeRecentData
     magicText['audience_size'] = setAudSize
     magicText['audience_size|count'] = setAudSizeCount
     magicText['audience_size|unit'] = setAudSizeUnit
+    magicText['audience_size|data'] = setAudSizeData
 
     // Magic Enum fields - Single
     let magicEnumSingle = {}
@@ -1036,7 +1048,7 @@ const AddEntry = () => {
 
     const handleChangeAlternates = (selectedOption) => {
         let sel = getSelectedOptions(selectedOption)
-        console.log(sel)
+        //console.log(sel)
         setSearchAlternates(sel[1])
         updateJSON('alternate_names', sel[0])
     };
@@ -1055,29 +1067,51 @@ const AddEntry = () => {
     };
 
     // *** Extra Handler for Documentation|kind ***
+    //     arguments not actually required
+    const handleChangeDockind = (fieldName=null, value=null) => {
+        // get all dockind fields
+        var elements = document.querySelectorAll('[name^=dockind_]')
 
-    const handleChangeDockind = (fieldName, value) => {
-        let dict = dockind
-        if (!dict){
-            dict = new Object()
+        // update JSON
+        let dict_json = new Object()
+        let i = 0
+        for (var e of elements) {
+            //console.log(e.name, e.value)
+            dict_json[i] = e.value;
+            i++;
         }
-        dict[fieldName.substring(8)] = value
-        setDockind(dict)
-        //console.log(dict)
-
-        if (dockindUpdate === 'multi') {
-            // update JSON (dictionary approach)
-            let dict_json = new Object()
-            let i = 0
-            for (const [key, value] of Object.entries(dict)) {
-                dict_json[i] = value;
-                i++;
-            }
-            updateJSON('dockind', dict_json)
-        } else {
-            updateJSON('dockind', value)
-        }
+        updateJSON('dockind', dict_json)
     };
+
+    const handleChangeAudSize = (fieldname=null, value=null) => {
+        // get all audsize fields
+        var elements = document.querySelectorAll('[name^=audsize_]')
+
+        // update JSON
+        let ary_json = []
+        for (var e of elements) {
+            if (e.value) {
+                if (fieldname === e.name){
+                    let dt = value
+                    let d = ('0' + dt.getDate()).slice(-2)
+                    let m = ('0' + (dt.getMonth()+1)).slice(-2)
+                    let y = dt.getFullYear()
+                    let str_dt = y + '-' + m + '-' + d
+                    //console.log(fieldname, value, str_dt)
+                    ary_json.push(str_dt)
+                } else {
+                    let d = (e.value).substring(0, 2)
+                    let m = (e.value).substring(3, 5)
+                    let y = (e.value).substring(6)
+                    let str_dt = y + '-' + m + '-' + d
+                    //console.log(e.name, e.value, str_dt)
+                    ary_json.push(str_dt)
+                }
+            }
+        }
+        updateJSON('audience_size', ary_json)
+    };
+
 
     // *** enums *** (E3)
 
@@ -1252,6 +1286,10 @@ const AddEntry = () => {
 
     const handleSubmitAE = async e => {
         e.preventDefault();
+
+        // update dockind
+        handleChangeDockind()
+
         if (1===1) {
             let resp = null
             //let token2 = {"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxODI4NjQwMCwianRpIjoiZTgyYTMwYzgtODA1My00OGQ4LWE3MDgtNjJiYmU2YTIyNGYwIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjB4NjRkZWMxMSIsIm5iZiI6MTcxODI4NjQwMCwiY3NyZiI6IjFhMWI3OWEzLTNiMjgtNDUwOS04ZGIxLTFiM2Q0ZDUwM2E1OSIsImV4cCI6MTcxODI4NzMwMH0.FxVwqHbaZzAP-NaBoz9RJxslUpH-ji0FqYrzNHyXZK8","access_token_valid_until":"2024-06-13T14:01:40.870910","status":200,"refreh_token_valid_until":"2024-07-07T16:04:10.582213","refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxNzc3NjI1MCwianRpIjoiNzA0MTU0NjktNmNkMy00MTAwLWJlOWUtMzQzMDQ4MTk5ZTUwIiwidHlwZSI6InJlZnJlc2giLCJzdWIiOiIweDY0ZGVjMTEiLCJuYmYiOjE3MTc3NzYyNTAsImNzcmYiOiI4OWNlYzRlNS04NjYwLTRkMzUtOGQ4My03ZDAwNjZkMTYyYzUiLCJleHAiOjE3MjAzNjgyNTB9.HPTvTXVo3YwF4Jaol76rs-TpVRK1FDFdcG8JK_j-OTQ"}
@@ -1263,12 +1301,12 @@ const AddEntry = () => {
 
             // check token
             let checked_token = await getLoggedIn(token, setLoggedIn, setToken, navigate)
-            console.log('checked_token', checked_token)
+            //console.log('checked_token', checked_token)
 
             if (uid) {
                 //edit
-                console.log('Editing record')
-                console.log(json)
+                //console.log('Editing record')
+                //console.log(json)
                 resp = await editRecord(
                     uid,
                     json,
@@ -1276,8 +1314,8 @@ const AddEntry = () => {
                 );
             } else {
                 //add
-                console.log('Adding record')
-                console.log(json)
+                //console.log('Adding record')
+                //console.log(json)
                 resp = await addRecord(
                     entity,
                     json,
@@ -1359,7 +1397,7 @@ const AddEntry = () => {
     const show_materials = ["Collection"]
     const show_tools = ["Collection", "LearningMaterial", "ScientificPublication"]
     const show_authors = ["Archive", "Dataset", "LearningMaterial", "Tool", "ScientificPublication"]
-    const show_url = ["Archive", "Dataset", "Parliament", "Government", "PoliticalParty", "Tool", "ScientificPublication", "NewsSource", "Person"]
+    const show_url = ["Archive", "Dataset", "Parliament", "Government", "PoliticalParty", "Tool", "ScientificPublication", "Person"]
     const show_doi = ["Archive", "Dataset", "Tool", "ScientificPublication"]
     const show_arxiv = ["Archive", "Dataset", "Tool", "ScientificPublication"]
     const show_access = ["Archive", "Dataset", "Tool"]
@@ -1423,7 +1461,8 @@ const AddEntry = () => {
     const show_pubcycleweekly = ["NewsSource"]
     const show_paymod = ["NewsSource"]
     const show_ads = ["NewsSource"]
-    const show_audsizerecent = ["NewsSource"]
+    const show_audsizerecent = []
+    const show_audsize = []
     const show_epaper = ["NewsSource"]
     const show_party = ["NewsSource"]
     const show_relatedns = ["NewsSource"]
@@ -1650,6 +1689,15 @@ const AddEntry = () => {
             // audience size recent
             checkTextField(i,j,'audience_size_recent', setAudSizeRecent)
 
+            // audience size recent count
+            checkTextField(i,j,'audience_size_recent_count', setAudSizeRecentCount)
+
+            // audience size recent unit
+            checkTextField(i,j,'audience_size_recent_unit', setAudSizeRecentUnit)
+
+            // audience size recent data
+            checkTextField(i,j,'audience_size_recent_data', setAudSizeRecentData)
+
             // audience size
             checkTextField(i,j,'audience_size', setAudSize)
 
@@ -1658,6 +1706,9 @@ const AddEntry = () => {
 
             // audience size unit
             checkTextField(i,j,'audience_size_unit', setAudSizeUnit)
+
+            // audience size data
+            checkTextField(i,j,'audience_size_data', setAudSizeData)
 
             // *** Async *** (A7)
 
@@ -2132,15 +2183,17 @@ const AddEntry = () => {
         return req
     }
 
-    const getDockindFieldName = (d) => {
-        return 'dockind_' + d
+    const getFieldName = (fn, v) => {
+        return fn + '_' + v
     }
 
     const getDockindFieldValue = (d) => {
         let p = 0
         for (var r of doc) {
             if (d === r){
-                return item[apiField['dockind']][p]
+                if (item[apiField['dockind']]) {
+                    return item[apiField['dockind']][p]
+                }
             }
             p++;
         }
@@ -2253,7 +2306,7 @@ const AddEntry = () => {
     const magicForm = (data) => {
         let keys = Object.keys(data)
         for (var predicate of keys){
-            console.log(predicate, ':', data[predicate])
+            //console.log(predicate, ':', data[predicate])
             if (magicText[predicate]){
                 if(data[predicate]) {
                     let dat = null
@@ -2291,7 +2344,7 @@ const AddEntry = () => {
                 <>
                     <h1>{uid ? 'Edit' : 'Add'} {entity}</h1>
                     <div className={'addrow'}>
-                        <div className={'addcol1'}>
+                        <div className={checkDisplay(show_magic) ? 'addcol1' : 'addcol'}>
 
                             <form id="addEntry" onSubmit={handleSubmitAE}>
 
@@ -2819,15 +2872,28 @@ const AddEntry = () => {
                                     </div>
                                 }
 
-                                {checkDisplay(show_audsizerecent) &&
+                                {checkDisplay(show_audsize) &&
                                     <div className='add_entry'>
-                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['audience_size_recent']}/></h4>
-                                        <SearchTextField
-                                            onBlurEvent={updateJSON}
-                                            fieldName={'audience_size_recent'}
-                                            fieldValue={audience_size_recent}
-                                            req={getReq(apiField['audience_size_recent'])}
-                                            type="number"
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['audience_size']}/></h4>
+                                        <div>
+                                            Date | Unit | Count
+                                        </div>
+                                        {audience_size?.map((a, index) => (
+                                            <DatePickerValue
+                                                onChangeEvent={handleChangeAudSize}
+                                                fieldName={getFieldName('audsize', index)}
+                                                fieldValue={a}
+                                                req={getReq(apiField['audience_size'])}
+                                            />
+                                        ))}
+                                        <div>
+                                            <br/>Add new
+                                        </div>
+                                        <DatePickerValue
+                                            onChangeEvent={handleChangeAudSize}
+                                            fieldName={'audience_size'}
+                                            fieldValue={audience_size}
+                                            req={getReq(apiField['audience_size'])}
                                         />
                                     </div>
                                 }
@@ -3402,7 +3468,7 @@ const AddEntry = () => {
                                             Please specify what kind of resource it is:&nbsp;&nbsp;
                                             <SearchTextField
                                                 onBlurEvent={handleChangeDockind}
-                                                fieldName={getDockindFieldName(d)}
+                                                fieldName={getFieldName('dockind', d)}
                                                 fieldValue={getDockindFieldValue(d)}
                                                 rows='0'
                                                 width={'400px'}
@@ -3448,14 +3514,13 @@ const AddEntry = () => {
 
                         </div>
 
-                        <div className={'addcol2'}>
-                            {!uid && show_magic &&
+                        {!uid && checkDisplay(show_magic) &&
+                            <div className={'addcol2'}>
                                 <Magic
                                     fillForm={magicForm}
                                 />
-                            }
-                        </div>
-
+                            </div>
+                        }
                     </div>
 
                 </>
