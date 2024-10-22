@@ -52,7 +52,7 @@ News texts are nowadays produced by diverse groups of actors and are accessible 
 
 We provide a [curated and growing list of resources](/link-collection) that we found useful for adding entries to the inventory.
 
-##Audience Size for Print Newspapers
+## Audience Size for Print Newspapers
 
 Getting detailed information about the reach of a printed news source can be challenging. However, there are interest groups that collect such data and sometimes make it available for public.
 
@@ -68,7 +68,7 @@ For some cases, labels need to be inferred. This means that we look for specific
 
 News sites are digitally native news formats which are highly professionally maintained. They typically label themselves as "news portal", "digital news", "news platform". Not to be confused with "news aggreators" which do not offer news, but just link to them (e.g., Google News).
 
-##Alternative Media
+## Alternative Media
 
 This type of publication is probably the hardest to identitfy. For Meteor, we do not have a set catalogue of content criteria (of the news articles) that classify a news source as "alternative news". As mentioned, we use the labels that the news source uses to describe itself. Therefore, if a news source states about itself that it provides an "alternative" coverage, view, perspective, or topics then this is already sufficient for classification.
 

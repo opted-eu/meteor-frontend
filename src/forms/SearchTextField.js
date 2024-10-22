@@ -6,13 +6,20 @@ const SearchTextField = ({ onBlurEvent, fieldName, fieldValue, rows="0", req=fal
         width: width
     };
 
+    let showFieldValue = () => {
+        if (fieldValue === 'None'){
+            return ''
+        }
+        return fieldValue
+    }
+
     return (
         <>
             {req && rows === "0" &&
                 <md-filled-text-field
                     style={TextStyles}
                     name={fieldName}
-                    value={fieldValue}
+                    value={showFieldValue()}
                     onBlur={event => {
                         const {value} = event.target;
                         onBlurEvent(fieldName, value)
@@ -27,7 +34,7 @@ const SearchTextField = ({ onBlurEvent, fieldName, fieldValue, rows="0", req=fal
                 <md-filled-text-field
                     style={TextStyles}
                     name={fieldName}
-                    value={fieldValue}
+                    value={showFieldValue()}
                     onBlur={event => {
                         const {value} = event.target;
                         onBlurEvent(fieldName, value)
@@ -41,7 +48,7 @@ const SearchTextField = ({ onBlurEvent, fieldName, fieldValue, rows="0", req=fal
                 <md-filled-text-field
                     style={TextStyles}
                     name={fieldName}
-                    value={fieldValue}
+                    value={showFieldValue()}
                     onBlur={event => {
                         const {value} = event.target;
                         onBlurEvent(fieldName, value)
@@ -56,7 +63,7 @@ const SearchTextField = ({ onBlurEvent, fieldName, fieldValue, rows="0", req=fal
                 <md-filled-text-field
                     style={TextStyles}
                     name={fieldName}
-                    value={fieldValue}
+                    value={showFieldValue()}
                     onBlur={event => {
                         const {value} = event.target;
                         onBlurEvent(fieldName, value)

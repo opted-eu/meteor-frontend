@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import {useRef, useEffect, useState} from "react";
+import React, {useRef, useEffect, useState} from "react";
 import {drawChart, parseNodes} from "../utils/networkplot";
 
 const OwnershipStructure = ({uid}) => {
@@ -55,7 +55,7 @@ const OwnershipStructure = ({uid}) => {
                         svgElement
                             .call(zoom);
                     }
-    
+
                     initZoom()
                 }
     
@@ -71,10 +71,11 @@ const OwnershipStructure = ({uid}) => {
     }, [endpoint, uid, loading])
 
     return (
-        <>
-        {loading && <p>Loading...</p>}
-        <div id='networkplot' ref={ref}></div>
-        </>
+        <div className="item-img">
+            <h4>Ownership Structure</h4>
+            {loading && <p>Loading...</p>}
+            <div id='networkplot' ref={ref}></div>
+        </div>
     )
 }
 

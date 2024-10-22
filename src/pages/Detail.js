@@ -601,12 +601,9 @@ const Detail = () => {
 
                         </div>
                         {item.uid && os &&
-                            <div className="item-img">
-                                <h4>Ownership Structure</h4>
-                                <OwnershipStructure
-                                    uid={item.uid}
-                                />
-                            </div>
+                            <OwnershipStructure
+                                uid={item.uid}
+                            />
                         }
 
                     </div>
@@ -872,7 +869,7 @@ const Detail = () => {
                     {/* Audience */}
                     {audience.includes(type) &&
                         <>
-                            {item["audience_size_recent|timestamp"] &&
+                            {item["audience_size"] &&
                                 <div className="divTable">
                                     <DetailHeader
                                         t="Audience"

@@ -161,11 +161,11 @@ const AddEntry = () => {
     apiField['audience_size_recent'] = 'audience_size_recent'
     apiField['audience_size_recent|timestamp'] = 'audience_size_recent|timestamp'
     apiField['audience_size_recent|unit'] = 'audience_size_recent|unit'
-    apiField['audience_size_recent|data'] = 'audience_size_recent|data'
+    apiField['audience_size_recent|data_from'] = 'audience_size_recent|data_from'
     apiField['audience_size'] = 'audience_size'
-    apiField['audience_size|count'] = 'audience_size|count'
-    apiField['audience_size|unit'] = 'audience_size|unit'
-    apiField['audience_size|data'] = 'audience_size|data'
+    apiField['audience_size_count'] = 'audience_size|count'
+    apiField['audience_size_unit'] = 'audience_size|unit'
+    apiField['audience_size_data_from'] = 'audience_size|data_from'
     apiField['epaper'] = 'channel_epaper'
     apiField['party'] = 'party_affiliated'
     apiField['relatedns'] = 'related_news_sources'
@@ -515,7 +515,7 @@ const AddEntry = () => {
     const [audience_size, setAudSize] = useState();
     const [audience_size_count, setAudSizeCount] = useState();
     const [audience_size_unit, setAudSizeUnit] = useState();
-    const [audience_size_data, setAudSizeData] = useState();
+    const [audience_size_data_from, setAudSizeData] = useState();
 
     let magicText = {}
     magicText['name'] = setEntryName
@@ -539,7 +539,7 @@ const AddEntry = () => {
     magicText['audience_size'] = setAudSize
     magicText['audience_size|count'] = setAudSizeCount
     magicText['audience_size|unit'] = setAudSizeUnit
-    magicText['audience_size|data'] = setAudSizeData
+    magicText['audience_size|data_from'] = setAudSizeData
 
     // Magic Enum fields - Single
     let magicEnumSingle = {}
@@ -1461,14 +1461,14 @@ const AddEntry = () => {
     const show_pubcycleweekly = ["NewsSource"]
     const show_paymod = ["NewsSource"]
     const show_ads = ["NewsSource"]
-    const show_audsizerecent = []
-    const show_audsize = []
+    const show_audsizerecent = ["NewsSource"]
+    const show_audsize = ["NewsSource"]
     const show_epaper = ["NewsSource"]
     const show_party = ["NewsSource"]
     const show_relatedns = ["NewsSource"]
     const show_doc = ["Dataset", "Tool"]
     const show_is_politician = ["Person"]
-    const show_magic = ["Tool", "Dataset", "ScientificPublication", "NewsSource", "Organization"]
+    const show_magic = ["Tool", "Dataset", "ScientificPublication", "NewsSource", "Organization", "PoliticalParty", "Government", "Parliament", "Person", "Archive", "Author", "Language", "ProgrammingLanguage", "FileFormat", "LearningMaterial"]
 
 
     // ************** Setup Select boxes & initial JSON ****************
@@ -1708,7 +1708,7 @@ const AddEntry = () => {
             checkTextField(i,j,'audience_size_unit', setAudSizeUnit)
 
             // audience size data
-            checkTextField(i,j,'audience_size_data', setAudSizeData)
+            checkTextField(i,j,'audience_size_data_from', setAudSizeData)
 
             // *** Async *** (A7)
 
@@ -2119,6 +2119,35 @@ const AddEntry = () => {
         setJson(d)
     }
 
+    let updateJSONAS = (key, val) => {
+        updateJSON(key, val)
+        updateJSON('audience_size_data_from', getAudienceDataFrom())
+        updateJSON('audience_size_unit', getAudienceUnit())
+        updateJSON('audience_size_count', getAudienceCount())
+    }
+
+    let updateJSONAudSize = (key, val) => {
+        //console.log(key, val)
+        // add key and update
+        let d = json
+        key = apiField[key]
+        //console.log(key)
+        let dict = {
+                "0": val
+            }
+        let dict_null = {
+            "0": null
+        }
+        if (val || val === false){
+            d['data'][key] = dict
+        } else {
+            d['data'][key] = dict_null
+            delete d['data'][key]
+        }
+        console.log(d)
+        setJson(d)
+    }
+
     const getDgraph = (d) => {
         let dg = d["dgraph.type"]
         if (dg) {
@@ -2306,17 +2335,37 @@ const AddEntry = () => {
     const magicForm = (data) => {
         let keys = Object.keys(data)
         for (var predicate of keys){
-            //console.log(predicate, ':', data[predicate])
+            console.log(predicate, ':', data[predicate])
             if (magicText[predicate]){
                 if(data[predicate]) {
                     let dat = null
                     if (predicate === 'audience_size'){
-                       dat = retDateYear(data[predicate])
+                        dat = retDateYear(data[predicate])
+                        updateJSON(predicate, dat)
+                        //magicText[predicate](dat)
+                        setAudSize(dat + '-01-01T00:00:00+00:00')
                     } else {
                         dat = data[predicate]
+
+                        if (predicate === 'audience_size|unit' ||  predicate === 'audience_size|count' ||  predicate === 'audience_size|data_from'){
+                            if (predicate === 'audience_size|unit'){
+                                updateJSON('audience_size_unit', dat)
+                                setAudSizeUnit(dat)
+                            }
+                            if (predicate === 'audience_size|count'){
+                                updateJSON('audience_size_count', dat)
+                                setAudSizeCount(dat)
+                            }
+                            if (predicate === 'audience_size|data_from'){
+                                updateJSON('audience_size_data_from', dat)
+                                setAudSizeData(dat)
+                            }
+
+                        } else {
+                            updateJSON(predicate, dat)
+                            magicText[predicate](dat)
+                        }
                     }
-                    updateJSON(predicate, dat)
-                    magicText[predicate](dat)
                 }
             }
             if (magicEnumSingle[predicate]){
@@ -2330,6 +2379,49 @@ const AddEntry = () => {
             }
             if (magicCreatable[predicate]){
                 setMagicCreatable(predicate, data[predicate])
+            }
+        }
+    }
+
+    let getAudienceDataFrom = () => {
+        if (item) {
+            try {
+                if (item['audience_size|data_from']) {
+                    return item['audience_size|data_from']["0"]
+                }
+            } catch (error) {
+                console.log(error)
+                return ''
+            } finally {
+
+            }
+        }
+    }
+
+    let getAudienceUnit = () => {
+        if (item){
+            try {
+                return item['audience_size|unit']["0"]
+            } catch (error) {
+                console.log(error)
+                return ''
+            } finally {
+
+            }
+        }
+    }
+
+    let getAudienceCount = () => {
+        if (item) {
+            try {
+                if (item['audience_size|count']) {
+                    return item['audience_size|count']["0"]
+                }
+            } catch (error) {
+                console.log(error)
+                return ''
+            } finally {
+
             }
         }
     }
@@ -2758,7 +2850,7 @@ const AddEntry = () => {
                                             onBlurEvent={updateJSON}
                                             fieldName={'github'}
                                             fieldValue={github}
-                                            label="If the dataset has a repository on Github you can add it here."
+                                            label="If the dataset has a repository on GitHub you can add it here."
                                             req={getReq(apiField['github'])}
                                         />
                                     </div>
@@ -2872,28 +2964,92 @@ const AddEntry = () => {
                                     </div>
                                 }
 
-                                {checkDisplay(show_audsize) &&
+                                {checkDisplay(show_audsize) && uid &&
                                     <div className='add_entry'>
                                         <h4><TypeDescription dgraphType={entity} fieldName={apiField['audience_size']}/></h4>
                                         <div>
-                                            Date | Unit | Count
-                                        </div>
-                                        {audience_size?.map((a, index) => (
-                                            <DatePickerValue
-                                                onChangeEvent={handleChangeAudSize}
-                                                fieldName={getFieldName('audsize', index)}
-                                                fieldValue={a}
-                                                req={getReq(apiField['audience_size'])}
-                                            />
-                                        ))}
-                                        <div>
-                                            <br/>Add new
+                                            Date
                                         </div>
                                         <DatePickerValue
-                                            onChangeEvent={handleChangeAudSize}
+                                            onChangeEvent={updateJSONAS}
+                                            fieldName={'audience_size'}
+                                            fieldValue={item?.audience_size}
+                                            req={getReq(apiField['audience_size'])}
+                                        />
+                                        <div>
+                                            <br/>Data from
+                                        </div>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSONAudSize}
+                                            fieldName={'audience_size_data_from'}
+                                            fieldValue={getAudienceDataFrom()}
+                                            req={false}
+                                            width={'50%'}
+                                        />
+                                        <div>
+                                            <br/>Unit
+                                        </div>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSONAudSize}
+                                            fieldName={'audience_size_unit'}
+                                            fieldValue={getAudienceUnit()}
+                                            req={false}
+                                            width={'50%'}
+                                        />
+                                        <div>
+                                            <br/>Count
+                                        </div>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSONAudSize}
+                                            fieldName={'audience_size_count'}
+                                            fieldValue={getAudienceCount()}
+                                            req={false}
+                                            width={'50%'}
+                                        />
+                                    </div>
+                                }
+
+                                {checkDisplay(show_audsize) && !uid &&
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['audience_size']}/></h4>
+                                        <div>
+                                            Date
+                                        </div>
+                                        <DatePickerValue
+                                            onChangeEvent={updateJSON}
                                             fieldName={'audience_size'}
                                             fieldValue={audience_size}
                                             req={getReq(apiField['audience_size'])}
+                                        />
+                                        <div>
+                                            <br/>Data from
+                                        </div>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'audience_size_data_from'}
+                                            fieldValue={audience_size_data_from}
+                                            req={false}
+                                            width={'50%'}
+                                        />
+                                        <div>
+                                            <br/>Unit
+                                        </div>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'audience_size_unit'}
+                                            fieldValue={audience_size_unit}
+                                            req={false}
+                                            width={'50%'}
+                                        />
+                                        <div>
+                                            <br/>Count
+                                        </div>
+                                        <SearchTextField
+                                            onBlurEvent={updateJSON}
+                                            fieldName={'audience_size_count'}
+                                            fieldValue={audience_size_count}
+                                            req={false}
+                                            width={'50%'}
                                         />
                                     </div>
                                 }
@@ -3518,6 +3674,7 @@ const AddEntry = () => {
                             <div className={'addcol2'}>
                                 <Magic
                                     fillForm={magicForm}
+                                    entity={entity}
                                 />
                             </div>
                         }

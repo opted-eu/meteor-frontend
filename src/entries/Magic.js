@@ -7,7 +7,7 @@ import '@material/web/button/text-button.js';
 import '@material/web/progress/circular-progress.js';
 import Select from "react-select";
 
-export default function Magic({fillForm}) {
+export default function Magic({fillForm, entity}) {
 
     const [api, setApi] = useState();
     const [identifier, setIdentifier] = useState();
@@ -18,6 +18,51 @@ export default function Magic({fillForm}) {
         "\n" +
         "Please also note that it does not always work smoothly and the APIs that we use here are out of our control.\n"
 
+    let entity_options = []
+    switch (entity){
+        case "NewsSource":
+            entity_options = [
+                {value: 'instagram', label: 'Instagram'},
+                {value: 'telegram', label: 'Telegram'},
+                {value: 'twitter', label: 'Twitter'},
+                {value: 'vk', label: 'VK'},
+                {value: 'website', label: 'Website'},
+            ]
+            break;
+        case "Archive":
+        case "ScientificPublication":
+            entity_options = [
+                {value: 'doi', label: 'DOI'},
+            ]
+            break;
+        case "Dataset":
+        case "LearningMaterial":
+            entity_options = [
+                {value: 'doi', label: 'DOI'},
+                {value: 'github', label: 'GitHub'},
+            ]
+            break;
+        case "Tool":
+            entity_options = [
+                {value: 'doi', label: 'DOI'},
+                {value: 'cran', label: 'Cran'},
+                {value: 'pypi', label: 'PyPI'},
+                {value: 'github', label: 'GitHub'},
+            ]
+            break;
+        case "Author":
+            entity_options = [
+                {value: 'openalex', label: 'OpenAlex'},
+            ]
+            break;
+         default:
+            entity_options = [
+                {value: 'wikidata_id', label: 'Wikidata'},
+            ]
+            break;
+    }
+    const options = entity_options
+    /*
     const options = [
         {value: 'doi', label: 'DOI'},
         {value: 'cran', label: 'Cran'},
@@ -32,6 +77,7 @@ export default function Magic({fillForm}) {
         {value: 'wikidata_id', label: 'Wikidata'},
         {value: 'openalex', label: 'OpenAlex'},
     ]
+    */
 
     // apply styles to select boxes
     const SelectStyles = {

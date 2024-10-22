@@ -29,7 +29,7 @@ const DetailAudience = ({ item }) => {
 
     return (
         <>
-            {item["audience_size_recent|timestamp"] &&
+            {item["audience_size"] &&
                 <>
                     <div className="divTableRow">
                         <div className="divTableHead">Audience Size:</div>
@@ -37,19 +37,23 @@ const DetailAudience = ({ item }) => {
                             <div className="divTable">
                                 <div className="divTableRow">
                                     <div className="divTableCell">Date:</div>
-                                    {item["audience_size|data_from"] &&
-                                        <div className="divTableCell">Data:</div>
+                                    {item["audience_size|data_from"] && item["audience_size|data_from"]["0"] !== 'None' &&
+                                        <div className="divTableCell">Data from:</div>
                                     }
-                                    <div className="divTableCell">{formatText(item["audience_size|unit"]["0"])}:</div>
+                                    {item["audience_size|unit"] && item["audience_size|unit"]["0"] !== 'None' &&
+                                        <div className="divTableCell">{formatText(item["audience_size|unit"]["0"])}:</div>
+                                    }
                                 </div>
 
                                 <div className="divTableRow">
-                                    <div className="divTableCell">{retDate(item["audience_size_recent|timestamp"])}</div>
-                                    {item["audience_size|data_from"] &&
+                                    <div className="divTableCell">{retDate(item["audience_size"])}</div>
+                                    {item["audience_size|data_from"] && item["audience_size|data_from"]["0"] !== 'None' &&
                                         <div className="divTableCell"><Link to={item["audience_size|data_from"]["0"]}>{item["audience_size|data_from"]["0"]}</Link>
                                         </div>
                                     }
-                                    <div className="divTableCell">{item["audience_size|count"]["0"]}</div>
+                                    {item["audience_size|count"] && item["audience_size|count"]["0"] !== 'None' &&
+                                        <div className="divTableCell">{item["audience_size|count"]["0"]}</div>
+                                    }
                                 </div>
                             </div>
                         </div>
