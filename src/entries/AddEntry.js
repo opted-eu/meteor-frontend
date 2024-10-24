@@ -423,6 +423,7 @@ const AddEntry = () => {
         ['society', 'Society & Panorama'],
         ['science', 'Science & Technology'],
         ['youth', 'Youth'],
+        ['NA', 'Don\'t Know / NA'],
     ])
     const [searchTopical, setSearchTopical] = useState();
 
@@ -1297,7 +1298,7 @@ const AddEntry = () => {
             // Force the system into checking the token
             // If the user has waited on the screen more than 15 minutes they will be logged out
             // ... and the add/edit won't work
-            // So, run getLoggedIn again and update the token_checked varible
+            // So, run getLoggedIn again and update the token_checked variable
 
             // check token
             let checked_token = await getLoggedIn(token, setLoggedIn, setToken, navigate)
@@ -2115,7 +2116,7 @@ const AddEntry = () => {
         } else {
             d['data'][key] = null
         }
-        console.log(d)
+        //console.log(d)
         setJson(d)
     }
 
@@ -2144,7 +2145,7 @@ const AddEntry = () => {
             d['data'][key] = dict_null
             delete d['data'][key]
         }
-        console.log(d)
+        //console.log(d)
         setJson(d)
     }
 
@@ -2335,7 +2336,7 @@ const AddEntry = () => {
     const magicForm = (data) => {
         let keys = Object.keys(data)
         for (var predicate of keys){
-            console.log(predicate, ':', data[predicate])
+            //console.log(predicate, ':', data[predicate])
             if (magicText[predicate]){
                 if(data[predicate]) {
                     let dat = null
