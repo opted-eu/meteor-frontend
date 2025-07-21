@@ -14,13 +14,22 @@ const DetailExtLink = ({ d, s, u }) => {
         }
     }, [d])
 
+    // check orcid entry for orcid URL
+    const checkEntry = (u,d) => {
+        if (d.includes(u)){
+            return d
+        } else {
+            return u+d
+        }
+    }
+
     return (
         <>
             {d &&
                 <>
                     <div className="divTableRow">
                         <div className="divTableHead">{s}:</div>
-                        <div className="divTableCell"><a href={u + d} target="_blank">{d}</a> <a href={u + d} target="_blank"><LaunchIcon /></a></div>
+                        <div className="divTableCell"><a href={checkEntry(u, d)} target="_blank">{d}</a> <a href={checkEntry(u, d)} target="_blank"><LaunchIcon /></a></div>
                     </div>
                     {s === "DOI" &&
                         <>
