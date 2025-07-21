@@ -330,7 +330,8 @@ const AddEntry = () => {
     const [searchGeographic, setSearchGeographic] = useState();
 
     // Entry Review Status
-    const [entryReviewStatusList, setEntryReviewStatusList] = useState([['draft', 'Draft'], ['pending', 'Pending'], ['accepted', 'Accepted'], ['rejected', 'Rejected']])
+    //const [entryReviewStatusList, setEntryReviewStatusList] = useState([['draft', 'Draft'], ['pending', 'Pending'], ['accepted', 'Accepted'], ['rejected', 'Rejected']]
+    const [entryReviewStatusList, setEntryReviewStatusList] = useState([['pending', 'Pending'], ['accepted', 'Accepted']])
     const [searchEntryReviewStatus, setSearchEntryReviewStatus] = useState();
 
     // Ownership
@@ -3647,6 +3648,21 @@ const AddEntry = () => {
                                         />
                                     </div>
                                 }
+
+                                {profile?.role > 1 && item?.entry_review_status === 'accepted' && (
+                                    <div className='add_entry'>
+                                        <h4><TypeDescription dgraphType={entity} fieldName={apiField['entry_review_status']} /></h4>
+                                        <p>Set to 'Pending' to revert this item back to the review process.</p>
+                                        <SearchSelectBox
+                                            handleChangeEntity={handleChangeEntryReviewStatus}
+                                            searchOptions={entry_review_status_options}
+                                            searchValues={searchEntryReviewStatus}
+                                            multi={false}
+                                            req={getReq(apiField['entry_review_status'])}
+                                            width="50%"
+                                        />
+                                    </div>
+                                )}
 
                                 <div style={{clear:"both", "marginTop":10}}>
                                     <md-filled-button id="submitForm" type="submit">{uid ? 'Edit' : 'Add'}&nbsp;{entity}</md-filled-button>&nbsp;

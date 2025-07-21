@@ -418,7 +418,17 @@ const Detail = () => {
                                         <md-filled-button type="button" onClick={() => navigate('/edit/' + item.uid)}>Edit</md-filled-button>&nbsp;&nbsp;
                                     </>
                                 )}
+                                {profile?.uid === item._added_by.uid && item.entry_review_status === 'accepted' && (
+                                    <>
+                                        <md-filled-button type="button" onClick={() => navigate('/edit/' + item.uid)}>Edit</md-filled-button>&nbsp;&nbsp;
+                                    </>
+                                )}
                                 {profile?.uid !== item._added_by.uid && profile?.role > 1 && item.entry_review_status === 'pending' && (
+                                    <>
+                                        <md-filled-button type="button" onClick={() => navigate('/edit/' + item.uid)}>Edit</md-filled-button>&nbsp;&nbsp;
+                                    </>
+                                )}
+                                {profile?.uid !== item._added_by.uid && profile?.role > 1 && item.entry_review_status === 'accepted' && (
                                     <>
                                         <md-filled-button type="button" onClick={() => navigate('/edit/' + item.uid)}>Edit</md-filled-button>&nbsp;&nbsp;
                                     </>
