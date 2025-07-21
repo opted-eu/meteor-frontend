@@ -749,6 +749,10 @@ const Detail = () => {
                                     t={type}
                                 />
                             }
+                            <DetailListDict
+                                d={item.tools}
+                                s="Tools"
+                            />
                         </div>
                     }
                     
