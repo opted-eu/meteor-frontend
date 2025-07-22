@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useNavigate, useSearchParams} from "react-router-dom";
 import '@material/web/textfield/filled-text-field.js'
@@ -21,7 +21,7 @@ async function loginUser(credentials) {
 
 }
 
-export default function Login({ setToken, token, setProfile }) {
+export default function Login({ setToken, token, setProfile, entry='login' }) {
 
     const navigate = useNavigate();
     const [email, setEmail] = useState();
@@ -38,6 +38,21 @@ export default function Login({ setToken, token, setProfile }) {
             message = param[1]
         }
     }
+
+    useEffect(() => {
+        if (entry === 'login') {
+            // add listener for pressing 'Enter' button
+            const listener = event => {
+                if (event.code === "Enter" || event.code === "NumpadEnter") {
+                    document.getElementById('submitFormLogin').click()
+                }
+            };
+            document.addEventListener("keydown", listener);
+            return () => {
+                document.removeEventListener("keydown", listener);
+            };
+        }
+    }, [])
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -57,6 +72,16 @@ export default function Login({ setToken, token, setProfile }) {
         } else {
             setError(token.message)
         }
+    }
+
+    const changeEmail = e => {
+        console.log('email changed', e);
+        setEmail(e.target.value);
+    }
+
+    const changePassword = e => {
+        console.log('password changed', e);
+        setPassword(e.target.value)
     }
 
     return(
@@ -80,7 +105,7 @@ export default function Login({ setToken, token, setProfile }) {
                     />
                     */}
                     <strong>Email:</strong><br />
-                    <input type='email' name='username' onChange={e => setEmail(e.target.value)} required />
+                    <input type='email' name='username' onChange={e => changeEmail(e)} required />
                 </div>
 
                 <div className="login-register">
@@ -101,6 +126,7 @@ export default function Login({ setToken, token, setProfile }) {
                 <div className="login-register">
                     <md-checkbox
                         touch-target="wrapper"
+                        name="rememberMe"
                         onBlur={e => setRememberMe(e.target.value)}
                     />
                     <span style={{position: "relative",
@@ -119,7 +145,7 @@ export default function Login({ setToken, token, setProfile }) {
                 }
 
                 <div className="login-register">
-                    <md-filled-button type="submit" style={{marginRight:"10px", marginBottom:"10px"}}>Login</md-filled-button>
+                    <md-filled-button type="submit" id="submitFormLogin" style={{marginRight:"10px", marginBottom:"10px"}}>Login</md-filled-button>
                     <md-text-button type="button" onClick={() => navigate('/password/reset')}>Forgot Password?</md-text-button>
                     {login_page &&
                         <md-text-button style={{marginLeft: "10px"}} type="button"

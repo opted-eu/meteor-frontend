@@ -22,8 +22,27 @@ const Home = () => {
         getProfile(setProfile)
     }
 
+    const setSubmit = (but) => {
+        return document.getElementById(but)
+    }
+
     useEffect(() => {
         getData()
+        // add listener for pressing 'Enter' button
+        const listener = event => {
+            if (event.code === "Enter" || event.code === "NumpadEnter") {
+                console.log(document.activeElement.getAttribute('name'))
+                if (document.activeElement.getAttribute('name') === 'username' || document.activeElement.getAttribute('name') === 'password' || document.activeElement.getAttribute('name') === 'rememberMe') {
+                    document.getElementById('submitFormLogin').click()
+                } else {
+                    document.getElementById('submitFormSearch').click()
+                }
+            }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+            document.removeEventListener("keydown", listener);
+        };
     }, [])
 
     for (let param of searchParams) {
@@ -38,7 +57,7 @@ const Home = () => {
 
             <div className="home-login">
                 {!loggedIn &&
-                    <Login setToken={setToken} token={token} setProfile={setProfile}/>
+                    <Login setToken={setToken} token={token} setProfile={setProfile} entry={'home'}/>
                 }
 
                 {loggedIn &&

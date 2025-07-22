@@ -20,6 +20,7 @@ const QuickSearchForm = () => {
 
     // load options using API call
     const loadOptions = (inputValue) => {
+        inputValue = inputValue.trim().toLowerCase();
         if (inputValue.length >= 3) {
             return fetch(`${process.env.REACT_APP_API}quicksearch?term=${inputValue}`).then(res => res.json());
         }
