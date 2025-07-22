@@ -3394,7 +3394,7 @@ const AddEntry = () => {
                                 {checkDisplay(show_concept) &&
                                     <div className='add_entry'>
                                         <h4><TypeDescription dgraphType={entity} fieldName={apiField['concept']}/></h4>
-                                        <SearchSelectBox
+                                        <CreatableSelectBox
                                             handleChangeEntity={handleChangeConcept}
                                             searchOptions={concept_options}
                                             searchValues={searchConcept}

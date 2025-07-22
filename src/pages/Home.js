@@ -31,7 +31,7 @@ const Home = () => {
         // add listener for pressing 'Enter' button
         const listener = event => {
             if (event.code === "Enter" || event.code === "NumpadEnter") {
-                console.log(document.activeElement.getAttribute('name'))
+                //console.log(document.activeElement.getAttribute('name'))
                 if (document.activeElement.getAttribute('name') === 'username' || document.activeElement.getAttribute('name') === 'password' || document.activeElement.getAttribute('name') === 'rememberMe') {
                     document.getElementById('submitFormLogin').click()
                 } else {

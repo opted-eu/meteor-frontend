@@ -2,7 +2,7 @@ import React from 'react';
 import Select from "react-select";
 import CreatableSelect from 'react-select/creatable';
 
-const CreateableSelectBox = ({ handleChangeEntity, searchValues, req=true, width=300, label = "Please type..." }) => {
+const CreateableSelectBox = ({ handleChangeEntity, searchOptions=null, searchValues, req=true, width=300, label = "Please type..." }) => {
 
     // apply styles to select boxes
     const SelectStyles = {
@@ -20,7 +20,32 @@ const CreateableSelectBox = ({ handleChangeEntity, searchValues, req=true, width
 
     return (
         <>
-            {req &&
+            {req && searchOptions &&
+                <CreatableSelect
+                    onChange={handleChangeEntity}
+                    styles={SelectStyles}
+                    clearable={true}
+                    closeMenuOnSelect={false}
+                    placeholder={label}
+                    value={searchValues}
+                    isMulti
+                    options={searchOptions}
+                    required
+                />
+            }
+            {!req && searchOptions &&
+                <CreatableSelect
+                    onChange={handleChangeEntity}
+                    styles={SelectStyles}
+                    clearable={true}
+                    closeMenuOnSelect={true}
+                    placeholder={label}
+                    value={searchValues}
+                    isMulti
+                    options={searchOptions}
+                />
+            }
+            {req && !searchOptions &&
                 <CreatableSelect
                     onChange={handleChangeEntity}
                     styles={SelectStyles}
@@ -32,7 +57,7 @@ const CreateableSelectBox = ({ handleChangeEntity, searchValues, req=true, width
                     required
                 />
             }
-            {!req &&
+            {!req && !searchOptions &&
                 <CreatableSelect
                     onChange={handleChangeEntity}
                     styles={SelectStyles}
