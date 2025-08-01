@@ -3113,10 +3113,11 @@ const AddEntry = () => {
                                 {checkDisplay(show_used_for) &&
                                     <div className='add_entry'>
                                         <h4><TypeDescription dgraphType={entity} fieldName={apiField['used_for']}/></h4>
-                                        <SearchSelectBox
+                                        <CreatableSelectBox
                                             handleChangeEntity={handleChangeUsedFor}
                                             searchOptions={used_for_options}
                                             searchValues={searchUsedFor}
+                                            multi={true}
                                             req={getReq(apiField['used_for'])}
                                             width="100%"
                                         />
