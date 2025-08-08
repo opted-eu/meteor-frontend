@@ -29,6 +29,7 @@ import {ProfileContext} from "../user/ProfileContext";
 import getLoggedIn from "../user/getLoggedIn";
 import getProfile from "../user/getProfile";
 import '@material/web/dialog/dialog.js';
+import Logout from "../user/Logout";
 
 async function submitReview(json_review, token) {
     return fetch(process.env.REACT_APP_API + 'review/submit', {
@@ -370,6 +371,16 @@ const Detail = () => {
         if (item["documentation|kind"]) {
             return item["documentation|kind"][i]
         }
+    }
+
+    //console.log(item.msg)
+    if (item.msg === 'Token has expired'){
+        navigate("/logout")
+    }
+
+    //console.log(item.status)
+    if (item.status === 404){
+        navigate("/", { replace: true })
     }
 
     return (

@@ -12,6 +12,7 @@ Current state: **Production**
 
 ## Local Installation
 
+- Install Node: https://nodejs.org/en/download
 - Clone this repository
 - set the server address in `.env` (e.g., `REACT_APP_API=https://meteor.opted.eu/api/`)
 - run `npm install`
