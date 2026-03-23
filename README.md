@@ -1,3 +1,7 @@
+# DEVELOPMENT NOW ON NEW REPOSITORY
+
+# https://github.com/MEDem-eu/meteor-frontend
+
 # Meteor Frontend
 
 Code repository for the frontend, user facing web pages of the Meteor linked political data archive.
